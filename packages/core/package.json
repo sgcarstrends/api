@@ -1,0 +1,17 @@
+{
+  "name": "@lta-datasets-updater/core",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "sst bind vitest",
+    "typecheck": "tsc -noEmit"
+  },
+  "devDependencies": {
+    "vitest": "^0.34.6",
+    "@types/node": "^20.8.10",
+    "sst": "^2.34.3"
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
+  }
+}

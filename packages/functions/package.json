@@ -1,0 +1,15 @@
+{
+  "name": "@lta-datasets-updater/functions",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "sst bind vitest",
+    "typecheck": "tsc -noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.10",
+    "@types/aws-lambda": "^8.10.125",
+    "vitest": "^0.34.6",
+    "sst": "^2.34.3"
+  }
+}

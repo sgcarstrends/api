@@ -9,6 +9,7 @@ export function API({ stack }: StackContext) {
 
   const api = new Api(stack, "api", {
     defaults: {
+      throttle: { burst: 5, rate: 50 },
       function: {
         bind: [bus],
       },

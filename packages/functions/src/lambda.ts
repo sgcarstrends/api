@@ -16,27 +16,19 @@ export const handler = ApiHandler(async (_evt) => {
   const zipUrl: string = `https://datamall.lta.gov.sg/content/dam/datamall/datasets/Facts_Figures/Vehicle Registration/${zipFileName}`;
 
   try {
-    const response = await fetch(zipUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            `Failed to download the ZIP file: ${response.statusText}`,
-          );
-        }
-        return response.buffer();
-      })
-      .then((data) => {
-        fs.writeFileSync(zipFilePath, data);
-      })
-      .catch((error) =>
-        console.error("Error while downloading the ZIP file:", error),
+    const response = await fetch(zipUrl);
+    if (!response.ok) {
+      throw new Error(
+        `Failed to download the ZIP file: ${response.statusText}`,
       );
+    }
+    const data = await response.buffer();
+    fs.writeFileSync(zipFilePath, data);
 
     const zip = new AdmZip(zipFilePath);
     zip.extractAllTo(`${tempDir}`, true);
 
     const csvData = fs.readFileSync(csvFilePath, "utf-8");
-
     const parsedData = d3.csvParse(csvData);
 
     const electricCars: Car[] = parsedData

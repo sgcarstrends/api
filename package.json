@@ -13,6 +13,8 @@
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",
+    "@types/adm-zip": "^0.5.3",
+    "@types/d3": "^7.4.2",
     "aws-cdk-lib": "2.101.1",
     "constructs": "10.2.69",
     "prettier": "^3.0.3",
@@ -21,5 +23,10 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "adm-zip": "^0.5.10",
+    "d3": "^7.8.5",
+    "node-fetch": "^3.3.2"
+  }
 }

@@ -13,6 +13,13 @@ export function API({ stack }: StackContext) {
         bind: [bus],
       },
     },
+    customDomain: {
+      domainName: "api.singapore-ev-trends.ruchern.xyz",
+      hostedZone: "ruchern.xyz",
+    },
+    cors: {
+      allowOrigins: ["https://singapore-ev-trends.ruchern.xyz"],
+    },
     routes: {
       "GET /": "packages/functions/src/lambda.handler",
       "GET /todo": "packages/functions/src/todo.list",

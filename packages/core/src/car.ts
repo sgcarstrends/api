@@ -5,6 +5,7 @@ import AdmZip from "adm-zip";
 import * as d3 from "d3";
 import { Car } from "./types";
 import { FUEL_TYPE } from "./config";
+import { filterDataLast12Months } from "./lib/filterDataLast12Months";
 import { sortByMake } from "./lib/sortByMake";
 
 export const list = async () => {
@@ -52,6 +53,7 @@ export const list = async () => {
       return result;
     }, [])
     .map((car) => ({ ...car, number: +car.number }))
+    .filter(filterDataLast12Months)
     .sort(sortByMake);
 
   return electricCars;

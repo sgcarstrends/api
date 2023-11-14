@@ -1,6 +1,6 @@
 import { StackContext, Api, EventBus } from "sst/constructs";
 
-export function API({ stack }: StackContext) {
+export const api = ({ stack }: StackContext) => {
   const bus = new EventBus(stack, "bus", {
     defaults: {
       retries: 10,
@@ -35,4 +35,4 @@ export function API({ stack }: StackContext) {
   stack.addOutputs({
     ApiEndpoint: api.url,
   });
-}
+};

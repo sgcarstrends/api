@@ -5,6 +5,7 @@ import fetch from "node-fetch";
 import fs from "fs";
 import AdmZip from "adm-zip";
 import * as d3 from "d3";
+import { FUEL_TYPE } from "@lta-datasets-updater/core/config";
 
 const MongoClient = mongodb.MongoClient;
 
@@ -46,14 +47,29 @@ export const handler = ApiHandler(async (event, context) => {
 
   const db = await connectToDatabase();
 
-  const result = await db.collection("cars").insertMany(parsedData);
-  console.log(result);
+  const existingData = await db.collection("cars").find().toArray();
+  if (existingData.length === 0) {
+    const result = await db.collection("cars").insertMany(parsedData);
+    console.log(`${result.insertedCount} document(s) inserted`);
+  } else {
+    const newDataToInsert = parsedData.filter(
+      (newItem) =>
+        !existingData.some(
+          (existingItem) => existingItem.month === newItem.month,
+        ),
+    );
+
+    if (newDataToInsert.length > 0) {
+      const result = await db.collection("cars").insertMany(newDataToInsert);
+      console.log(`${result.insertedCount} document(s) inserted`);
+    } else {
+      console.log("No new data to insert");
+    }
+  }
 
   const cars = await db
     .collection("cars")
-    .find({
-      fuel_type: { $eq: "Electric" },
-    })
+    .find({ fuel_type: FUEL_TYPE.ELECTRIC })
     .toArray();
 
   return {

@@ -35,6 +35,7 @@ export const api = ({ stack }: StackContext) => {
       "GET /": "packages/functions/src/car.list",
       "GET /todo": "packages/functions/src/todo.list",
       "POST /todo": "packages/functions/src/todo.create",
+      "GET /mongo": "packages/functions/src/mongo.handler",
     },
   });
 

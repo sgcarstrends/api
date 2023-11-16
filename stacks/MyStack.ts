@@ -1,4 +1,4 @@
-import { StackContext, Api, EventBus } from "sst/constructs";
+import { Config, StackContext, Api, EventBus } from "sst/constructs";
 
 const CUSTOM_DOMAINS: Record<string, any> = {
   dev: {
@@ -18,11 +18,13 @@ export const api = ({ stack }: StackContext) => {
     },
   });
 
+  const MONGODB_URI = new Config.Secret(stack, "MONGODB_URI");
+
   const api = new Api(stack, "api", {
     defaults: {
       throttle: { burst: 5, rate: 50 },
       function: {
-        bind: [bus],
+        bind: [bus, MONGODB_URI],
       },
     },
     customDomain: CUSTOM_DOMAINS[stack.stage],
@@ -30,9 +32,12 @@ export const api = ({ stack }: StackContext) => {
       allowOrigins: ["https://singapore-ev-trends.ruchern.xyz"],
     },
     routes: {
-      "GET /": "packages/functions/src/car.list",
+      "GET /": "packages/functions/src/car.electric",
+      "GET /car/electric": "packages/functions/src/car.electric",
+      "GET /car/petrol": "packages/functions/src/car.petrol",
       "GET /todo": "packages/functions/src/todo.list",
       "POST /todo": "packages/functions/src/todo.create",
+      "GET /updater": "packages/functions/src/datasets.updater",
     },
   });
 

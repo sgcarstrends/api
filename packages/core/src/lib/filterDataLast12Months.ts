@@ -1,7 +1,7 @@
 import { isWithinInterval, parseISO, subMonths } from "date-fns";
-import type { Car } from "../types";
+import type { CarType } from "../types";
 
-export const filterDataLast12Months = (data: Car) => {
+export const filterDataLast12Months = (data: CarType) => {
   const currentDate = new Date();
 
   const startDate = subMonths(currentDate, 12);

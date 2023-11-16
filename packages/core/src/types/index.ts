@@ -1,6 +1,6 @@
 import { FUEL_TYPE } from "../config";
 
-export interface Car {
+export interface CarType {
   month: string;
   make: string;
   fuel_type: FUEL_TYPE | string;

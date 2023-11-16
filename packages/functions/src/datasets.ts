@@ -1,17 +1,11 @@
 import { ApiHandler } from "sst/node/api";
-import { FUEL_TYPE } from "@lta-datasets-updater/core/config";
-import db from "../../config/db";
+import { Datasets } from "@lta-datasets-updater/core/datasets";
 
-export const handler = ApiHandler(async (event, context) => {
-  context.callbackWaitsForEmptyEventLoop = false;
-
-  const cars = await db
-    .collection("cars")
-    .find({ fuel_type: FUEL_TYPE.ELECTRIC })
-    .toArray();
+export const updater = ApiHandler(async (event, context) => {
+  await Datasets.updater();
 
   return {
     statusCode: 200,
-    body: JSON.stringify(cars),
+    body: JSON.stringify("Data has been successfully updated"),
   };
 });

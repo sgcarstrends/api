@@ -32,10 +32,12 @@ export const api = ({ stack }: StackContext) => {
       allowOrigins: ["https://singapore-ev-trends.ruchern.xyz"],
     },
     routes: {
-      "GET /": "packages/functions/src/car.list",
+      "GET /": "packages/functions/src/car.electric",
       "GET /car/electric": "packages/functions/src/car.electric",
+      "GET /car/petrol": "packages/functions/src/car.petrol",
       "GET /todo": "packages/functions/src/todo.list",
       "POST /todo": "packages/functions/src/todo.create",
+      "GET /updater": "packages/functions/src/datasets.updater",
     },
   });
 

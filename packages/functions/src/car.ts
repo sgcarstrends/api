@@ -1,35 +1,25 @@
-import { ApiHandler, useQueryParams } from "sst/node/api";
+import { ApiHandler } from "sst/node/api";
 import { Car } from "@lta-datasets-updater/core/car";
-import db from "../../config/db";
 import { FUEL_TYPE } from "@lta-datasets-updater/core/config";
-
-export const list = ApiHandler(async (_evt) => {
-  const params = useQueryParams();
-  const cars = await Car.list();
-
-  const filteredCars =
-    Object.keys(params).length > 0
-      ? cars.filter(({ month }) => {
-          const [year] = month.split("-");
-
-          return year === params.year;
-        })
-      : cars;
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify(filteredCars),
-  };
-});
+import db from "../../config/db";
 
 export const electric = ApiHandler(async (_evt) => {
-  const electricCars = await db
-    .collection("cars")
-    .find({ fuel_type: FUEL_TYPE.ELECTRIC })
-    .toArray();
+  const electricCars = await Car.electric();
 
   return {
     statusCode: 200,
     body: JSON.stringify(electricCars),
+  };
+});
+
+export const petrol = ApiHandler(async (_evt) => {
+  const petrolCars = await db
+    .collection("cars")
+    .find({ fuel_type: { $ne: FUEL_TYPE.PETROL } })
+    .toArray();
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify(petrolCars),
   };
 });

@@ -33,9 +33,9 @@ export const api = ({ stack }: StackContext) => {
     },
     routes: {
       "GET /": "packages/functions/src/car.list",
+      "GET /car/electric": "packages/functions/src/car.electric",
       "GET /todo": "packages/functions/src/todo.list",
       "POST /todo": "packages/functions/src/todo.create",
-      "GET /mongo": "packages/functions/src/mongo.handler",
     },
   });
 

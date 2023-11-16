@@ -2,6 +2,7 @@ name: SST workflow
 on:
   push:
     branches:
+      - '*'
       - '!main'
 
 concurrency:

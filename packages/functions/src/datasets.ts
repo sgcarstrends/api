@@ -6,6 +6,6 @@ export const updater = ApiHandler(async (event, context) => {
 
   return {
     statusCode: 200,
-    body: JSON.stringify("Data has been successfully updated"),
+    body: JSON.stringify({ message: "Data has been successfully updated" }),
   };
 });

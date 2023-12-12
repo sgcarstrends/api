@@ -48,11 +48,11 @@ export const updater = async () => {
     const result = await db.collection("cars").insertMany(parsedData);
     console.log(`${result.insertedCount} document(s) inserted`);
   } else {
+    const existingDataMap = new Map(
+      existingData.map((item) => [item.month, item]),
+    );
     const newDataToInsert = parsedData.filter(
-      (newItem) =>
-        !existingData.some(
-          (existingItem) => existingItem.month === newItem.month,
-        ),
+      (newItem) => !existingDataMap.has(newItem.month),
     );
 
     if (newDataToInsert.length > 0) {

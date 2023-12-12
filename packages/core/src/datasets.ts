@@ -1,8 +1,8 @@
 export * as Datasets from "./datasets";
-import fetch from "node-fetch";
 import fs from "fs";
 import AdmZip from "adm-zip";
 import * as d3 from "d3";
+import { downloadFile } from "./lib/downloadFile";
 import db from "../../config/db";
 
 export const updater = async () => {
@@ -13,10 +13,14 @@ export const updater = async () => {
   const csvFilePath = `${extractToPath}/${csvFileName}`;
   const zipUrl = `https://datamall.lta.gov.sg/content/dam/datamall/datasets/Facts_Figures/Vehicle Registration/${zipFileName}`;
 
-  const response = await fetch(zipUrl);
-  if (!response.ok) {
-    throw new Error(`Failed to download the ZIP file: ${response.statusText}`);
-  }
+  await downloadFile({
+    url: zipUrl,
+    destination: zipFilePath,
+  });
+
+  // if (!response.ok) {
+  //   throw new Error(`Failed to download the ZIP file: ${response.statusText}`);
+  // }
 
   const zip = new AdmZip(zipFilePath);
   zip.extractAllTo(`${extractToPath}`, true);
@@ -34,7 +38,6 @@ export const updater = async () => {
     }
   });
 
-  console.log(fs.readdirSync(extractToPath));
   console.log(destinationPath);
 
   const csvData = fs.readFileSync(destinationPath, "utf-8");

@@ -34,6 +34,9 @@ export const updater = async () => {
     }
   });
 
+  console.log(fs.readdirSync(extractToPath));
+  console.log(destinationPath);
+
   const csvData = fs.readFileSync(destinationPath, "utf-8");
   const parsedData = d3.csvParse(csvData);
 

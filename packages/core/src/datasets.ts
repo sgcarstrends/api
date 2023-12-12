@@ -31,7 +31,6 @@ export const updater = async () => {
 
       const content = entry.getData();
       fs.writeFileSync(destinationPath, content);
-      zip.deleteFile(entryName);
     }
   });
 

@@ -43,10 +43,12 @@ export const updater = async () => {
   const csvData = fs.readFileSync(destinationPath, "utf-8");
   const parsedData = d3.csvParse(csvData);
 
+  let message: string;
+
   const existingData = await db.collection("cars").find().toArray();
   if (existingData.length === 0) {
     const result = await db.collection("cars").insertMany(parsedData);
-    console.log(`${result.insertedCount} document(s) inserted`);
+    message = `${result.insertedCount} document(s) inserted`;
   } else {
     const existingDataMap = new Map(
       existingData.map((item) => [item.month, item]),
@@ -57,9 +59,12 @@ export const updater = async () => {
 
     if (newDataToInsert.length > 0) {
       const result = await db.collection("cars").insertMany(newDataToInsert);
-      console.log(`${result.insertedCount} document(s) inserted`);
+      message = `${result.insertedCount} document(s) inserted`;
     } else {
-      console.log("No new data to insert");
+      message = "No new data to insert";
     }
   }
+
+  console.log(message);
+  return { message };
 };

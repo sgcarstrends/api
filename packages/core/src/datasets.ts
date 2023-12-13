@@ -18,10 +18,6 @@ export const updater = async () => {
     destination: zipFilePath,
   });
 
-  // if (!response.ok) {
-  //   throw new Error(`Failed to download the ZIP file: ${response.statusText}`);
-  // }
-
   const zip = new AdmZip(zipFilePath);
   zip.extractAllTo(`${extractToPath}`, true);
   const zipEntries = zip.getEntries();
@@ -66,5 +62,6 @@ export const updater = async () => {
   }
 
   console.log(message);
+
   return { message };
 };

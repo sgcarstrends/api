@@ -1,6 +1,6 @@
 import { Cron, StackContext } from "sst/constructs";
 
-const cronScheduler = `0/60 12-18 ? * MON-FRI *`;
+const cronScheduler = `0/60 04-10 ? * MON-FRI *`;
 
 export const scheduler = ({ stack }: StackContext) => {
   new Cron(stack, "cron", {

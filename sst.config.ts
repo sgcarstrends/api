@@ -1,6 +1,5 @@
 import { SSTConfig } from "sst";
 import { api } from "./stacks/MyStack";
-import { scheduler } from "./stacks/Scheduler";
 
 export default {
   config(_input) {
@@ -11,6 +10,5 @@ export default {
   },
   stacks(app) {
     app.stack(api);
-    app.stack(scheduler);
   },
 } satisfies SSTConfig;

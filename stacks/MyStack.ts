@@ -1,4 +1,4 @@
-import { Config, StackContext, Api, EventBus } from "sst/constructs";
+import { Config, StackContext, Api, EventBus, Cron } from "sst/constructs";
 
 const CUSTOM_DOMAINS: Record<string, any> = {
   dev: {
@@ -39,6 +39,18 @@ export const api = ({ stack }: StackContext) => {
       "POST /todo": "packages/functions/src/todo.create",
       "GET /updater": "packages/functions/src/datasets.updater",
     },
+  });
+
+  const cronScheduler = `0/60 04-10 ? * MON-FRI *`;
+  new Cron(stack, "cron", {
+    schedule: `cron(${cronScheduler})`,
+    job: {
+      function: {
+        handler: "packages/functions/src/datasets.updater",
+        bind: [MONGODB_URI],
+      },
+    },
+    enabled: stack.stage === "prod",
   });
 
   bus.subscribe("todo.created", {

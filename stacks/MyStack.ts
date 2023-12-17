@@ -1,4 +1,4 @@
-import { Config, StackContext, Api, EventBus, Cron } from "sst/constructs";
+import { Config, StackContext, Api, Cron } from "sst/constructs";
 
 const CUSTOM_DOMAINS: Record<string, any> = {
   dev: {
@@ -12,19 +12,13 @@ const CUSTOM_DOMAINS: Record<string, any> = {
 };
 
 export const api = ({ stack }: StackContext) => {
-  const bus = new EventBus(stack, "bus", {
-    defaults: {
-      retries: 10,
-    },
-  });
-
   const MONGODB_URI = new Config.Secret(stack, "MONGODB_URI");
 
   const api = new Api(stack, "api", {
     defaults: {
       throttle: { burst: 5, rate: 50 },
       function: {
-        bind: [bus, MONGODB_URI],
+        bind: [MONGODB_URI],
       },
     },
     customDomain: CUSTOM_DOMAINS[stack.stage],
@@ -35,8 +29,6 @@ export const api = ({ stack }: StackContext) => {
       "GET /": "packages/functions/src/car.electric",
       "GET /car/electric": "packages/functions/src/car.electric",
       "GET /car/petrol": "packages/functions/src/car.petrol",
-      "GET /todo": "packages/functions/src/todo.list",
-      "POST /todo": "packages/functions/src/todo.create",
       "GET /updater": "packages/functions/src/datasets.updater",
     },
   });
@@ -51,10 +43,6 @@ export const api = ({ stack }: StackContext) => {
       },
     },
     enabled: stack.stage === "prod",
-  });
-
-  bus.subscribe("todo.created", {
-    handler: "packages/functions/src/events/todo-created.handler",
   });
 
   stack.addOutputs({

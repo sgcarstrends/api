@@ -30,6 +30,7 @@ export const api = ({ stack }: StackContext) => {
       "GET /brands": "packages/functions/src/brand.brands",
       "GET /car/electric": "packages/functions/src/car.electric",
       "GET /car/petrol": "packages/functions/src/car.petrol",
+      "GET /coe-updater": "packages/functions/src/coe.updater",
       "GET /updater": "packages/functions/src/datasets.updater",
     },
   });

@@ -6,11 +6,11 @@ import db from "../../config/db";
 
 // Constants
 const EXTRACT_PATH: string = "/tmp";
-const ZIP_FILE_NAME: string = `Monthly New Registration of Cars by Make.zip`;
+const ZIP_FILE_NAME: string = "COE Bidding Results.zip";
 const ZIP_URL: string = `https://datamall.lta.gov.sg/content/dam/datamall/datasets/Facts_Figures/Vehicle Registration/${ZIP_FILE_NAME}`;
-const COLLECTION_NAME: string = "cars";
+const COLLECTION_NAME: string = "coe";
 
-export const updater = async (): Promise<{ message: string }> => {
+export const updater = async () => {
   try {
     const zipFilePath = `${EXTRACT_PATH}/${ZIP_FILE_NAME}`;
     await downloadFile({ url: ZIP_URL, destination: zipFilePath });
@@ -30,22 +30,21 @@ export const updater = async (): Promise<{ message: string }> => {
       (newItem) => !existingDataMap.has(newItem.month),
     );
 
-    let message: string;
+    let message;
     if (newDataToInsert.length > 0) {
       const result = await db
         .collection(COLLECTION_NAME)
         .insertMany(newDataToInsert);
-      message = `${result.insertedCount} document(s) inserted`;
+      message = `${result.insertedCount} document(s) inserted.`;
     } else {
       message =
         "No new data to insert. The provided data matches the existing records.";
     }
-
     return { message };
   } catch (error) {
-    console.error(`An error has occurred:`, error);
+    console.error("An error has occurred:", error);
     throw error;
   }
 };
 
-export * as Datasets from "./datasets";
+export * as COE from "./coe";

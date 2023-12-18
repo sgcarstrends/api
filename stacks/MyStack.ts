@@ -27,6 +27,7 @@ export const api = ({ stack }: StackContext) => {
     },
     routes: {
       "GET /": "packages/functions/src/car.electric",
+      "GET /brands": "packages/functions/src/brand.brands",
       "GET /car/electric": "packages/functions/src/car.electric",
       "GET /car/petrol": "packages/functions/src/car.petrol",
       "GET /updater": "packages/functions/src/datasets.updater",

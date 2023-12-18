@@ -9,8 +9,6 @@ export const updater = async () => {
   const extractToPath = "/tmp";
   const zipFileName = `Monthly New Registration of Cars by Make.zip`;
   const zipFilePath = `${extractToPath}/${zipFileName}`;
-  const csvFileName = `M03-Car_Regn_by_make.csv`;
-  const csvFilePath = `${extractToPath}/${csvFileName}`;
   const zipUrl = `https://datamall.lta.gov.sg/content/dam/datamall/datasets/Facts_Figures/Vehicle Registration/${zipFileName}`;
 
   await downloadFile({
@@ -57,11 +55,10 @@ export const updater = async () => {
       const result = await db.collection("cars").insertMany(newDataToInsert);
       message = `${result.insertedCount} document(s) inserted`;
     } else {
-      message = "No new data to insert";
+      message =
+        "No new data to insert. The provided data matches the existing records.";
     }
   }
-
-  console.log(message);
 
   return { message };
 };

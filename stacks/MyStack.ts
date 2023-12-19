@@ -26,17 +26,17 @@ export const api = ({ stack }: StackContext) => {
       allowOrigins: ["https://singapore-ev-trends.ruchern.xyz"],
     },
     routes: {
-      "GET /": "packages/functions/src/car.electric",
-      "GET /brands": "packages/functions/src/brand.brands",
-      "GET /car/electric": "packages/functions/src/car.electric",
-      "GET /car/petrol": "packages/functions/src/car.petrol",
+      "GET /": "packages/functions/src/cars.electric",
+      "GET /brands": "packages/functions/src/brands.list",
+      "GET /cars/electric": "packages/functions/src/cars.electric",
+      "GET /cars/petrol": "packages/functions/src/cars.petrol",
       "GET /coe": "packages/functions/src/coe.result",
       "GET /updater/cars": "packages/functions/src/updater.cars",
       "GET /updater/coe": "packages/functions/src/updater.coe",
     },
   });
 
-  new Cron(stack, "cron", {
+  new Cron(stack, "cars-cron", {
     schedule: "cron(0/60 04-10 ? * MON-FRI *)",
     job: {
       function: {

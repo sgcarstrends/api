@@ -1,8 +1,8 @@
 import { ApiHandler } from "sst/node/api";
-import { Car } from "@lta-datasets-updater/core/car";
+import { Cars } from "@lta-datasets-updater/core/cars";
 
 export const electric = ApiHandler(async (_evt) => {
-  const electricCars = await Car.electric();
+  const electricCars = await Cars.electric();
 
   return {
     statusCode: 200,
@@ -11,7 +11,7 @@ export const electric = ApiHandler(async (_evt) => {
 });
 
 export const petrol = ApiHandler(async (_evt) => {
-  const petrolCars = await Car.petrol();
+  const petrolCars = await Cars.petrol();
 
   return {
     statusCode: 200,

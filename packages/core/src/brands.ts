@@ -1,10 +1,11 @@
-export * as Brand from "./brand";
 import db from "../../config/db";
 
-export const brands = async () => {
+export const list = async () => {
   try {
     return db.collection("cars").distinct("make");
   } catch (error) {
     console.error(error);
   }
 };
+
+export * as Brands from "./brands";

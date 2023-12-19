@@ -1,4 +1,3 @@
-export * as Car from "./car";
 import { ObjectId } from "mongodb";
 import { format, subMonths } from "date-fns";
 import db from "../../config/db";
@@ -50,3 +49,5 @@ export const electric = async (): Promise<CarDocument[]> =>
 
 export const petrol = async (): Promise<CarDocument[]> =>
   getCarsByFuelType(FUEL_TYPE.PETROL);
+
+export * as Cars from "./cars";

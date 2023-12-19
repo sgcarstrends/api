@@ -30,6 +30,7 @@ export const api = ({ stack }: StackContext) => {
       "GET /brands": "packages/functions/src/brand.brands",
       "GET /car/electric": "packages/functions/src/car.electric",
       "GET /car/petrol": "packages/functions/src/car.petrol",
+      "GET /coe": "packages/functions/src/coe.result",
       "GET /updater/cars": "packages/functions/src/updater.cars",
       "GET /updater/coe": "packages/functions/src/updater.coe",
     },

@@ -4,16 +4,22 @@ import { downloadFile } from "./lib/downloadFile";
 import { extractZipFile } from "./lib/extractZipFile";
 import db from "../../config/db";
 
-// Constants
 const EXTRACT_PATH: string = "/tmp";
-const ZIP_FILE_NAME: string = `Monthly New Registration of Cars by Make.zip`;
-const ZIP_URL: string = `https://datamall.lta.gov.sg/content/dam/datamall/datasets/Facts_Figures/Vehicle Registration/${ZIP_FILE_NAME}`;
-const COLLECTION_NAME: string = "cars";
 
-export const updater = async (): Promise<{ message: string }> => {
+interface UpdateParams {
+  collectionName: string;
+  zipFileName: string;
+  zipUrl: string;
+}
+
+export const update = async ({
+  collectionName,
+  zipFileName,
+  zipUrl,
+}: UpdateParams): Promise<{ message: string }> => {
   try {
-    const zipFilePath = `${EXTRACT_PATH}/${ZIP_FILE_NAME}`;
-    await downloadFile({ url: ZIP_URL, destination: zipFilePath });
+    const zipFilePath = `${EXTRACT_PATH}/${zipFileName}`;
+    await downloadFile({ url: zipUrl, destination: zipFilePath });
 
     const extractedFileName = await extractZipFile(zipFilePath, EXTRACT_PATH);
     const destinationPath = `${EXTRACT_PATH}/${extractedFileName}`;
@@ -22,7 +28,7 @@ export const updater = async (): Promise<{ message: string }> => {
     const csvData = await fs.readFile(destinationPath, "utf-8");
     const parsedData = d3.csvParse(csvData);
 
-    const existingData = await db.collection(COLLECTION_NAME).find().toArray();
+    const existingData = await db.collection(collectionName).find().toArray();
     const existingDataMap = new Map(
       existingData.map((item) => [item.month, item]),
     );
@@ -33,12 +39,11 @@ export const updater = async (): Promise<{ message: string }> => {
     let message: string;
     if (newDataToInsert.length > 0) {
       const result = await db
-        .collection(COLLECTION_NAME)
+        .collection(collectionName)
         .insertMany(newDataToInsert);
       message = `${result.insertedCount} document(s) inserted`;
     } else {
-      message =
-        "No new data to insert. The provided data matches the existing records.";
+      message = `No new data to insert for collection - ${collectionName}. The provided data matches the existing records.`;
     }
 
     return { message };
@@ -48,4 +53,4 @@ export const updater = async (): Promise<{ message: string }> => {
   }
 };
 
-export * as Datasets from "./datasets";
+export * as Updater from "./updater";

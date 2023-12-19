@@ -30,17 +30,16 @@ export const api = ({ stack }: StackContext) => {
       "GET /brands": "packages/functions/src/brand.brands",
       "GET /car/electric": "packages/functions/src/car.electric",
       "GET /car/petrol": "packages/functions/src/car.petrol",
-      "GET /coe-updater": "packages/functions/src/coe.updater",
-      "GET /updater": "packages/functions/src/datasets.updater",
+      "GET /updater/cars": "packages/functions/src/updater.cars",
+      "GET /updater/coe": "packages/functions/src/updater.coe",
     },
   });
 
-  const cronScheduler = `0/60 04-10 ? * MON-FRI *`;
   new Cron(stack, "cron", {
-    schedule: `cron(${cronScheduler})`,
+    schedule: "cron(0/60 04-10 ? * MON-FRI *)",
     job: {
       function: {
-        handler: "packages/functions/src/datasets.updater",
+        handler: "packages/functions/src/updater.cars",
         bind: [MONGODB_URI],
       },
     },

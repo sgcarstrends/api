@@ -1,5 +1,6 @@
 import { ApiHandler } from "sst/node/api";
 import { Updater } from "@lta-datasets-updater/core/updater";
+import { createResponse } from "./utils/createResponse";
 
 export const cars = ApiHandler(async (_evt, context) => {
   const ZIP_FILE_NAME: string = "Monthly New Registration of Cars by Make.zip";
@@ -13,14 +14,11 @@ export const cars = ApiHandler(async (_evt, context) => {
 
   console.log(`Message:`, message);
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      status: 200,
-      message,
-      timestamp: new Date().toISOString(),
-    }),
-  };
+  return createResponse({
+    status: 200,
+    message,
+    timestamp: new Date().toISOString(),
+  });
 });
 
 export const coe = ApiHandler(async (_evt) => {
@@ -35,12 +33,9 @@ export const coe = ApiHandler(async (_evt) => {
 
   console.log(`Message:`, message);
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      status: 200,
-      message,
-      timestamp: new Date().toISOString(),
-    }),
-  };
+  return createResponse({
+    status: 200,
+    message,
+    timestamp: new Date().toISOString(),
+  });
 });

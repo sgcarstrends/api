@@ -1,16 +1,9 @@
 import { ApiHandler } from "sst/node/api";
-import db from "../../config/db";
+import { COE } from "@lta-datasets-updater/core/coe";
+import { createResponse } from "./utils/createResponse";
 
-export const result = ApiHandler(async (_evt) => {
-  const result = await db
-    .collection("coe")
-    .find({ month: "2023-12" })
-    .toArray();
+export const latest = ApiHandler(async (_evt) => {
+  const coeResult = await COE.latest();
 
-  console.log(`COE result:`, result);
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify(result),
-  };
+  return createResponse(coeResult);
 });

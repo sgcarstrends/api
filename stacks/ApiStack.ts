@@ -27,12 +27,12 @@ export const api = ({ stack }: StackContext) => {
     },
     routes: {
       "GET /": "packages/functions/src/cars.electric",
-      "GET /brands": "packages/functions/src/brands.list",
       "GET /cars/electric": "packages/functions/src/cars.electric",
       "GET /cars/petrol": "packages/functions/src/cars.petrol",
       "GET /coe": "packages/functions/src/coe.latest",
       "GET /updater/cars": "packages/functions/src/updater.cars",
       "GET /updater/coe": "packages/functions/src/updater.coe",
+      "GET /vehicle-make": "packages/functions/src/vehicle-make.list",
     },
   });
 

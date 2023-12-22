@@ -1,9 +1,9 @@
 import { ApiHandler } from "sst/node/api";
-import { Brands } from "@lta-cars-dataset/core/brands";
+import { VehicleMake } from "@lta-cars-dataset/core/vehicle-make";
 import { createResponse } from "./utils/createResponse";
 
 export const list = ApiHandler(async (_evt) => {
-  const brands = await Brands.list();
+  const make = await VehicleMake.list();
 
-  return createResponse(brands);
+  return createResponse(make);
 });

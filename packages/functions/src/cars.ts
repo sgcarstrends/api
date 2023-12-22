@@ -1,5 +1,5 @@
 import { ApiHandler } from "sst/node/api";
-import { Cars } from "@lta-datasets-updater/core/cars";
+import { Cars } from "@lta-cars-dataset/core/cars";
 import { createResponse } from "./utils/createResponse";
 
 export const electric = ApiHandler(async (_evt) => {

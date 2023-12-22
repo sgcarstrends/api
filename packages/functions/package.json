@@ -1,5 +1,5 @@
 {
-  "name": "@lta-datasets-updater/functions",
+  "name": "@lta-cars-dataset/functions",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

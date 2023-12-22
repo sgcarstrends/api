@@ -1,10 +1,10 @@
 import { SSTConfig } from "sst";
-import { api } from "./stacks/MyStack";
+import { api } from "./stacks/ApiStack";
 
 export default {
   config(_input) {
     return {
-      name: "lta-datasets-updater",
+      name: "lta-cars-dataset",
       region: "ap-southeast-1",
     };
   },

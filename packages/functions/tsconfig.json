@@ -5,7 +5,7 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "@lta-datasets-updater/core/*": ["../core/src/*"]
+      "@lta-cars-dataset/core/*": ["../core/src/*"]
     }
   }
 }

@@ -1,5 +1,5 @@
 import { ApiHandler } from "sst/node/api";
-import { COE } from "@lta-datasets-updater/core/coe";
+import { COE } from "@lta-cars-dataset/core/coe";
 import { createResponse } from "./utils/createResponse";
 
 export const latest = ApiHandler(async (_evt) => {

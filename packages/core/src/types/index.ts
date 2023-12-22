@@ -7,13 +7,3 @@ export type CarType = {
   number: number;
   selected?: boolean;
 };
-
-export type Dataset = {
-  label: string;
-  data: number[];
-};
-
-export interface ChartDataset extends Dataset {
-  borderColor: string;
-  checked: boolean;
-}

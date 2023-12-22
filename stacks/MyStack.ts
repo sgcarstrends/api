@@ -47,6 +47,39 @@ export const api = ({ stack }: StackContext) => {
     enabled: stack.stage === "prod",
   });
 
+  new Cron(stack, "coe-cron", {
+    schedule: "cron(0/60 0-10 ? * MON-FRI *)",
+    job: {
+      function: {
+        handler: "packages/functions/src/updater.coe",
+        bind: [MONGODB_URI],
+      },
+    },
+    enabled: stack.stage === "prod",
+  });
+
+  new Cron(stack, "coe-first-bidding-cron", {
+    schedule: "cron(0/10 8-10 ? * 4#1 *)",
+    job: {
+      function: {
+        handler: "packages/functions/src/updater.coe",
+        bind: [MONGODB_URI],
+      },
+    },
+    enabled: stack.stage === "prod",
+  });
+
+  new Cron(stack, "coe-second-bidding-cron", {
+    schedule: "cron(0/10 8-10 ? * 4#3 *)",
+    job: {
+      function: {
+        handler: "packages/functions/src/updater.coe",
+        bind: [MONGODB_URI],
+      },
+    },
+    enabled: stack.stage === "prod",
+  });
+
   stack.addOutputs({
     ApiEndpoint: api.url,
   });

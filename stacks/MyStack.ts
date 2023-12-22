@@ -37,7 +37,7 @@ export const api = ({ stack }: StackContext) => {
   });
 
   new Cron(stack, "cars-cron", {
-    schedule: "cron(0/60 04-10 ? * MON-FRI *)",
+    schedule: "cron(0/60 0-10 ? * MON-FRI *)",
     job: {
       function: {
         handler: "packages/functions/src/updater.cars",

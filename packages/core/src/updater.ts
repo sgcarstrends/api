@@ -43,7 +43,7 @@ export const update = async ({
         .insertMany(newDataToInsert);
       message = `${result.insertedCount} document(s) inserted`;
     } else {
-      message = `No new data to insert for collection - ${collectionName}. The provided data matches the existing records.`;
+      message = `No new data to insert. The provided data matches the existing records.`;
     }
 
     return { message };

@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import * as d3 from "d3";
-import { downloadFile } from "./lib/downloadFile";
-import { extractZipFile } from "./lib/extractZipFile";
+import { downloadFile } from "./utils/downloadFile";
+import { extractZipFile } from "./utils/extractZipFile";
 import db from "../../config/db";
 
 const EXTRACT_PATH: string = "/tmp";

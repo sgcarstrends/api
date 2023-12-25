@@ -11,6 +11,15 @@ const CUSTOM_DOMAINS: Record<string, any> = {
   },
 };
 
+const CORS_SETTINGS: Record<string, any> = {
+  dev: {
+    allowOrigins: ["*"],
+  },
+  prod: {
+    allowOrigins: ["https://singapore-ev-trends.ruchern.xyz"],
+  },
+};
+
 export const api = ({ stack }: StackContext) => {
   const MONGODB_URI = new Config.Secret(stack, "MONGODB_URI");
 
@@ -23,13 +32,14 @@ export const api = ({ stack }: StackContext) => {
     },
     customDomain: CUSTOM_DOMAINS[stack.stage],
     cors: {
-      allowOrigins: ["https://singapore-ev-trends.ruchern.xyz"],
+      ...CORS_SETTINGS[stack.stage],
     },
     routes: {
       "GET /": "packages/functions/src/cars.electric",
       "GET /cars/electric": "packages/functions/src/cars.electric",
       "GET /cars/petrol": "packages/functions/src/cars.petrol",
-      "GET /coe": "packages/functions/src/coe.latest",
+      "GET /coe": "packages/functions/src/coe.list",
+      "GET /coe/latest": "packages/functions/src/coe.latest",
       "GET /updater/cars": "packages/functions/src/updater.cars",
       "GET /updater/coe": "packages/functions/src/updater.coe",
       "GET /vehicle-make": "packages/functions/src/vehicle-make.list",

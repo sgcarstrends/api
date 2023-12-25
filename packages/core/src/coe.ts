@@ -2,13 +2,17 @@ import db from "../../config/db";
 
 const collection = db.collection("coe");
 
-export const latest = async () => {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const formattedMonth = [year, month].join("-");
+export const list = async () => collection.find().toArray();
 
-  return collection.find({ month: formattedMonth }).toArray();
+export const getCOEResultByMonth = async (month?: string) => {
+  const date = new Date();
+  const formattedMonth =
+    month || [date.getFullYear(), date.getMonth() + 1].join("-");
+
+  return collection
+    .find({ month: formattedMonth })
+    .sort({ vehicle_class: 1 })
+    .toArray();
 };
 
 export * as COE from "./coe";

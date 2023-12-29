@@ -11,7 +11,7 @@ export const getCOEResultByMonth = async (month?: string) => {
 
   return collection
     .find({ month: formattedMonth })
-    .sort({ vehicle_class: 1 })
+    .sort({ bidding_no: 1, vehicle_class: 1 })
     .toArray();
 };
 

@@ -11,6 +11,7 @@ export const cars = ApiHandler(async (_evt) => {
     collectionName: COLLECTION_NAME,
     zipFileName: ZIP_FILE_NAME,
     zipUrl: ZIP_URL,
+    keyFields: ["month"],
   });
 
   console.log(`Message:`, message);
@@ -32,6 +33,7 @@ export const coe = ApiHandler(async (_evt) => {
     collectionName: COLLECTION_NAME,
     zipFileName: ZIP_FILE_NAME,
     zipUrl: ZIP_URL,
+    keyFields: ["month", "bidding_no"],
   });
 
   console.log(`Message:`, message);

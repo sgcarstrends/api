@@ -10,12 +10,14 @@ interface UpdateParams {
   collectionName: string;
   zipFileName: string;
   zipUrl: string;
+  keyFields: string[];
 }
 
 export const update = async ({
   collectionName,
   zipFileName,
   zipUrl,
+  keyFields,
 }: UpdateParams): Promise<{ message: string }> => {
   try {
     const zipFilePath = `${EXTRACT_PATH}/${zipFileName}`;
@@ -29,11 +31,18 @@ export const update = async ({
     const parsedData = d3.csvParse(csvData);
 
     const existingData = await db.collection(collectionName).find().toArray();
+
+    const createUniqueKey = (item: any, keyFields: string[]) =>
+      keyFields
+        .filter((field) => item[field])
+        .map((field) => item[field])
+        .join("-");
+
     const existingDataMap = new Map(
-      existingData.map((item) => [item.month, item]),
+      existingData.map((item) => [createUniqueKey(item, keyFields), item]),
     );
     const newDataToInsert = parsedData.filter(
-      (newItem) => !existingDataMap.has(newItem.month),
+      (newItem) => !existingDataMap.has(createUniqueKey(newItem, keyFields)),
     );
 
     let message: string;

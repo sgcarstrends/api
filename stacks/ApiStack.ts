@@ -13,9 +13,11 @@ const CUSTOM_DOMAINS: Record<string, any> = {
 
 const CORS_SETTINGS: Record<string, any> = {
   dev: {
+    allowMethods: ["GET"],
     allowOrigins: ["*"],
   },
   prod: {
+    allowMethods: ["GET"],
     allowOrigins: ["https://singapore-ev-trends.ruchern.xyz"],
   },
 };

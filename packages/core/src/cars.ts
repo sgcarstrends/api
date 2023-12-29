@@ -14,11 +14,14 @@ const trailingTwelveMonths = format(subMonths(today, 12), "yyyy-MM");
 
 const getCarsByFuelType = async (
   fuelType: FUEL_TYPE,
+  month?: string,
 ): Promise<CarDocument[]> => {
-  let cars = await db
-    .collection<CarDocument>("cars")
-    .find({ fuel_type: fuelType, month: { $gte: trailingTwelveMonths } })
-    .toArray();
+  const filter = {
+    fuel_type: fuelType,
+    month: month ?? { $gte: trailingTwelveMonths },
+  };
+
+  let cars = await db.collection<CarDocument>("cars").find(filter).toArray();
 
   return cars.reduce(
     (result: CarDocument[], { _id, month, make, fuel_type, number }) => {
@@ -44,10 +47,16 @@ const getCarsByFuelType = async (
   );
 };
 
-export const electric = async (): Promise<CarDocument[]> =>
-  getCarsByFuelType(FUEL_TYPE.ELECTRIC);
+export const electric = async ({
+  month,
+}: {
+  month?: string;
+}): Promise<CarDocument[]> => getCarsByFuelType(FUEL_TYPE.ELECTRIC, month);
 
-export const petrol = async (): Promise<CarDocument[]> =>
-  getCarsByFuelType(FUEL_TYPE.PETROL);
+export const petrol = async ({
+  month,
+}: {
+  month?: string;
+}): Promise<CarDocument[]> => getCarsByFuelType(FUEL_TYPE.PETROL, month);
 
 export * as Cars from "./cars";

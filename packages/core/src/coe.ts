@@ -1,16 +1,23 @@
+import { Collection, WithId } from "mongodb";
 import db from "../../config/db";
+import { COEResult } from "./types";
 
-const collection = db.collection("coe");
+const collection: Collection<COEResult> = db.collection<COEResult>("coe");
 
-export const list = async () => collection.find().toArray();
+export const list = async (): Promise<WithId<COEResult>[]> =>
+  collection.find().toArray();
 
-export const getCOEResultByMonth = async (month?: string) => {
-  const date = new Date();
-  const formattedMonth =
-    month || [date.getFullYear(), date.getMonth() + 1].join("-");
+const getLatestMonth = async (): Promise<string> => {
+  const months = await collection.distinct("month");
+  return months[months.length - 1];
+};
 
+export const getCOEResultByMonth = async (
+  month?: string,
+): Promise<WithId<COEResult>[]> => {
+  const selectedMonth = month || (await getLatestMonth());
   return collection
-    .find({ month: formattedMonth })
+    .find({ month: selectedMonth })
     .sort({ bidding_no: 1, vehicle_class: 1 })
     .toArray();
 };

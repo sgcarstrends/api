@@ -1,20 +1,16 @@
-import { ApiHandler, useQueryParam, useQueryParams } from "sst/node/api";
+import { ApiHandler, useQueryParam } from "sst/node/api";
 import { COE } from "@lta-cars-dataset/core/coe";
 import { createResponse } from "./utils/createResponse";
+import { WithId } from "mongodb";
+import { COEResult } from "@lta-cars-dataset/core/types";
 
 export const list = ApiHandler(async (_evt) => {
-  const result = await COE.list();
+  const result: WithId<COEResult>[] = await COE.list();
   return createResponse(result);
 });
 
-export const byMonth = ApiHandler(async (_evt) => {
-  const month = useQueryParam("month");
-  const coeResult = await COE.getCOEResultByMonth(month);
-
-  return createResponse(coeResult);
-});
-
 export const latest = ApiHandler(async (_evt) => {
-  const result = await COE.getCOEResultByMonth();
+  const month = useQueryParam("month");
+  const result: WithId<COEResult>[] = await COE.getCOEResultByMonth(month);
   return createResponse(result);
 });

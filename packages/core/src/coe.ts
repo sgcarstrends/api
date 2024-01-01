@@ -1,8 +1,8 @@
-import { Collection, WithId } from "mongodb";
+import { WithId } from "mongodb";
 import db from "../../config/db";
 import { COEResult } from "./types";
 
-const collection: Collection<COEResult> = db.collection<COEResult>("coe");
+const collection = db.collection<COEResult>("coe");
 
 export const list = async (): Promise<WithId<COEResult>[]> =>
   collection.find().toArray();

@@ -1,16 +1,19 @@
-import { ObjectId } from "mongodb";
-import { FUEL_TYPE } from "../config";
+export enum FUEL_TYPE {
+  DIESEL = "Diesel",
+  ELECTRIC = "Electric",
+  OTHERS = "Others",
+  PETROL = "Petrol",
+}
 
-export type CarType = {
+export interface Car {
   month: string;
   make: string;
-  fuel_type: FUEL_TYPE | string;
+  fuel_type: FUEL_TYPE;
   number: number;
   selected?: boolean;
-};
+}
 
 export interface COEResult {
-  // _id: ObjectId;
   month: string;
   bidding_no: string;
   vehicle_class: string;
@@ -18,4 +21,11 @@ export interface COEResult {
   bids_success: string;
   bids_received: string;
   premium: string;
+}
+
+export interface UpdateParams {
+  collectionName: string;
+  zipFileName: string;
+  zipUrl: string;
+  keyFields: string[];
 }

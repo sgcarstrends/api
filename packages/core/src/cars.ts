@@ -1,13 +1,9 @@
-import { ObjectId } from "mongodb";
 import { format, subMonths } from "date-fns";
 import db from "../../config/db";
-import { FUEL_TYPE } from "./config";
-import type { CarType } from "./types";
+import { Car, FUEL_TYPE } from "./types";
+import { WithId } from "mongodb";
 
-// TODO: Will return to clean up the types
-interface CarDocument extends CarType {
-  _id: ObjectId;
-}
+const collection = db.collection<Car>("cars");
 
 const today = new Date();
 const trailingTwelveMonths = format(subMonths(today, 12), "yyyy-MM");
@@ -15,18 +11,18 @@ const trailingTwelveMonths = format(subMonths(today, 12), "yyyy-MM");
 const getCarsByFuelType = async (
   fuelType: FUEL_TYPE,
   month?: string,
-): Promise<CarDocument[]> => {
+): Promise<WithId<Car>[]> => {
   const filter = {
     fuel_type: fuelType,
     month: month ?? { $gte: trailingTwelveMonths },
   };
 
-  let cars = await db.collection<CarDocument>("cars").find(filter).toArray();
+  const cars: WithId<Car>[] = await collection.find(filter).toArray();
 
   return cars.reduce(
-    (result: CarDocument[], { _id, month, make, fuel_type, number }) => {
+    (result: WithId<Car>[], { _id, month, make, fuel_type, number }) => {
       const existingCar = result.find(
-        (car: CarType) => car.month === month && car.make === make,
+        (car) => car.month === month && car.make === make,
       );
 
       if (existingCar) {
@@ -51,12 +47,12 @@ export const electric = async ({
   month,
 }: {
   month?: string;
-}): Promise<CarDocument[]> => getCarsByFuelType(FUEL_TYPE.ELECTRIC, month);
+}): Promise<WithId<Car>[]> => getCarsByFuelType(FUEL_TYPE.ELECTRIC, month);
 
 export const petrol = async ({
   month,
 }: {
   month?: string;
-}): Promise<CarDocument[]> => getCarsByFuelType(FUEL_TYPE.PETROL, month);
+}): Promise<WithId<Car>[]> => getCarsByFuelType(FUEL_TYPE.PETROL, month);
 
 export * as Cars from "./cars";

@@ -1,24 +1,36 @@
-import { Config, StackContext, Api, Cron } from "sst/constructs";
+import {
+  Config,
+  StackContext,
+  Api,
+  Cron,
+  ApiDomainProps,
+  ApiCorsProps,
+} from "sst/constructs";
 
-const CUSTOM_DOMAINS: Record<string, any> = {
+const DOMAIN: string = "sgmotortrends.com";
+const SITE_URL: string = `https://${DOMAIN}`;
+const DEV_API_DOMAIN: string = `dev.api.${DOMAIN}`;
+const PROD_API_DOMAIN: string = `api.${DOMAIN}`;
+
+const CUSTOM_DOMAINS: Record<string, ApiDomainProps> = {
   dev: {
-    domainName: "dev.api.singapore-ev-trends.ruchern.xyz",
-    hostedZone: "ruchern.xyz",
+    domainName: DEV_API_DOMAIN,
+    hostedZone: DOMAIN,
   },
   prod: {
-    domainName: "api.singapore-ev-trends.ruchern.xyz",
-    hostedZone: "ruchern.xyz",
+    domainName: PROD_API_DOMAIN,
+    hostedZone: DOMAIN,
   },
 };
 
-const CORS_SETTINGS: Record<string, any> = {
+const CORS_SETTINGS: Record<string, ApiCorsProps> = {
   dev: {
     allowMethods: ["GET"],
     allowOrigins: ["*"],
   },
   prod: {
     allowMethods: ["GET"],
-    allowOrigins: ["https://singapore-ev-trends.ruchern.xyz"],
+    allowOrigins: [SITE_URL],
   },
 };
 

@@ -17,20 +17,16 @@
     "d3": "^7.8.5",
     "date-fns": "^2.30.0",
     "hono": "^4.2.9",
-    "mongodb": "^6.2.0",
+    "mongodb": "^6.5.0",
     "sst": "^3.0.13"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240423.0",
-    "@tsconfig/node18": "^18.2.2",
     "@types/adm-zip": "^0.5.3",
     "@types/d3": "^7.4.2",
-    "aws-cdk-lib": "2.101.1",
-    "constructs": "10.2.69",
+    "@types/node": "^20.12.7",
     "prettier": "^3.0.3",
-    "typescript": "^5.4.5"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+    "typescript": "^5.4.5",
+    "wrangler": "^3.53.0"
+  }
 }

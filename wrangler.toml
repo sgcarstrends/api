@@ -1,6 +1,6 @@
 name = "lta-cars-dataset"
 compatibility_date = "2023-12-01"
-compatibility_flags = ["nodejs_compat"]
+compatibility_flags = [ "nodejs_compat" ]
 
 # [vars]
 # MY_VAR = "my-variable"

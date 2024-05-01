@@ -1,14 +1,21 @@
-import { SSTConfig } from "sst";
-import { api } from "./stacks/ApiStack";
+/// <reference path="./.sst/platform/config.d.ts" />
 
-export default {
-  config(_input) {
+export default $config({
+  app(input) {
     return {
       name: "lta-cars-dataset",
-      region: "ap-southeast-1",
+      removal: input?.stage === "production" ? "retain" : "remove",
+      home: "cloudflare",
     };
   },
-  stacks(app) {
-    app.stack(api);
+  async run() {
+    const hono = new sst.cloudflare.Worker("Api", {
+      url: true,
+      handler: "src/index.ts",
+    });
+
+    return {
+      api: hono.url,
+    };
   },
-} satisfies SSTConfig;
+});

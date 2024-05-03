@@ -9,9 +9,11 @@ export default $config({
     };
   },
   async run() {
+    const database = new sst.cloudflare.D1("Database");
     const hono = new sst.cloudflare.Worker("Api", {
-      url: true,
       handler: "src/index.ts",
+      link: [database],
+      url: true,
     });
 
     return {

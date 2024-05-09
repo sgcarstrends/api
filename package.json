@@ -21,12 +21,10 @@
     "sst": "^3.0.13"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240423.0",
     "@types/adm-zip": "^0.5.3",
     "@types/d3": "^7.4.2",
     "@types/node": "^20.12.7",
     "prettier": "^3.0.3",
-    "typescript": "^5.4.5",
-    "wrangler": "^3.53.0"
+    "typescript": "^5.4.5"
   }
 }

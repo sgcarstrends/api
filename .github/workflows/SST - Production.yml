@@ -15,6 +15,9 @@ permissions:
 jobs:
   DeployApp:
     runs-on: ubuntu-latest
+    environment: Production
+    env:
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v3

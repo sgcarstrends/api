@@ -1,4 +1,4 @@
-name: SST workflow
+name: Production Deployment
 on:
   push:
     branches:

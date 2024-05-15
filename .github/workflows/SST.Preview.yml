@@ -1,4 +1,4 @@
-name: SST workflow
+name: Preview Deployment
 on:
   push:
     branches:

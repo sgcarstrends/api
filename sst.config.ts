@@ -2,6 +2,7 @@
 
 const DOMAIN = {
   development: "dev.api.sgmotortrends.com",
+  staging: "staging.api.sgmotortrends.com",
   production: "api.sgmotortrends.com",
 } as const;
 
@@ -19,9 +20,9 @@ export default $config({
     };
   },
   async run() {
-    const hono = new sst.aws.Function("Hono", {
+    const hono = new sst.aws.Function("Api", {
       architecture: "arm64",
-      description: "Hono API for LTA Datasets",
+      description: "Hono API for LTA Cars Datasets",
       environment: {
         MONGODB_URI: process.env.MONGODB_URI,
       },
@@ -30,6 +31,13 @@ export default $config({
         cors: {
           maxAge: "1 day",
         },
+      },
+    });
+
+    new sst.aws.Router("LTACarsDataset", {
+      domain: DOMAIN[$app.stage],
+      routes: {
+        "/*": hono.url,
       },
     });
 

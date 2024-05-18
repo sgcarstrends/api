@@ -1,10 +1,10 @@
-import { Document, WithId } from "mongodb";
 import fs from "fs/promises";
 import * as d3 from "d3";
-import { downloadFile } from "./utils/downloadFile";
-import { extractZipFile } from "./utils/extractZipFile";
-import db from "../../config/db";
-import { UpdateParams } from "./types";
+import { Document, WithId } from "mongodb";
+import db from "../config/db";
+import { downloadFile } from "../utils/downloadFile";
+import { extractZipFile } from "../utils/extractZipFile";
+import { UpdateParams } from "../types";
 
 const EXTRACT_PATH: string = "/tmp";
 
@@ -59,5 +59,3 @@ export const update = async ({
     throw error;
   }
 };
-
-export * as Updater from "./updater";

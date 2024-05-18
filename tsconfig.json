@@ -1,8 +1,10 @@
 {
-  "extends": "@tsconfig/node18/tsconfig.json",
-  "exclude": ["packages"],
   "compilerOptions": {
-    "module": "esnext",
-    "moduleResolution": "node"
+    "lib": ["ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "target": "ESNext",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   }
 }

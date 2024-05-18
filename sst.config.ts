@@ -1,9 +1,11 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 
+const DOMAIN_NAME = "sgmotortrends.com";
+
 const DOMAIN = {
-  development: "dev.api.sgmotortrends.com",
-  staging: "staging.api.sgmotortrends.com",
-  production: "api.sgmotortrends.com",
+  development: `dev.api.${DOMAIN_NAME}`,
+  staging: `staging.api.${DOMAIN_NAME}`,
+  production: `api.${DOMAIN_NAME}`,
 } as const;
 
 export default $config({

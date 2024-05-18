@@ -1,4 +1,4 @@
-import { update } from "./lib/update";
+import { update } from "./lib";
 
 const createResponse = (collection: string, message: string) => {
   const response = {

@@ -30,7 +30,7 @@ app.get("/", async (c) => {
   return c.json(cars);
 });
 
-app.get("/electric", async (c) => {
+app.get("/cars/electric", async (c) => {
   const month = c.req.query("month");
 
   const cars: WithId<Car>[] = await getCarsByFuelType(
@@ -41,7 +41,7 @@ app.get("/electric", async (c) => {
   return c.json(cars);
 });
 
-app.get("/petrol", async (c) => {
+app.get("/cars/petrol", async (c) => {
   const month = c.req.query("month");
 
   const cars: WithId<Car>[] = await getCarsByFuelType(FUEL_TYPE.PETROL, month);

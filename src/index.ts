@@ -4,14 +4,10 @@ import { compress } from "hono/compress";
 import { showRoutes } from "hono/dev";
 import { prettyJSON } from "hono/pretty-json";
 import { logger } from "hono/logger";
-import { Document, WithId } from "mongodb";
+import { WithId } from "mongodb";
 import { format, subMonths } from "date-fns";
-import * as d3 from "d3";
-import fs from "fs/promises";
 import db from "./config/db";
-import { downloadFile } from "./utils/downloadFile";
-import { extractZipFile } from "./utils/extractZipFile";
-import { Car, COEResult, FUEL_TYPE, UpdateParams } from "./types";
+import { Car, COEResult, FUEL_TYPE } from "./types";
 
 const app = new Hono();
 
@@ -79,60 +75,6 @@ export const getCOEResultByMonth = async (
     .toArray();
 };
 
-const EXTRACT_PATH: string = "/tmp";
-
-export const update = async ({
-  collectionName,
-  zipFileName,
-  zipUrl,
-  keyFields,
-}: UpdateParams): Promise<{ message: string }> => {
-  const collection = db.collection<Document>(collectionName);
-
-  try {
-    const zipFilePath = `${EXTRACT_PATH}/${zipFileName}`;
-    await downloadFile({ url: zipUrl, destination: zipFilePath });
-
-    const extractedFileName = await extractZipFile(zipFilePath, EXTRACT_PATH);
-    const destinationPath = `${EXTRACT_PATH}/${extractedFileName}`;
-    console.log(`Destination path:`, destinationPath);
-
-    const csvData = await fs.readFile(destinationPath, "utf-8");
-    const parsedData = d3.csvParse(csvData);
-
-    const existingData: WithId<Document>[] = await collection.find().toArray();
-
-    const createUniqueKey = <T extends object>(
-      item: T,
-      keyFields: Array<keyof T>,
-    ): string =>
-      keyFields
-        .filter((field) => item[field])
-        .map((field) => item[field])
-        .join("-");
-
-    const existingDataMap: Map<string, WithId<Document>> = new Map(
-      existingData.map((item) => [createUniqueKey(item, keyFields), item]),
-    );
-    const newDataToInsert = parsedData.filter(
-      (newItem) => !existingDataMap.has(createUniqueKey(newItem, keyFields)),
-    );
-
-    let message: string;
-    if (newDataToInsert.length > 0) {
-      const result = await collection.insertMany(newDataToInsert);
-      message = `${result.insertedCount} document(s) inserted`;
-    } else {
-      message = `No new data to insert. The provided data matches the existing records.`;
-    }
-
-    return { message };
-  } catch (error) {
-    console.error(`An error has occurred:`, error);
-    throw error;
-  }
-};
-
 app.get("/", async (c) => {
   const month = c.req.query("month");
 
@@ -173,52 +115,8 @@ app.get("/coe/latest", async (c) => {
   return c.json(result);
 });
 
-app.get("/updater/cars", async (c) => {
-  const COLLECTION_NAME: string = "cars";
-  const ZIP_FILE_NAME: string = "Monthly New Registration of Cars by Make.zip";
-  const ZIP_URL: string = `https://datamall.lta.gov.sg/content/dam/datamall/datasets/Facts_Figures/Vehicle Registration/${ZIP_FILE_NAME}`;
-
-  const { message } = await update({
-    collectionName: COLLECTION_NAME,
-    zipFileName: ZIP_FILE_NAME,
-    zipUrl: ZIP_URL,
-    keyFields: ["month"],
-  });
-
-  console.log(`Message:`, message);
-
-  return c.json({
-    status: 200,
-    collection: COLLECTION_NAME,
-    message,
-    timestamp: new Date().toISOString(),
-  });
-});
-
-app.get("/updater/coe", async (c) => {
-  const COLLECTION_NAME: string = "coe";
-  const ZIP_FILE_NAME: string = "COE Bidding Results.zip";
-  const ZIP_URL: string = `https://datamall.lta.gov.sg/content/dam/datamall/datasets/Facts_Figures/Vehicle Registration/${ZIP_FILE_NAME}`;
-
-  const { message } = await update({
-    collectionName: COLLECTION_NAME,
-    zipFileName: ZIP_FILE_NAME,
-    zipUrl: ZIP_URL,
-    keyFields: ["month", "bidding_no"],
-  });
-
-  console.log(`Message:`, message);
-
-  return c.json({
-    status: 200,
-    collection: COLLECTION_NAME,
-    message,
-    timestamp: new Date().toISOString(),
-  });
-});
-
-app.get("/vehicle-make", (c) => {
-  return c.json(db.collection<Car>("cars").distinct("make"));
+app.get("/vehicle-make", async (c) => {
+  return c.json(await db.collection<Car>("cars").distinct("make"));
 });
 
 showRoutes(app);

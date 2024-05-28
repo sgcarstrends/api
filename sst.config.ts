@@ -45,47 +45,47 @@ export default $config({
     });
 
     // TODO: To remove the cron scheduler after migrating to the python
-    if ($app.stage === "production") {
-      new sst.aws.Cron("UpdateCarsJob", {
-        schedule: "cron(0/60 0-10 ? * MON-FRI *)",
-        job: {
-          handler: "src/updater.cars",
-          environment: {
-            MONGODB_URI: process.env.MONGODB_URI,
-          },
-        },
-      });
-
-      new sst.aws.Cron("UpdateCOEJob", {
-        schedule: "cron(0/60 0-10 ? * MON-FRI *)",
-        job: {
-          handler: "src/updater.coe",
-          environment: {
-            MONGODB_URI: process.env.MONGODB_URI,
-          },
-        },
-      });
-
-      new sst.aws.Cron("UpdateCOEFirstBiddingJob", {
-        schedule: "cron(0/10 8-10 ? * 4#1 *)",
-        job: {
-          handler: "src/updater.coe",
-          environment: {
-            MONGODB_URI: process.env.MONGODB_URI,
-          },
-        },
-      });
-
-      new sst.aws.Cron("UpdateCOESecondBiddingJob", {
-        schedule: "cron(0/10 8-10 ? * 4#3 *)",
-        job: {
-          handler: "src/updater.coe",
-          environment: {
-            MONGODB_URI: process.env.MONGODB_URI,
-          },
-        },
-      });
-    }
+    // if ($app.stage === "production") {
+    //   new sst.aws.Cron("UpdateCarsJob", {
+    //     schedule: "cron(0/60 0-10 ? * MON-FRI *)",
+    //     job: {
+    //       handler: "src/updater.cars",
+    //       environment: {
+    //         MONGODB_URI: process.env.MONGODB_URI,
+    //       },
+    //     },
+    //   });
+    //
+    //   new sst.aws.Cron("UpdateCOEJob", {
+    //     schedule: "cron(0/60 0-10 ? * MON-FRI *)",
+    //     job: {
+    //       handler: "src/updater.coe",
+    //       environment: {
+    //         MONGODB_URI: process.env.MONGODB_URI,
+    //       },
+    //     },
+    //   });
+    //
+    //   new sst.aws.Cron("UpdateCOEFirstBiddingJob", {
+    //     schedule: "cron(0/10 8-10 ? * 4#1 *)",
+    //     job: {
+    //       handler: "src/updater.coe",
+    //       environment: {
+    //         MONGODB_URI: process.env.MONGODB_URI,
+    //       },
+    //     },
+    //   });
+    //
+    //   new sst.aws.Cron("UpdateCOESecondBiddingJob", {
+    //     schedule: "cron(0/10 8-10 ? * 4#3 *)",
+    //     job: {
+    //       handler: "src/updater.coe",
+    //       environment: {
+    //         MONGODB_URI: process.env.MONGODB_URI,
+    //       },
+    //     },
+    //   });
+    // }
 
     return {
       api: api.url,

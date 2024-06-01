@@ -64,7 +64,28 @@ app.get("/vehicle-make", async (c) => {
 });
 
 app.get("/months", async (c) => {
-  return c.json(await db.collection<Car>("cars").distinct("month"));
+  const group = c.req.query("group");
+  const months = await db.collection<Car>("cars").distinct("month");
+
+  const sortedMonths = months.sort((a, b) => b.localeCompare(a));
+
+  if (group) {
+    return c.json(
+      sortedMonths.reduce((acc: Record<string, string[]>, date) => {
+        const [year, month] = date.split("-");
+
+        if (!acc[year]) {
+          acc[year] = [];
+        }
+
+        acc[year].push(month);
+
+        return acc;
+      }, {}),
+    );
+  }
+
+  return c.json(sortedMonths);
 });
 
 showRoutes(app);

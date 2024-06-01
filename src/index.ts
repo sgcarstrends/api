@@ -63,6 +63,10 @@ app.get("/vehicle-make", async (c) => {
   return c.json(await db.collection<Car>("cars").distinct("make"));
 });
 
+app.get("/months", async (c) => {
+  return c.json(await db.collection<Car>("cars").distinct("month"));
+});
+
 showRoutes(app);
 
 export const handler = handle(app);

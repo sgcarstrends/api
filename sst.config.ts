@@ -2,6 +2,12 @@
 
 const DOMAIN_NAME = "sgmotortrends.com";
 
+const CORS = {
+  development: "*",
+  staging: "*",
+  production: `https://${DOMAIN_NAME}`,
+};
+
 const DOMAIN = {
   development: `dev.api.${DOMAIN_NAME}`,
   staging: `staging.api.${DOMAIN_NAME}`,
@@ -31,7 +37,7 @@ export default $config({
       handler: "src/index.handler",
       url: {
         cors: {
-          allowOrigins: [`https://${DOMAIN_NAME}`],
+          allowOrigins: [CORS[$app.stage]],
           maxAge: "1 day",
         },
       },

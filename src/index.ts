@@ -24,10 +24,12 @@ app.get("/", async (c) => {
   return c.json(await getCarsByFuelType(FUEL_TYPE.PETROL, month));
 });
 
-app.get("/cars/:type", async (c) => {
-  const type = c.req.param("type");
+app.get("/cars/:fuelType", async (c) => {
+  const fuelType = c.req.param("fuelType");
   const month = c.req.query("month");
-  return c.json(await getCarsByFuelType(type, month));
+  return c.json(await getCarsByFuelType(fuelType, month));
+});
+
 app.get("/make", async (c) => {
   return c.json(await db.collection<Car>("cars").distinct("make"));
 });

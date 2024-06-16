@@ -5,9 +5,12 @@ import { showRoutes } from "hono/dev";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
 import db from "./config/db";
-import { getCarsByFuelType, getCOEResultByMonth } from "./lib";
+import {
+  getCarsByFuelType,
+  getCOEResultByMonth,
+  groupMonthsByYear,
+} from "./lib";
 import { type Car, type COEResult, FUEL_TYPE } from "./types";
-import { groupMonthsByYear } from "./lib/groupMonthsByYear";
 
 const app = new Hono();
 

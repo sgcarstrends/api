@@ -5,6 +5,7 @@
     "moduleResolution": "Node",
     "target": "ESNext",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "verbatimModuleSyntax": true
   }
 }

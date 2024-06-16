@@ -4,7 +4,6 @@ import { compress } from "hono/compress";
 import { showRoutes } from "hono/dev";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
-import type { WithId } from "mongodb";
 import db from "./config/db";
 import { getCarsByFuelType, getCOEResultByMonth } from "./lib";
 import { type Car, type COEResult, FUEL_TYPE } from "./types";
@@ -22,24 +21,13 @@ app.use(prettyJSON());
 
 app.get("/", async (c) => {
   const month = c.req.query("month");
-
-  const cars: WithId<Car>[] = await getCarsByFuelType(
-    FUEL_TYPE.ELECTRIC,
-    month,
-  );
-
-  return c.json(cars);
-});
-
   return c.json(await getCarsByFuelType(FUEL_TYPE.PETROL, month));
 });
 
-app.get("/cars/diesel", async (c) => {
+app.get("/cars/:type", async (c) => {
+  const type = c.req.param("type");
   const month = c.req.query("month");
-
-  const cars: WithId<Car>[] = await getCarsByFuelType(FUEL_TYPE.DIESEL, month);
-
-  return c.json(cars);
+  return c.json(await getCarsByFuelType(type, month));
 });
 
 app.get("/coe", async (c) => {
@@ -48,8 +36,7 @@ app.get("/coe", async (c) => {
 
 app.get("/coe/latest", async (c) => {
   const month = c.req.query("month");
-  const result: WithId<COEResult>[] = await getCOEResultByMonth(month);
-  return c.json(result);
+  return c.json(await getCOEResultByMonth(month));
 });
 
 app.get("/vehicle-make", async (c) => {
@@ -59,7 +46,6 @@ app.get("/vehicle-make", async (c) => {
 app.get("/months", async (c) => {
   const grouped = c.req.query("grouped");
   const months = await db.collection<Car>("cars").distinct("month");
-
   const sortedMonths = months.sort((a, b) => b.localeCompare(a));
 
   if (grouped) {

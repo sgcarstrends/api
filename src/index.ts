@@ -39,7 +39,7 @@ app.get("/cars/petrol", async (c) => {
 });
 
 app.get("/cars/hybrid", async (c) => {
-  const hybridRegex = /(?=.*Diesel).*Electric|(?=.*Petrol).*Electric/;
+  const hybridRegex = /^(Diesel|Petrol)-(Electric)(\s\(Plug-In\))?$/;
 
   return c.json(
     await db

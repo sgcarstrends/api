@@ -4,10 +4,10 @@ import { compress } from "hono/compress";
 import { showRoutes } from "hono/dev";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
-import { WithId } from "mongodb";
+import type { WithId } from "mongodb";
 import db from "./config/db";
 import { getCarsByFuelType, getCOEResultByMonth } from "./lib";
-import { Car, COEResult, FUEL_TYPE } from "./types";
+import { type Car, type COEResult, FUEL_TYPE } from "./types";
 
 const app = new Hono();
 
@@ -36,6 +36,17 @@ app.get("/cars/petrol", async (c) => {
   const cars: WithId<Car>[] = await getCarsByFuelType(FUEL_TYPE.PETROL, month);
 
   return c.json(cars);
+});
+
+app.get("/cars/hybrid", async (c) => {
+  const hybridRegex = /^(Diesel|Petrol)-(Electric)(\s\(Plug-In\))?$/;
+
+  return c.json(
+    await db
+      .collection("cars")
+      .find({ fuel_type: { $regex: hybridRegex } })
+      .toArray(),
+  );
 });
 
 app.get("/cars/electric", async (c) => {

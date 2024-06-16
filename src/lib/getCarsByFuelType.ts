@@ -1,12 +1,12 @@
-import { WithId } from "mongodb";
-import db from "../config/db";
-import { Car, FUEL_TYPE } from "../types";
+import type { WithId } from "mongodb";
 import { format, subMonths } from "date-fns";
+import db from "../config/db";
+import type { Car, FUEL_TYPE } from "../types";
 
 const trailingTwelveMonths = format(subMonths(new Date(), 12), "yyyy-MM");
 
 export const getCarsByFuelType = async (
-  fuelType: FUEL_TYPE,
+  fuelType: FUEL_TYPE | RegExp,
   month?: string,
 ): Promise<WithId<Car>[]> => {
   const filter = {
@@ -20,19 +20,18 @@ export const getCarsByFuelType = async (
     .toArray();
 
   return cars.reduce(
-    (result: WithId<Car>[], { _id, month, make, fuel_type, number }) => {
-      const existingCar = result.find(
+    (result: WithId<Car>[], { month, make, number, ...car }: WithId<Car>) => {
+      const existingCar: WithId<Car> = result.find(
         (car) => car.month === month && car.make === make,
       );
 
       if (existingCar) {
-        existingCar.number += Number(number);
+        existingCar["number"] += Number(number);
       } else {
         result.push({
-          _id,
+          ...car,
           month,
           make,
-          fuel_type,
           number: Number(number),
         });
       }

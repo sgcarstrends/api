@@ -1,19 +1,30 @@
-import { WithId } from "mongodb";
 import db from "../config/db";
-import { COEResult } from "../types";
+import type { COEResult } from "../types";
 
-const getLatestMonth = async (): Promise<string> => {
-  const months = await db.collection<COEResult>("coe").distinct("month");
-  return months[months.length - 1];
-};
+export const getCOEResultByMonth = async (month?: string) => {
+  let selectedMonth = month;
 
-export const getCOEResultByMonth = async (
-  month?: string,
-): Promise<WithId<COEResult>[]> => {
-  const selectedMonth = month || (await getLatestMonth());
+  if (!month) {
+    const latestMonthFromDb = await db
+      .collection<COEResult>("coe")
+      .aggregate([
+        {
+          $group: {
+            _id: null,
+            latestMonth: { $max: "$month" },
+          },
+        },
+        { $sort: { month: -1 } },
+        { $limit: 1 },
+      ])
+      .next();
+
+    selectedMonth = latestMonthFromDb.latestMonth;
+  }
+
   return db
     .collection<COEResult>("coe")
     .find({ month: selectedMonth })
-    .sort({ bidding_no: 1, vehicle_class: 1 })
+    .sort({ bidding_no: -1, vehicle_class: 1 })
     .toArray();
 };

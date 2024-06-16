@@ -14,10 +14,10 @@ const app = new Hono();
 app.use(logger());
 app.use(compress());
 app.use(prettyJSON());
-app.use("*", (c, next) => {
-  c.res.headers.append("Cache-Control", "public, max-age=86400");
-  return next();
-});
+// app.use("*", (c, next) => {
+//   c.res.headers.append("Cache-Control", "public, max-age=86400");
+//   return next();
+// });
 
 app.get("/", async (c) => {
   const month = c.req.query("month");

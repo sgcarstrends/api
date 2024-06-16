@@ -29,3 +29,8 @@ export interface UpdateParams {
   zipUrl: string;
   keyFields: string[];
 }
+
+export interface LatestMonth {
+  _id: null;
+  latestMonth: string;
+}

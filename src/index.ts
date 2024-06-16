@@ -10,6 +10,7 @@ import {
   getCOEResultByMonth,
   groupMonthsByYear,
 } from "./lib";
+import { getLatestMonth } from "./lib/getLatestMonth";
 import { type Car, type COEResult, FUEL_TYPE } from "./types";
 
 const app = new Hono();
@@ -77,6 +78,23 @@ app.get("/months", async (c) => {
   }
 
   return c.json(sortedMonths);
+});
+
+app.get("/months/latest", async (c) => {
+  const collection = c.req.query("collection");
+  const dbCollections = ["cars", "coe"];
+
+  const latestMonthObj = {};
+
+  if (collection) {
+    latestMonthObj[collection] = await getLatestMonth(collection);
+  } else {
+    for (const dbCollection of dbCollections) {
+      latestMonthObj[dbCollection] = await getLatestMonth(dbCollection);
+    }
+  }
+
+  return c.json(latestMonthObj);
 });
 
 showRoutes(app);

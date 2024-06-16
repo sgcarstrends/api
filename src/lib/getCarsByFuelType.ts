@@ -20,7 +20,11 @@ export const getCarsByFuelType = async (fuelType: string, month?: string) => {
     month: month ?? { $gte: trailingTwelveMonths },
   };
 
-  const cars = await db.collection<Car>("cars").find(filter).toArray();
+  const cars = await db
+    .collection<Car>("cars")
+    .find(filter)
+    .sort({ month: -1, make: 1 })
+    .toArray();
 
   return cars.reduce((result, { month, make, number, ...car }) => {
     const existingCar = result.find(

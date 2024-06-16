@@ -1,25 +1,12 @@
 import db from "../config/db";
+import { getLatestMonth } from "./getLatestMonth";
 import type { COEResult } from "../types";
 
 export const getCOEResultByMonth = async (month?: string) => {
   let selectedMonth = month;
 
   if (!month) {
-    const latestMonthFromDb = await db
-      .collection<COEResult>("coe")
-      .aggregate([
-        {
-          $group: {
-            _id: null,
-            latestMonth: { $max: "$month" },
-          },
-        },
-        { $sort: { month: -1 } },
-        { $limit: 1 },
-      ])
-      .next();
-
-    selectedMonth = latestMonthFromDb.latestMonth;
+    selectedMonth = await getLatestMonth("coe");
   }
 
   return db

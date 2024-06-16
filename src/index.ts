@@ -8,6 +8,7 @@ import type { WithId } from "mongodb";
 import db from "./config/db";
 import { getCarsByFuelType, getCOEResultByMonth } from "./lib";
 import { type Car, type COEResult, FUEL_TYPE } from "./types";
+import { groupMonthsByYear } from "./lib/groupMonthsByYear";
 
 const app = new Hono();
 
@@ -83,25 +84,13 @@ app.get("/vehicle-make", async (c) => {
 });
 
 app.get("/months", async (c) => {
-  const group = c.req.query("group");
+  const grouped = c.req.query("grouped");
   const months = await db.collection<Car>("cars").distinct("month");
 
   const sortedMonths = months.sort((a, b) => b.localeCompare(a));
 
-  if (group) {
-    return c.json(
-      sortedMonths.reduce((acc: Record<string, string[]>, date) => {
-        const [year, month] = date.split("-");
-
-        if (!acc[year]) {
-          acc[year] = [];
-        }
-
-        acc[year].push(month);
-
-        return acc;
-      }, {}),
-    );
+  if (grouped) {
+    return c.json(groupMonthsByYear(sortedMonths));
   }
 
   return c.json(sortedMonths);

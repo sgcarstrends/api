@@ -50,7 +50,13 @@ app.get("/make/:make", async (c) => {
 });
 
 app.get("/coe", async (c) => {
-  return c.json(await db.collection<COEResult>("coe").find().toArray());
+  return c.json(
+    await db
+      .collection<COEResult>("coe")
+      .find()
+      .sort({ month: -1, bidding_no: -1, vehicle_class: 1 })
+      .toArray(),
+  );
 });
 
 app.get("/coe/latest", async (c) => {

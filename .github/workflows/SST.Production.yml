@@ -1,8 +1,9 @@
 name: Production Deployment
+
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v[0-9]+\.[0-9]+\.[0-9]+'
 
 # Concurrency group name ensures concurrent workflow runs wait for any in-progress job to finish
 concurrency:

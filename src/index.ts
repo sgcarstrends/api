@@ -28,6 +28,23 @@ app.get("/cars/:type", async (c) => {
   const type = c.req.param("type");
   const month = c.req.query("month");
   return c.json(await getCarsByFuelType(type, month));
+app.get("/make", async (c) => {
+  return c.json(await db.collection<Car>("cars").distinct("make"));
+});
+
+app.get("/make/:make", async (c) => {
+  const make = c.req.param("make");
+  const vehicleType = c.req.query("vehicleType");
+
+  return c.json(
+    await db
+      .collection<Car>("cars")
+      .find({
+        make: new RegExp(make, "i"),
+        vehicle_type: new RegExp(vehicleType, "i"),
+      })
+      .toArray(),
+  );
 });
 
 app.get("/coe", async (c) => {
@@ -37,10 +54,6 @@ app.get("/coe", async (c) => {
 app.get("/coe/latest", async (c) => {
   const month = c.req.query("month");
   return c.json(await getCOEResultByMonth(month));
-});
-
-app.get("/vehicle-make", async (c) => {
-  return c.json(await db.collection<Car>("cars").distinct("make"));
 });
 
 app.get("/months", async (c) => {

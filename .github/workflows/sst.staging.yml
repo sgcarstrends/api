@@ -1,4 +1,4 @@
-name: Preview Deployment
+name: Staging Deployment
 on:
   push:
     branches:

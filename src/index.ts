@@ -31,34 +31,7 @@ app.get("/", async (c) => {
   return c.json(cars);
 });
 
-app.get("/cars/petrol", async (c) => {
-  const month = c.req.query("month");
-
-  const cars: WithId<Car>[] = await getCarsByFuelType(FUEL_TYPE.PETROL, month);
-
-  return c.json(cars);
-});
-
-app.get("/cars/hybrid", async (c) => {
-  const hybridRegex = /^(Diesel|Petrol)-(Electric)(\s\(Plug-In\))?$/;
-
-  return c.json(
-    await db
-      .collection("cars")
-      .find({ fuel_type: { $regex: hybridRegex } })
-      .toArray(),
-  );
-});
-
-app.get("/cars/electric", async (c) => {
-  const month = c.req.query("month");
-
-  const cars: WithId<Car>[] = await getCarsByFuelType(
-    FUEL_TYPE.ELECTRIC,
-    month,
-  );
-
-  return c.json(cars);
+  return c.json(await getCarsByFuelType(FUEL_TYPE.PETROL, month));
 });
 
 app.get("/cars/diesel", async (c) => {

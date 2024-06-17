@@ -49,6 +49,7 @@ app.get("/make/:make", async (c) => {
         make: new RegExp(make, "i"),
         vehicle_type: new RegExp(vehicleType, "i"),
       })
+      .sort({ month: -1, fuel_type: 1, vehicle_type: 1 })
       .toArray(),
   );
 });

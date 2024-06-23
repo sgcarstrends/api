@@ -28,6 +28,11 @@ app.get("/", async (c) => {
   return c.json(await getCarsByFuelType(FUEL_TYPE.PETROL, month));
 });
 
+app.get("/cars", async (c) => {
+  const month = c.req.query("month");
+  return c.json(await db.collection<Car>("cars").find({ month }).toArray());
+});
+
 app.get("/cars/:fuelType", async (c) => {
   const fuelType = c.req.param("fuelType");
   const month = c.req.query("month");

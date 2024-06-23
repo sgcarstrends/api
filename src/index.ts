@@ -40,15 +40,19 @@ app.get("/make", async (c) => {
 
 app.get("/make/:make", async (c) => {
   const make = c.req.param("make");
-  const vehicleType = c.req.query("vehicleType");
+  const { month, fuelType, vehicleType } = c.req.query();
+
+  const filter = {
+    ...(make && { make: new RegExp(make, "i") }),
+    ...(month && { month }),
+    ...(fuelType && { fuel_type: new RegExp(`^${fuelType}$`, "i") }),
+    ...(vehicleType && { vehicle_type: new RegExp(vehicleType, "i") }),
+  };
 
   return c.json(
     await db
       .collection<Car>("cars")
-      .find({
-        make: new RegExp(make, "i"),
-        vehicle_type: new RegExp(vehicleType, "i"),
-      })
+      .find(filter)
       .sort({ month: -1, fuel_type: 1, vehicle_type: 1 })
       .toArray(),
   );

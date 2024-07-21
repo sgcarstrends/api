@@ -11,7 +11,7 @@ app.get("/", async (c) => {
 
   let sortQuery: Sort = { month: -1, bidding_no: 1, vehicle_class: 1 };
   if (orderBy) {
-    sortQuery = { ...sortQuery, month: orderBy === "desc" ? -1 : 1 };
+    sortQuery = { ...sortQuery, month: orderBy === "asc" ? 1 : -1 };
   }
 
   return c.json(

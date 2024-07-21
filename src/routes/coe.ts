@@ -7,7 +7,7 @@ import type { COEResult } from "../types";
 const app = new Hono();
 
 app.get("/", async (c) => {
-  const orderBy = c.req.query("orderBy").toLowerCase();
+  const orderBy = c.req.query("orderBy")?.toLowerCase();
 
   let sortQuery: Sort = { month: -1, bidding_no: 1, vehicle_class: 1 };
   if (orderBy) {

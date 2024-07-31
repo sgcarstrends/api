@@ -14,7 +14,7 @@ permissions:
 jobs:
   Deploy:
     runs-on: ubuntu-latest
-    environment: Preview
+    environment: Staging
     env:
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
     steps:

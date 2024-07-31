@@ -1,4 +1,4 @@
-name: Production Deployment
+name: Deployment (Prod)
 
 on:
   push:
@@ -20,13 +20,11 @@ jobs:
     env:
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
     steps:
-      - name: Git clone the repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
           aws-region: ap-southeast-1
@@ -35,4 +33,4 @@ jobs:
           curl -fsSL https://ion.sst.dev/install | bash
       - name: Deploy app
         run: |
-          bun install && bun sst deploy --stage production
+          bun install && bun sst deploy --stage prod

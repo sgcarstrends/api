@@ -12,7 +12,7 @@ permissions:
   contents: read # This is required for actions/checkout
 
 jobs:
-  DeployApp:
+  Deploy:
     runs-on: ubuntu-latest
     environment: Preview
     env:

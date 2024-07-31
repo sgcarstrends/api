@@ -3,7 +3,8 @@ name: Deployment (Prod)
 on:
   push:
     tags:
-      - 'v[0-9]+\.[0-9]+\.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+'
 
 # Concurrency group name ensures concurrent workflow runs wait for any in-progress job to finish
 concurrency:

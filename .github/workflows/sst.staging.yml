@@ -1,8 +1,9 @@
 name: Deployment (Staging)
+
 on:
   push:
     branches:
-      - '*'
+      - 'main'
 
 concurrency:
   group: merge-${{ github.ref }}

@@ -25,7 +25,7 @@ export default $config({
   app(input) {
     return {
       name: "lta-cars-dataset",
-      removal: input?.stage === "production" ? "retain" : "remove",
+      removal: input?.stage === "prod" ? "retain" : "remove",
       home: "aws",
       providers: {
         aws: {

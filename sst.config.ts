@@ -37,7 +37,7 @@ export default $config({
   async run() {
     const api = new sst.aws.Function("Api", {
       architecture: "arm64",
-      description: "Hono API for LTA Cars Datasets",
+      description: "API for LTA Cars Datasets",
       environment: {
         MONGODB_URI: process.env.MONGODB_URI,
       },

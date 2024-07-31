@@ -10,7 +10,7 @@ const CORS = {
     allowOrigins: ["*"],
   },
   prod: {
-    allowOrigins: `https://${DOMAIN_NAME}`,
+    allowOrigins: [`https://${DOMAIN_NAME}`],
     maxAge: "1 day",
   },
 };

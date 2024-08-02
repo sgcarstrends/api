@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import db from "../config/db";
-import type { Car } from "../types";
+import db from "../../config/db";
+import type { Car } from "../../types";
 
 const app = new Hono();
 

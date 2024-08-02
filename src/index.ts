@@ -5,11 +5,8 @@ import { showRoutes } from "hono/dev";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
 import { getCarsByFuelType } from "./lib/getCarsByFuelType";
-import cars from "./routes/cars";
-import coe from "./routes/coe";
-import make from "./routes/make";
-import months from "./routes/months";
 import { FUEL_TYPE } from "./types";
+import v1 from "./v1";
 
 const app = new Hono();
 
@@ -26,10 +23,7 @@ app.get("/", async (c) => {
   return c.json(await getCarsByFuelType(FUEL_TYPE.PETROL, month));
 });
 
-app.route("/cars", cars);
-app.route("/coe", coe);
-app.route("/make", make);
-app.route("/months", months);
+app.route("/v1", v1);
 
 showRoutes(app);
 

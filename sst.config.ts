@@ -1,6 +1,6 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 
-const DOMAIN_NAME = "sgmotortrends.com";
+const DOMAIN_NAME = "sgcarstrends.com";
 
 const CORS = {
   dev: {
@@ -10,16 +10,20 @@ const CORS = {
     allowOrigins: ["*"],
   },
   prod: {
-    allowOrigins: [`https://${DOMAIN_NAME}`],
+    allowOrigins: [
+      `https://${DOMAIN_NAME}`,
+      // TODO: To be removed
+      "https://sgmotortrends.com",
+    ],
     maxAge: "1 day",
   },
 };
 
 const DOMAIN = {
-  dev: `dev.api.${DOMAIN_NAME}`,
-  staging: `staging.api.${DOMAIN_NAME}`,
-  prod: `api.${DOMAIN_NAME}`,
-} as const;
+  dev: { name: `dev.api.${DOMAIN_NAME}` },
+  staging: { name: `staging.api.${DOMAIN_NAME}` },
+  prod: { name: `api.${DOMAIN_NAME}` },
+};
 
 export default $config({
   app(input) {
@@ -31,6 +35,7 @@ export default $config({
         aws: {
           region: "ap-southeast-1",
         },
+        cloudflare: true,
       },
     };
   },
@@ -48,7 +53,10 @@ export default $config({
     });
 
     new sst.aws.Router("LTACarsDataset", {
-      domain: DOMAIN[$app.stage],
+      domain: {
+        ...DOMAIN[$app.stage],
+        dns: sst.cloudflare.dns(),
+      },
       routes: {
         "/*": api.url,
       },

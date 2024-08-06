@@ -45,6 +45,7 @@ export default $config({
       description: "API for LTA Cars Datasets",
       environment: {
         MONGODB_URI: process.env.MONGODB_URI,
+        SG_CARS_TRENDS_API_TOKEN: process.env.SG_CARS_TRENDS_API_TOKEN,
       },
       handler: "src/index.handler",
       url: {

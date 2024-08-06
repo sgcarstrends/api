@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { handle } from "hono/aws-lambda";
+import { bearerAuth } from "hono/bearer-auth";
 import { compress } from "hono/compress";
 import { showRoutes } from "hono/dev";
 import { logger } from "hono/logger";
@@ -10,6 +11,7 @@ import v1 from "./v1";
 
 const app = new Hono();
 
+app.use(bearerAuth({ token: process.env.SG_CARS_TRENDS_API_TOKEN }));
 app.use(logger());
 app.use(compress());
 app.use(prettyJSON());

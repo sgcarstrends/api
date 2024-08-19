@@ -9,7 +9,7 @@ app.get("/", async (c) => {
 });
 
 app.get("/:make", async (c) => {
-  const make = c.req.param("make");
+  const { make } = c.req.param();
   const { month, fuelType, vehicleType } = c.req.query();
 
   const filter = {

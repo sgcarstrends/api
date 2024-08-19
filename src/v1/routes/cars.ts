@@ -13,12 +13,11 @@ app.get("/", async (c) => {
 
 app.get("/makes", async (c) => {
   const CACHE_KEY = "car_makes";
-  const CACHE_TTL = 3600;
 
   let makes = await redis.get(CACHE_KEY);
   if (!makes) {
     makes = await db.collection<Car>("cars").distinct("make");
-    await redis.set(CACHE_KEY, makes, { ex: CACHE_TTL });
+    await redis.set(CACHE_KEY, makes);
   }
 
   makes.sort();

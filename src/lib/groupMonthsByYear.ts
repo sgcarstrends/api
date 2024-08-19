@@ -1,15 +1,20 @@
 export const groupMonthsByYear = (
   months: string[],
-): Record<string, string[]> => {
-  return months.reduce((acc: Record<string, string[]>, date) => {
-    const [year, month] = date.split("-");
+): { year: string; months: string[] }[] => {
+  const groupedData: Record<string, string[]> = {};
 
-    if (!acc[year]) {
-      acc[year] = [];
+  months.forEach((item) => {
+    const [year, month] = item.split("-");
+    if (!groupedData[year]) {
+      groupedData[year] = [];
     }
+    groupedData[year].push(month);
+  });
 
-    acc[year].push(month);
-
-    return acc;
-  }, {});
+  return Object.entries(groupedData)
+    .map(([year, months]) => ({
+      year,
+      months: months.sort((a, b) => b.localeCompare(a)),
+    }))
+    .sort((a, b) => b.year.localeCompare(a.year));
 };

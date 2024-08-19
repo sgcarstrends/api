@@ -3,13 +3,23 @@ import db from "../../config/db";
 import { getLatestMonth } from "../../lib/getLatestMonth";
 import { groupMonthsByYear } from "../../lib/groupMonthsByYear";
 import type { Car } from "../../types";
+import redis from "../../config/redis";
 
 const app = new Hono();
 
 app.get("/", async (c) => {
+  const CACHE_KEY = "months";
+  const CACHE_TTL = 60 * 60 * 24;
+
   const grouped = c.req.query("grouped");
-  const months = await db.collection<Car>("cars").distinct("month");
-  const sortedMonths = months.sort((a, b) => b.localeCompare(a));
+
+  let months: string[] = await redis.get(CACHE_KEY);
+  let sortedMonths = months;
+  if (!months) {
+    months = await db.collection<Car>("cars").distinct("month");
+    sortedMonths = months.toSorted((a, b) => b.localeCompare(a));
+    await redis.set(CACHE_KEY, sortedMonths, { ex: CACHE_TTL });
+  }
 
   if (grouped) {
     return c.json(groupMonthsByYear(sortedMonths));

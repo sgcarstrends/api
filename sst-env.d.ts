@@ -3,14 +3,14 @@
 import "sst"
 declare module "sst" {
   export interface Resource {
-    Api: {
-      name: string
-      type: "sst.aws.Function"
-      url: string
+    "Api": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
     }
-    LTACarsDataset: {
-      type: "sst.aws.Router"
-      url: string
+    "LTACarsDataset": {
+      "type": "sst.aws.Router"
+      "url": string
     }
   }
 }

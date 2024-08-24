@@ -34,3 +34,6 @@ export interface LatestMonth {
   _id: null;
   latestMonth: string;
 }
+
+export type Make = Car["make"];
+export type Month = Car["month"];

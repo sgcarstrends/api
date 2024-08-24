@@ -12,16 +12,16 @@ app.get("/", async (c) => {
 });
 
 app.get("/makes", async (c) => {
-  const CACHE_KEY = "car_makes";
-  const CACHE_TTL = 60 * 60 * 24 * 30;
+  const CACHE_KEY = "makes";
+  const CACHE_TTL = 60 * 60 * 24 * 30; // 30 days in seconds
 
   let makes: string[] = await redis.get(CACHE_KEY);
+
   if (!makes) {
     makes = await db.collection<Car>("cars").distinct("make");
+    makes.sort((a, b) => a.localeCompare(b));
     await redis.set(CACHE_KEY, makes, { ex: CACHE_TTL });
   }
-
-  makes.sort();
 
   return c.json(makes);
 });

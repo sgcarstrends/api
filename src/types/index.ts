@@ -1,6 +1,7 @@
 export enum FUEL_TYPE {
   DIESEL = "Diesel",
   ELECTRIC = "Electric",
+  HYBRID = "Hybrid",
   OTHERS = "Others",
   PETROL = "Petrol",
 }

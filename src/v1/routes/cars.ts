@@ -3,12 +3,62 @@ import db from "../../config/db";
 import redis from "../../config/redis";
 import { getCarsByFuelType } from "../../lib/getCarsByFuelType";
 import type { Car, Make } from "../../types";
+import { HYBRID_REGEX } from "../../config";
+import type { WithId } from "mongodb";
 
 const app = new Hono();
 
+const collection = db.collection<Car>("cars");
+
+interface QueryParams {
+  month?: string;
+  fuel_type?: string;
+  make?: string;
+  [key: string]: string | undefined;
+}
+
+interface MongoQuery {
+  month?: {
+    $gte: string;
+    $lte: string;
+  };
+  [key: string]: any;
+}
+
 app.get("/", async (c) => {
-  const month = c.req.query("month");
-  return c.json(await db.collection<Car>("cars").find({ month }).toArray());
+  const query: QueryParams = c.req.query();
+
+  const mongoQuery: MongoQuery = {};
+
+  if (!query.month) {
+    const today = new Date();
+    const pastYear = new Date(today.getFullYear() - 1, today.getMonth() + 1, 1);
+
+    const pastYearFormatted = pastYear.toISOString().slice(0, 7); // YYYY-MM format
+    const currentMonthFormatted = today.toISOString().slice(0, 7); // YYYY-MM format
+
+    mongoQuery.month = {
+      $gte: pastYearFormatted,
+      $lte: currentMonthFormatted,
+    };
+  }
+
+  for (const [key, value] of Object.entries(query)) {
+    if (value) {
+      if (key === "fuel_type" && /Hybrid/i.test(value)) {
+        mongoQuery[key] = { $regex: HYBRID_REGEX };
+      } else {
+        mongoQuery[key] = { $regex: new RegExp(`^${value}$`, "i") };
+      }
+    }
+  }
+
+  const cars: WithId<Car>[] = await collection
+    .find(mongoQuery)
+    .sort({ month: -1 })
+    .toArray();
+
+  return c.json(cars);
 });
 
 app.get("/makes", async (c) => {

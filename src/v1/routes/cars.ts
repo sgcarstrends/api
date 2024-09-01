@@ -28,6 +28,13 @@ interface MongoQuery {
 app.get("/", async (c) => {
   const query: QueryParams = c.req.query();
 
+  const cacheKey = `cars:${JSON.stringify(query)}`;
+
+  const cachedData = await redis.get(cacheKey);
+  if (cachedData) {
+    return c.json(cachedData);
+  }
+
   const mongoQuery: MongoQuery = {};
 
   if (!query.month) {
@@ -57,6 +64,8 @@ app.get("/", async (c) => {
     .find(mongoQuery)
     .sort({ month: -1 })
     .toArray();
+
+  await redis.set(cacheKey, JSON.stringify(cars), { ex: 86400 });
 
   return c.json(cars);
 });

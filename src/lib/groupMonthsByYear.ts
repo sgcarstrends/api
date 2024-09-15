@@ -12,9 +12,10 @@ export const groupMonthsByYear = (
   });
 
   return Object.entries(groupedData)
-    .map(([year, months]) => ({
-      year,
-      months: months.sort((a, b) => b.localeCompare(a)),
-    }))
+    .map(([year, months]) => {
+      // Sort by latest
+      const sortedMonths = months.toSorted((a, b) => b.localeCompare(a));
+      return { year, months: sortedMonths };
+    })
     .sort((a, b) => b.year.localeCompare(a.year));
 };

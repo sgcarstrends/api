@@ -42,7 +42,7 @@ export default $config({
   async run() {
     const api = new sst.aws.Function("Api", {
       architecture: "arm64",
-      description: "API for LTA Cars Datasets",
+      description: "API for SG Cars Trends",
       environment: {
         MONGODB_URI: process.env.MONGODB_URI,
         SG_CARS_TRENDS_API_TOKEN: process.env.SG_CARS_TRENDS_API_TOKEN,
@@ -55,7 +55,7 @@ export default $config({
       },
     });
 
-    new sst.aws.Router("LTACarsDataset", {
+    new sst.aws.Router("Api", {
       domain: {
         ...DOMAIN[$app.stage],
         dns: sst.cloudflare.dns(),

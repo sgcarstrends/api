@@ -40,7 +40,7 @@ export default $config({
     };
   },
   async run() {
-    const api = new sst.aws.Function("Api", {
+    const api = new sst.aws.Function("Hono", {
       architecture: "arm64",
       description: "API for SG Cars Trends",
       environment: {
@@ -55,7 +55,7 @@ export default $config({
       },
     });
 
-    new sst.aws.Router("Api", {
+    new sst.aws.Router("Router", {
       domain: {
         ...DOMAIN[$app.stage],
         dns: sst.cloudflare.dns(),

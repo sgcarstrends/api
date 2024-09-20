@@ -4,6 +4,7 @@ node_modules
 # sst
 .sst
 .build
+sst-env.d.ts
 
 # opennext
 .open-next

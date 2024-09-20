@@ -28,7 +28,7 @@ const DOMAIN = {
 export default $config({
   app(input) {
     return {
-      name: "lta-cars-dataset",
+      name: "sgcarstrends-api",
       removal: input?.stage === "prod" ? "retain" : "remove",
       home: "aws",
       providers: {
@@ -55,7 +55,7 @@ export default $config({
       },
     });
 
-    new sst.aws.Router("Router", {
+    new sst.aws.Router("SGCarsTrends", {
       domain: {
         ...DOMAIN[$app.stage],
         dns: sst.cloudflare.dns(),

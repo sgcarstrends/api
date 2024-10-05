@@ -38,7 +38,9 @@ app.use(bearerAuth({ token: process.env.SG_CARS_TRENDS_API_TOKEN }));
 app.use(logger());
 app.use(compress());
 app.use(prettyJSON());
-app.use("*", rateLimitMiddleware);
+if (process.env.FEATURE_FLAG_RATE_LIMIT) {
+  app.use("*", rateLimitMiddleware);
+}
 // app.use("*", (c, next) => {
 //   c.res.headers.append("Cache-Control", "public, max-age=86400");
 //   return next();

@@ -48,6 +48,7 @@ export default $config({
         SG_CARS_TRENDS_API_TOKEN: process.env.SG_CARS_TRENDS_API_TOKEN,
         UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
         UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
+        FEATURE_FLAG_RATE_LIMIT: process.env.FEATURE_FLAG_RATE_LIMIT,
       },
       handler: "src/index.handler",
       url: {

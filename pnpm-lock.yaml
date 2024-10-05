@@ -15,20 +15,20 @@ importers:
         specifier: ^1.34.0
         version: 1.34.0
       axios:
-        specifier: ^1.6.2
-        version: 1.7.2
+        specifier: ^1.7.4
+        version: 1.7.4
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
       hono:
-        specifier: ^4.2.9
-        version: 4.5.3
+        specifier: ^4.5.8
+        version: 4.5.8
       mongodb:
         specifier: 6.8.0
         version: 6.8.0
       sst:
         specifier: 3.1.49
-        version: 3.1.49(hono@4.5.3)
+        version: 3.1.49(hono@4.5.8)
     devDependencies:
       '@types/node':
         specifier: ^20.12.7
@@ -74,8 +74,8 @@ packages:
   aws4fetch@1.0.19:
     resolution: {integrity: sha512-N+F8pZ9hVjckkHODDyalITRNxBJxAGX5ShkVoAgHwqERXsW8Iu5ziFx3SCjGlxx/YStWBTZx4HI/GCMvTBu5kQ==}
 
-  axios@1.7.2:
-    resolution: {integrity: sha512-2A8QhOMrbomlDuiLeK9XibIBzuHeRcqqNOHp0Cyp5EoJ1IFDh+XZH3A6BkXtv0K4gFGCI0Y4BM7B1wOEi0Rmgw==}
+  axios@1.7.4:
+    resolution: {integrity: sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==}
 
   bson@6.8.0:
     resolution: {integrity: sha512-iOJg8pr7wq2tg/zSlCCHMi3hMm5JTOxLTagf3zxhcenHsFp+c6uOs6K7W5UE7A4QIJGtqh/ZovFNMP4mOPJynQ==}
@@ -109,8 +109,8 @@ packages:
     resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
     engines: {node: '>= 6'}
 
-  hono@4.5.3:
-    resolution: {integrity: sha512-r26WwwbKD3BAYdfB294knNnegNda7VfV1tVn66D9Kvl9WQTdrR+5eKdoeaQNHQcC3Gr0KBikzAtjd6VsRGVSaw==}
+  hono@4.5.8:
+    resolution: {integrity: sha512-pqpSlcdqGkpTTRpLYU1PnCz52gVr0zVR9H5GzMyJWuKQLLEBQxh96q45QizJ2PPX8NATtz2mu31/PKW/Jt+90Q==}
     engines: {node: '>=16.0.0'}
 
   jose@4.15.9:
@@ -289,7 +289,7 @@ snapshots:
 
   aws4fetch@1.0.19: {}
 
-  axios@1.7.2:
+  axios@1.7.4:
     dependencies:
       follow-redirects: 1.15.6
       form-data: 4.0.0
@@ -319,7 +319,7 @@ snapshots:
       combined-stream: 1.0.8
       mime-types: 2.1.35
 
-  hono@4.5.3: {}
+  hono@4.5.8: {}
 
   jose@4.15.9: {}
 
@@ -386,13 +386,13 @@ snapshots:
   sst-linux-x86@3.1.49:
     optional: true
 
-  sst@3.1.49(hono@4.5.3):
+  sst@3.1.49(hono@4.5.8):
     dependencies:
       aws4fetch: 1.0.19
       jose: 5.2.3
       openid-client: 5.6.4
     optionalDependencies:
-      hono: 4.5.3
+      hono: 4.5.8
       sst-darwin-arm64: 3.1.49
       sst-darwin-x64: 3.1.49
       sst-linux-arm64: 3.1.49

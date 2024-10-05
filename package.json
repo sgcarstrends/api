@@ -13,6 +13,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@upstash/ratelimit": "^2.0.3",
     "@upstash/redis": "^1.34.0",
     "axios": "^1.6.2",
     "date-fns": "^2.30.0",

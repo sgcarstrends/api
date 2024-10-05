@@ -15,7 +15,6 @@
   "dependencies": {
     "@upstash/ratelimit": "^2.0.3",
     "@upstash/redis": "^1.34.0",
-    "axios": "^1.7.4",
     "date-fns": "^2.30.0",
     "hono": "^4.5.8",
     "mongodb": "6.8.0",

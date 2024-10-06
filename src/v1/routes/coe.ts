@@ -5,7 +5,7 @@ import type { COEResult } from "../../types";
 import { Collection, OrderBy } from "../../types";
 import redis from "../../config/redis";
 import { getLatestMonth } from "../../lib/getLatestMonth";
-import { parse } from "date-fns";
+import { isValid, parse } from "date-fns";
 
 type QueryParams = {
   sort?: string;
@@ -20,7 +20,7 @@ const app = new Hono();
 
 app.get("/", async (c) => {
   const query = c.req.query() as QueryParams;
-  const { sort, orderBy, ...filterQuery } = query;
+  const { sort, orderBy, from, to, ...filterQuery } = query;
 
   const CACHE_KEY = `coe:${JSON.stringify(query)}`;
   const cachedData = await redis.get<COEResult[]>(CACHE_KEY);
@@ -35,7 +35,23 @@ app.get("/", async (c) => {
   }
 
   const mongoQuery: Filter<COEResult> = {};
-  if (!filterQuery.month) {
+  if (from || to) {
+    mongoQuery.month = {};
+
+    if (from) {
+      const fromDate = parse(from, "yyyy-MM", new Date());
+      if (isValid(fromDate)) {
+        mongoQuery.month.$gte = from;
+      }
+    }
+
+    if (to) {
+      const toDate = parse(to, "yyyy-MM", new Date());
+      if (isValid(toDate)) {
+        mongoQuery.month.$lte = to;
+      }
+    }
+  } else if (!filterQuery.month) {
     const latestMonth = parse(
       await getLatestMonth(Collection.COE),
       "yyyy-MM",

@@ -5,7 +5,7 @@ import type { COEResult } from "../../types";
 import { Collection, OrderBy } from "../../types";
 import redis from "../../config/redis";
 import { getLatestMonth } from "../../lib/getLatestMonth";
-import { parse } from "date-fns";
+import { isValid, parse } from "date-fns";
 
 type QueryParams = {
   sort?: string;
@@ -18,24 +18,37 @@ const CACHE_TTL = 60 * 60 * 24; // 1 day in seconds
 
 const app = new Hono();
 
-app.get("/", async (c) => {
-  const query = c.req.query() as QueryParams;
-  const { sort, orderBy, ...filterQuery } = query;
+const getCachedData = <T>(cacheKey: string) => redis.get<T>(cacheKey);
 
-  const CACHE_KEY = `coe:${JSON.stringify(query)}`;
-  const cachedData = await redis.get<COEResult[]>(CACHE_KEY);
-  if (cachedData) {
-    return c.json(cachedData);
-  }
+const setCachedData = <T>(cacheKey: string, data: T) =>
+  redis.set(cacheKey, data, { ex: CACHE_TTL });
 
-  let sortQuery: Sort = { month: -1, bidding_no: 1, vehicle_class: 1 };
+const buildSortQuery = (
+  sort?: string,
+  orderBy: OrderBy = OrderBy.DESC,
+): Sort => {
+  const defaultSort: Sort = { month: -1, bidding_no: 1, vehicle_class: 1 };
+
   if (sort) {
-    const sortDirection = orderBy === OrderBy.DESC ? -1 : 1;
-    sortQuery = { [sort]: sortDirection } as Sort;
+    return { ...defaultSort, [sort]: orderBy === OrderBy.ASC ? 1 : -1 } as Sort;
   }
 
-  const mongoQuery: Filter<COEResult> = {};
-  if (!filterQuery.month) {
+  return defaultSort;
+};
+
+const buildMongoQuery = async <T>(query: QueryParams): Promise<Filter<T>> => {
+  const { sort, orderBy, from, to, ...filterQuery } = query;
+  const mongoQuery: Filter<T> = {};
+
+  if (from || to) {
+    mongoQuery.month = {};
+    if (from && isValid(parse(from, "yyyy-MM", new Date()))) {
+      mongoQuery.month.$gte = from;
+    }
+    if (to && isValid(parse(to, "yyyy-MM", new Date()))) {
+      mongoQuery.month.$lte = to;
+    }
+  } else if (!filterQuery.month) {
     const latestMonth = parse(
       await getLatestMonth(Collection.COE),
       "yyyy-MM",
@@ -46,46 +59,44 @@ app.get("/", async (c) => {
       latestMonth.getMonth() + 1,
       1,
     );
-
-    const pastYearFormatted = pastYear.toISOString().slice(0, 7); // YYYY-MM format
-    const currentMonthFormatted = latestMonth.toISOString().slice(0, 7); // YYYY-MM format
-
     mongoQuery.month = {
-      $gte: pastYearFormatted,
-      $lte: currentMonthFormatted,
+      $gte: pastYear.toISOString().slice(0, 7),
+      $lte: latestMonth.toISOString().slice(0, 7),
     };
   }
 
-  for (const [key, value] of Object.entries(filterQuery)) {
-    mongoQuery[key] = value;
-  }
+  return { ...mongoQuery, ...filterQuery };
+};
 
-  const result = await db
-    .collection<COEResult[]>(Collection.COE)
-    .find(mongoQuery)
-    .sort(sortQuery)
-    .toArray();
+const fetchData = <T>(mongoQuery: Filter<T>, sortQuery: Sort) =>
+  db.collection<T>(Collection.COE).find(mongoQuery).sort(sortQuery).toArray();
 
-  await redis.set(CACHE_KEY, result, { ex: CACHE_TTL });
+app.get("/", async (c) => {
+  const query = c.req.query() as QueryParams;
+  const CACHE_KEY = `coe:${JSON.stringify(query)}`;
+  const cachedData = await getCachedData<COEResult[]>(CACHE_KEY);
+  if (cachedData) return c.json(cachedData);
 
+  const sortQuery = buildSortQuery(query.sort, query.orderBy);
+  const mongoQuery = await buildMongoQuery<COEResult>(query);
+  const result = await fetchData(mongoQuery, sortQuery);
+
+  await setCachedData(CACHE_KEY, result);
   return c.json(result);
 });
 
 app.get("/latest", async (c) => {
   const CACHE_KEY = `coe:latest`;
-  const cachedData = await redis.get<COEResult[]>(CACHE_KEY);
-  if (cachedData) {
-    return c.json(cachedData);
-  }
+  const cachedData = await getCachedData<COEResult[]>(CACHE_KEY);
+  if (cachedData) return c.json(cachedData);
 
   const latestMonth = await getLatestMonth(Collection.COE);
-  const result = await db
-    .collection<COEResult[]>(Collection.COE)
-    .find({ month: latestMonth })
-    .sort({ bidding_no: 1, vehicle_class: 1 })
-    .toArray();
+  const result = await fetchData(
+    { month: latestMonth },
+    { bidding_no: 1, vehicle_class: 1 },
+  );
 
-  await redis.set(CACHE_KEY, result, { ex: CACHE_TTL });
+  await setCachedData(CACHE_KEY, result);
 
   return c.json(result);
 });

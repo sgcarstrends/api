@@ -23,16 +23,21 @@ const getCachedData = <T>(cacheKey: string) => redis.get<T>(cacheKey);
 const setCachedData = <T>(cacheKey: string, data: T) =>
   redis.set(cacheKey, data, { ex: CACHE_TTL });
 
-const buildSortQuery = (sort?: string, orderBy?: OrderBy): Sort => {
+const buildSortQuery = (
+  sort?: string,
+  orderBy: OrderBy = OrderBy.DESC,
+): Sort => {
+  const defaultSort: Sort = { month: -1, bidding_no: 1, vehicle_class: 1 };
+
   if (sort) {
-    const sortDirection = orderBy === OrderBy.DESC ? -1 : 1;
-    return { [sort]: sortDirection } as Sort;
+    return { ...defaultSort, [sort]: orderBy === OrderBy.ASC ? 1 : -1 } as Sort;
   }
-  return { month: -1, bidding_no: 1, vehicle_class: 1 };
+
+  return defaultSort;
 };
 
 const buildMongoQuery = async <T>(query: QueryParams): Promise<Filter<T>> => {
-  const { from, to, month, ...filterQuery } = query;
+  const { sort, orderBy, from, to, ...filterQuery } = query;
   const mongoQuery: Filter<T> = {};
 
   if (from || to) {
@@ -43,7 +48,7 @@ const buildMongoQuery = async <T>(query: QueryParams): Promise<Filter<T>> => {
     if (to && isValid(parse(to, "yyyy-MM", new Date()))) {
       mongoQuery.month.$lte = to;
     }
-  } else if (!month) {
+  } else if (!filterQuery.month) {
     const latestMonth = parse(
       await getLatestMonth(Collection.COE),
       "yyyy-MM",

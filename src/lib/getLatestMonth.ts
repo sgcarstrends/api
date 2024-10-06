@@ -1,6 +1,9 @@
 import db from "../config/db";
+import type { Collection } from "../types";
 
-export const getLatestMonth = async (collection: string) => {
+export const getLatestMonth = async (
+  collection: typeof Collection,
+): Promise<string> => {
   const latestMonthFromDb = await db
     .collection(collection)
     .aggregate([

@@ -32,9 +32,18 @@ export interface UpdateParams {
 }
 
 export interface LatestMonth {
-  _id: null;
   latestMonth: string;
 }
 
 export type Make = Car["make"];
 export type Month = Car["month"];
+
+export enum Collection {
+  Cars = "cars",
+  COE = "coe",
+}
+
+export enum OrderBy {
+  ASC = "asc",
+  DESC = "desc",
+}

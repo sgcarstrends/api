@@ -46,6 +46,8 @@ if (process.env.FEATURE_FLAG_RATE_LIMIT) {
 //   return next();
 // });
 
+app.notFound((c) => c.json({ message: `Not Found: ${c.req.path}` }));
+
 app.get("/", async (c) => {
   const month = c.req.query("month");
   return c.json(await getCarsByFuelType(FUEL_TYPE.PETROL, month));

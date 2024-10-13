@@ -99,7 +99,7 @@ app.get("/months", async (c) => {
 });
 
 app.get("/latest", async (c) => {
-  const CACHE_KEY = `coe:latest`;
+  const CACHE_KEY = `${Collection.COE}:latest`;
   const cachedData = await getCachedData<COEResult[]>(CACHE_KEY);
   if (cachedData) return c.json(cachedData);
 

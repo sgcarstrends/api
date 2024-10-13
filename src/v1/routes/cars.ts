@@ -2,12 +2,15 @@ import { Hono } from "hono";
 import db from "../../config/db";
 import redis from "../../config/redis";
 import type { Car, Make } from "../../types";
+import { Collection } from "../../types";
 import { HYBRID_REGEX } from "../../config";
 import type { WithId } from "mongodb";
+import { getUniqueMonths } from "../../lib/getUniqueMonths";
+import { groupMonthsByYear } from "../../lib/groupMonthsByYear";
 
 const app = new Hono();
 
-const collection = db.collection<Car>("cars");
+const collection = db.collection<Car>(Collection.Cars);
 
 interface QueryParams {
   month?: string;
@@ -67,6 +70,17 @@ app.get("/", async (c) => {
   await redis.set(cacheKey, JSON.stringify(cars), { ex: 86400 });
 
   return c.json(cars);
+});
+
+app.get("/months", async (c) => {
+  const { grouped } = c.req.query();
+
+  const months = await getUniqueMonths(Collection.Cars);
+  if (grouped) {
+    return c.json(groupMonthsByYear(months));
+  }
+
+  return c.json(months);
 });
 
 app.get("/makes", async (c) => {

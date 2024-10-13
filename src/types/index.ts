@@ -36,7 +36,6 @@ export interface LatestMonth {
 }
 
 export type Make = Car["make"];
-export type Month = Car["month"];
 
 export enum Collection {
   Cars = "cars",

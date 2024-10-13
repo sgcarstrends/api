@@ -6,6 +6,8 @@ import { Collection, OrderBy } from "../../types";
 import redis from "../../config/redis";
 import { getLatestMonth } from "../../lib/getLatestMonth";
 import { isValid, parse } from "date-fns";
+import { getUniqueMonths } from "../../lib/getUniqueMonths";
+import { groupMonthsByYear } from "../../lib/groupMonthsByYear";
 
 type QueryParams = {
   sort?: string;
@@ -83,6 +85,17 @@ app.get("/", async (c) => {
 
   await setCachedData(CACHE_KEY, result);
   return c.json(result);
+});
+
+app.get("/months", async (c) => {
+  const { grouped } = c.req.query();
+
+  const months = await getUniqueMonths(Collection.COE);
+  if (grouped) {
+    return c.json(groupMonthsByYear(months));
+  }
+
+  return c.json(months);
 });
 
 app.get("/latest", async (c) => {

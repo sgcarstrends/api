@@ -13,6 +13,8 @@ type QueryParams = {
   sort?: string;
   orderBy?: OrderBy;
   month?: string;
+  from?: string;
+  to?: string;
   [key: string]: string | undefined;
 };
 

@@ -18,14 +18,14 @@ importers:
         specifier: ^2.30.0
         version: 2.30.0
       hono:
-        specifier: ^4.5.8
-        version: 4.5.8
+        specifier: ^4.6.5
+        version: 4.6.5
       mongodb:
         specifier: 6.8.0
         version: 6.8.0
       sst:
         specifier: 3.1.49
-        version: 3.1.49(hono@4.5.8)
+        version: 3.1.49(hono@4.6.5)
     devDependencies:
       '@types/node':
         specifier: ^20.12.7
@@ -79,9 +79,9 @@ packages:
     resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
     engines: {node: '>=0.11'}
 
-  hono@4.5.8:
-    resolution: {integrity: sha512-pqpSlcdqGkpTTRpLYU1PnCz52gVr0zVR9H5GzMyJWuKQLLEBQxh96q45QizJ2PPX8NATtz2mu31/PKW/Jt+90Q==}
-    engines: {node: '>=16.0.0'}
+  hono@4.6.5:
+    resolution: {integrity: sha512-qsmN3V5fgtwdKARGLgwwHvcdLKursMd+YOt69eGpl1dUCJb8mCd7hZfyZnBYjxCegBG7qkJRQRUy2oO25yHcyQ==}
+    engines: {node: '>=16.9.0'}
 
   jose@4.15.9:
     resolution: {integrity: sha512-1vUQX+IdDMVPj4k8kOxgUqlcK518yluMuGZwqlr44FS1ppZB/5GWh4rZG89erpOBOJjU/OBsnCVFfapsRz6nEA==}
@@ -254,7 +254,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.25.0
 
-  hono@4.5.8: {}
+  hono@4.6.5: {}
 
   jose@4.15.9: {}
 
@@ -313,13 +313,13 @@ snapshots:
   sst-linux-x86@3.1.49:
     optional: true
 
-  sst@3.1.49(hono@4.5.8):
+  sst@3.1.49(hono@4.6.5):
     dependencies:
       aws4fetch: 1.0.19
       jose: 5.2.3
       openid-client: 5.6.4
     optionalDependencies:
-      hono: 4.5.8
+      hono: 4.6.5
       sst-darwin-arm64: 3.1.49
       sst-darwin-x64: 3.1.49
       sst-linux-arm64: 3.1.49

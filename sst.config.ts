@@ -10,11 +10,7 @@ const CORS = {
     allowOrigins: ["*"],
   },
   prod: {
-    allowOrigins: [
-      `https://${DOMAIN_NAME}`,
-      // TODO: To be removed
-      "https://sgmotortrends.com",
-    ],
+    allowOrigins: [`https://${DOMAIN_NAME}`],
     maxAge: "1 day",
   },
 };

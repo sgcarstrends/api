@@ -25,6 +25,12 @@ const DOMAIN = {
   prod: { name: `api.${DOMAIN_NAME}` },
 };
 
+// const INVALIDATION = {
+//   dev: false,
+//   staging: true,
+//   prod: true,
+// };
+
 export default $config({
   app(input) {
     return {
@@ -61,6 +67,8 @@ export default $config({
         ...DOMAIN[$app.stage],
         dns: sst.cloudflare.dns(),
       },
+      // TODO: Will enable later
+      // invalidation: INVALIDATION[$app.stage],
       routes: {
         "/*": api.url,
       },

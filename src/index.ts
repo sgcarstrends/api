@@ -10,6 +10,7 @@ import { FUEL_TYPE } from "./types";
 import v1 from "./v1";
 import { Ratelimit } from "@upstash/ratelimit";
 import redis from "./config/redis";
+import { HTTPException } from "hono/http-exception";
 
 const ratelimit = new Ratelimit({
   redis,
@@ -45,6 +46,12 @@ if (process.env.FEATURE_FLAG_RATE_LIMIT) {
 //   c.res.headers.append("Cache-Control", "public, max-age=86400");
 //   return next();
 // });
+
+app.onError((err, c) => {
+  if (err instanceof HTTPException) {
+    return c.json({ status: err.status, message: err.message }, 500);
+  }
+});
 
 app.notFound((c) =>
   c.json({ message: `Resource not found: ${c.req.path}` }, 404),

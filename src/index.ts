@@ -46,7 +46,9 @@ if (process.env.FEATURE_FLAG_RATE_LIMIT) {
 //   return next();
 // });
 
-app.notFound((c) => c.json({ message: `Not Found: ${c.req.path}` }));
+app.notFound((c) =>
+  c.json({ message: `Resource not found: ${c.req.path}` }, 404),
+);
 
 app.get("/", async (c) => {
   const month = c.req.query("month");

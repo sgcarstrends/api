@@ -6,24 +6,23 @@
  */
 export const slugify = (str: string): string => {
   return str
+    .trim()
     .toLowerCase()
     .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+/g, "")
-    .replace(/-+$/g, "");
+    .replace(/[\W_]+/g, "-");
 };
 
 /**
- * Converts a slug back to a readable title (basic version)
+ * Converts a slug back to a readable title
  *
  * @param {string} slug - The slug to be converted back to a title
  * @returns {string} The readable title
  */
 export const deslugify = (slug: string): string => {
   return slug
-    .replace(/-+/g, "-")
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ")
+    .trim()
+    .toLowerCase()
+    .replace(/-+/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase())
     .trim();
 };

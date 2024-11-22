@@ -9,7 +9,8 @@ export const slugify = (str: string): string => {
     .toLowerCase()
     .replace(/&/g, "and")
     .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-+)|(-+$)/g, "");
+    .replace(/^-+/g, "")
+    .replace(/-+$/g, "");
 };
 
 /**

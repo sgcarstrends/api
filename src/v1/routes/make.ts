@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import db from "../../config/db";
 import type { Car } from "../../types";
+import { deslugify } from "../../utils/slugify";
 
 const app = new Hono();
 
@@ -14,10 +15,7 @@ app.get("/:make", async (c) => {
 
   const filter = {
     ...(make && {
-      make: new RegExp(
-        `^${make.replace(/[^a-zA-Z0-9]/g, "[^a-zA-Z0-9]*")}$`,
-        "i",
-      ),
+      make: new RegExp(`^${deslugify(make)}$`, "i"),
     }),
     ...(month && { month }),
     ...(fuelType && { fuel_type: new RegExp(`^${fuelType}$`, "i") }),

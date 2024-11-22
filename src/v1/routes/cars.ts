@@ -53,12 +53,17 @@ app.get("/", async (c) => {
   }
 
   for (const [key, value] of Object.entries(query)) {
-    if (value) {
-      if (key === "fuel_type" && /Hybrid/i.test(value)) {
-        mongoQuery[key] = { $regex: HYBRID_REGEX };
-      } else {
-        mongoQuery[key] = { $regex: new RegExp(`^${value}$`, "i") };
-      }
+    if (!value) continue;
+
+    if (key === "fuel_type" && /Hybrid/i.test(value)) {
+      mongoQuery[key] = { $regex: HYBRID_REGEX };
+    } else {
+      mongoQuery[key] = {
+        $regex: new RegExp(
+          `^${value.replace(/[^a-zA-Z0-9]/g, "[^a-zA-Z0-9]*")}$`,
+          "i",
+        ),
+      };
     }
   }
 

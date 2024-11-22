@@ -13,7 +13,12 @@ app.get("/:make", async (c) => {
   const { month, fuelType, vehicleType } = c.req.query();
 
   const filter = {
-    ...(make && { make: new RegExp(make, "i") }),
+    ...(make && {
+      make: new RegExp(
+        `^${make.replace(/[^a-zA-Z0-9]/g, "[^a-zA-Z0-9]*")}$`,
+        "i",
+      ),
+    }),
     ...(month && { month }),
     ...(fuelType && { fuel_type: new RegExp(`^${fuelType}$`, "i") }),
     ...(vehicleType && { vehicle_type: new RegExp(vehicleType, "i") }),

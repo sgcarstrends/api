@@ -3,7 +3,8 @@ name: Deployment (Staging)
 on:
   push:
     branches:
-      - "main"
+      - 'main'
+      - 'release/**'
     tags-ignore:
       - '*'
 

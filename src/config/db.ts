@@ -1,4 +1,5 @@
 import * as mongodb from "mongodb";
+import { Resource } from "sst";
 
 const MongoClient = mongodb.MongoClient;
 
@@ -9,7 +10,7 @@ const connectToDatabase = async (): Promise<mongodb.Db> => {
     return cachedDb;
   }
 
-  const client = await MongoClient.connect(process.env.MONGODB_URI);
+  const client = await MongoClient.connect(Resource.MONGODB_URI.value);
   cachedDb = client.db("main");
 
   return cachedDb;

@@ -11,6 +11,7 @@ import v1 from "./v1";
 import { Ratelimit } from "@upstash/ratelimit";
 import redis from "./config/redis";
 import { HTTPException } from "hono/http-exception";
+import { Resource } from "sst";
 
 const ratelimit = new Ratelimit({
   redis,
@@ -35,7 +36,7 @@ const rateLimitMiddleware = async (c, next) => {
   await next();
 };
 
-app.use(bearerAuth({ token: process.env.SG_CARS_TRENDS_API_TOKEN }));
+app.use(bearerAuth({ token: Resource.SG_CARS_TRENDS_API_TOKEN.value }));
 app.use(logger());
 app.use(compress());
 app.use(prettyJSON());

@@ -1,4 +1,6 @@
+import { FUEL_TYPE } from "@/types";
+
 export const HYBRID_REGEX = new RegExp(
-  /^(Diesel|Petrol)-(Electric)(\s\(Plug-In\))?$/,
-  "i",
+	`^(${FUEL_TYPE.DIESEL}|${FUEL_TYPE.PETROL})-${FUEL_TYPE.ELECTRIC}(\\s\\(Plug-In\\))?$`,
+	"i",
 );

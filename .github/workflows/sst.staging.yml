@@ -9,7 +9,7 @@ on:
       - '*'
 
 jobs:
-  Deploy:
+  staging:
     uses: ./.github/workflows/sst.deploy.yml
     with:
       environment: Staging

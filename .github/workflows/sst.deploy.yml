@@ -24,7 +24,7 @@ on:
         required: true
 
 jobs:
-  Deploy:
+  deploy:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     env:

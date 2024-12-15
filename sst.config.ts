@@ -66,7 +66,6 @@ export default $config({
 				UPSTASH_REDIS_REST_URL,
 			],
 			architecture: "arm64",
-			memory: "10240 MB",
 			description: "API for SG Cars Trends",
 			environment: {
 				FEATURE_FLAG_RATE_LIMIT: process.env.FEATURE_FLAG_RATE_LIMIT ?? "",

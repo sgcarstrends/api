@@ -60,4 +60,4 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
       - name: Deploy app
         run: |
-          pnpm sst deploy --stage ${{ inputs.stage }}
+          pnpm sst deploy --stage ${{ inputs.sst-stage }}

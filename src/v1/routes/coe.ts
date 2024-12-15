@@ -1,13 +1,20 @@
+import db from "@/config/db";
+import redis from "@/config/redis";
+import { getLatestMonth } from "@/lib/getLatestMonth";
+import { getUniqueMonths } from "@/lib/getUniqueMonths";
+import { groupMonthsByYear } from "@/lib/groupMonthsByYear";
+import type { COEResult } from "@/types";
+import { Collection, OrderBy } from "@/types";
 import { isValid, parse } from "date-fns";
 import { Hono } from "hono";
 import type { Filter, Sort } from "mongodb";
-import db from "../../config/db";
-import redis from "../../config/redis";
-import { getLatestMonth } from "../../lib/getLatestMonth";
-import { getUniqueMonths } from "../../lib/getUniqueMonths";
-import { groupMonthsByYear } from "../../lib/groupMonthsByYear";
-import type { COEResult } from "../../types";
-import { Collection, OrderBy } from "../../types";
+
+interface MonthFilter {
+	month?: {
+		$gte?: string;
+		$lte?: string;
+	};
+}
 
 type QueryParams = {
 	sort?: string;
@@ -15,7 +22,6 @@ type QueryParams = {
 	month?: string;
 	from?: string;
 	to?: string;
-	[key: string]: string | undefined;
 };
 
 const CACHE_TTL = 60 * 60 * 24; // 1 day in seconds
@@ -40,9 +46,11 @@ const buildSortQuery = (
 	return defaultSort;
 };
 
-const buildMongoQuery = async <T>(query: QueryParams): Promise<Filter<T>> => {
+const buildMongoQuery = async <T>(
+	query: QueryParams,
+): Promise<Filter<T> & MonthFilter> => {
 	const { sort, orderBy, from, to, ...filterQuery } = query;
-	const mongoQuery: Filter<T> = {};
+	const mongoQuery: Filter<T> & MonthFilter = {};
 
 	if (from || to) {
 		mongoQuery.month = {};

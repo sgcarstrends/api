@@ -1,5 +1,5 @@
 import { getCarsByFuelType } from "@/lib/getCarsByFuelType";
-import { FUEL_TYPE } from "@/types";
+import { FuelType } from "@/types";
 import { Hono } from "hono";
 import cars from "./routes/cars";
 import coe from "./routes/coe";
@@ -10,7 +10,7 @@ const v1 = new Hono();
 
 v1.get("/", async (c) => {
 	const month = c.req.query("month");
-	return c.json(await getCarsByFuelType(FUEL_TYPE.PETROL, month));
+	return c.json(await getCarsByFuelType(FuelType.Petrol, month));
 });
 
 v1.route("/cars", cars);

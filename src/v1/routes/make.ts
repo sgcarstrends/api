@@ -1,8 +1,8 @@
+import db from "@/config/db";
+import redis from "@/config/redis";
+import type { Car } from "@/types";
+import { deslugify } from "@/utils/slugify";
 import { Hono } from "hono";
-import db from "../../config/db";
-import redis from "../../config/redis";
-import type { Car } from "../../types";
-import { deslugify } from "../../utils/slugify";
 
 const app = new Hono();
 

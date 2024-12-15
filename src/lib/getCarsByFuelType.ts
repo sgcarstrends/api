@@ -1,24 +1,24 @@
 import db from "@/config/db";
-import { type Car, FUEL_TYPE } from "@/types";
+import { type Car, FuelType } from "@/types";
 import { format, subMonths } from "date-fns";
 
-const FUEL_TYPE_MAP: Record<string, FUEL_TYPE | RegExp> = {
-	DIESEL: FUEL_TYPE.DIESEL,
-	ELECTRIC: FUEL_TYPE.ELECTRIC,
+const FUEL_TYPE_MAP: Record<string, FuelType | RegExp> = {
+	DIESEL: FuelType.Diesel,
+	ELECTRIC: FuelType.Electric,
 	HYBRID: new RegExp(
-		`^(${FUEL_TYPE.DIESEL}|${FUEL_TYPE.PETROL})-${FUEL_TYPE.ELECTRIC}(\\s\\(Plug-In\\))?$`,
+		`^(${FuelType.Diesel}|${FuelType.Petrol})-${FuelType.Electric}(\s\(Plug-In\))?$`,
 	),
-	OTHERS: FUEL_TYPE.OTHERS,
-	PETROL: FUEL_TYPE.PETROL,
+	OTHERS: FuelType.Others,
+	PETROL: FuelType.Petrol,
 };
 
 const trailingTwelveMonths = format(subMonths(new Date(), 12), "yyyy-MM");
 
 export const getCarsByFuelType = async (fuelType: string, month?: string) => {
-	const fuelTypeUpperCase = fuelType.toUpperCase();
+	const normalisedFuelType = fuelType.toUpperCase();
 
 	const filter = {
-		fuel_type: FUEL_TYPE_MAP[fuelTypeUpperCase],
+		fuel_type: FUEL_TYPE_MAP[normalisedFuelType],
 		month: month ?? { $gte: trailingTwelveMonths },
 	};
 

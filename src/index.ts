@@ -10,7 +10,7 @@ import { prettyJSON } from "hono/pretty-json";
 import { Resource } from "sst";
 import redis from "./config/redis";
 import { getCarsByFuelType } from "./lib/getCarsByFuelType";
-import { FUEL_TYPE } from "./types";
+import { FuelType } from "./types";
 import v1 from "./v1";
 
 const ratelimit = new Ratelimit({
@@ -60,7 +60,7 @@ app.notFound((c) =>
 
 app.get("/", async (c) => {
 	const month = c.req.query("month");
-	return c.json(await getCarsByFuelType(FUEL_TYPE.PETROL, month));
+	return c.json(await getCarsByFuelType(FuelType.Petrol, month));
 });
 
 app.route("/v1", v1);

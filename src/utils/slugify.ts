@@ -1,8 +1,8 @@
 /**
  * Converts a string into a URL-friendly slug
  *
- * @param {string} str - The string to be converted into a slug
- * @returns {string} The slugified string
+ * @param str - The string to be converted into a slug
+ * @returns The slugified string
  */
 export const slugify = (str: string): string => {
 	return str
@@ -15,8 +15,8 @@ export const slugify = (str: string): string => {
 /**
  * Converts a slug back to a readable title
  *
- * @param {string} slug - The slug to be converted back to a title
- * @returns {string} The readable title
+ * @param slug - The slug to be converted back to a title
+ * @returns The readable title
  */
 export const deslugify = (slug: string): string => {
 	return slug

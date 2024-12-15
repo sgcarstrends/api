@@ -6,41 +6,10 @@ on:
       - 'main'
       - 'release/**'
 
-# Concurrency group name ensures concurrent workflow runs wait for any in-progress job to finish
-concurrency:
-  group: merge-${{ github.ref }}
-
-permissions:
-  id-token: write # This is required for requesting the JWT
-  contents: read # This is required for actions/checkout
-
 jobs:
   Deploy:
-    runs-on: ubuntu-latest
-    environment: Development
-    env:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      MONGODB_URI: ${{ secrets.MONGODB_URI }}
-      SG_CARS_TRENDS_API_TOKEN: ${{ secrets.SG_CARS_TRENDS_API_TOKEN }}
-      UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
-      UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
-      FEATURE_FLAG_RATE_LIMIT: ${{ secrets.FEATURE_FLAG_RATE_LIMIT }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: latest
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install
-      - uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
-          aws-region: ap-southeast-1
-      - name: Deploy app
-        run: |
-          pnpm sst deploy --stage dev
+    uses: ./.github/workflows/sst.deploy.yml
+    with:
+      environment: Development
+      sst-stage: dev
+    secrets: inherit

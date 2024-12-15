@@ -22,9 +22,6 @@ on:
         required: true
       UPSTASH_REDIS_REST_URL:
         required: true
-    vars:
-      FEATURE_FLAG_RATE_LIMIT:
-        required: true
 
 jobs:
   Deploy:

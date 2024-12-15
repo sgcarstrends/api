@@ -6,6 +6,11 @@ on:
       - 'main'
       - 'release/**'
 
+
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   dev:
     uses: ./.github/workflows/sst.deploy.yml

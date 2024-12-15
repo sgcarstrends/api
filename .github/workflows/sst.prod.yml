@@ -6,6 +6,10 @@ on:
       - 'v[0-9]+.[0-9]+.[0-9]+'
       - 'v[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+'
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   prod:
     uses: ./.github/workflows/sst.deploy.yml

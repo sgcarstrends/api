@@ -8,6 +8,10 @@ on:
     tags-ignore:
       - '*'
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   staging:
     uses: ./.github/workflows/sst.deploy.yml

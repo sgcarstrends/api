@@ -6,7 +6,6 @@
   "type": "module",
   "scripts": {
     "dev": "sst dev --stage dev",
-    "build": "sst build",
     "test": "vitest",
     "deploy": "sst deploy",
     "remove": "sst remove",

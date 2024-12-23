@@ -16,8 +16,6 @@ on:
         required: true
       DATABASE_URL:
         required: true
-      MONGODB_URI:
-        required: true
       SG_CARS_TRENDS_API_TOKEN:
         required: true
       UPSTASH_REDIS_REST_TOKEN:
@@ -32,7 +30,6 @@ jobs:
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      MONGODB_URI: ${{ secrets.MONGODB_URI }}
       SG_CARS_TRENDS_API_TOKEN: ${{ secrets.SG_CARS_TRENDS_API_TOKEN }}
       UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
       UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}

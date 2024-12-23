@@ -1,17 +1,18 @@
 {
-	"compilerOptions": {
-		"baseUrl": ".",
-		"lib": ["ESNext"],
-		"module": "ESNext",
-		"moduleResolution": "Node",
-		"target": "ESNext",
-		"esModuleInterop": true,
-		"allowSyntheticDefaultImports": true,
-		"verbatimModuleSyntax": true,
-		"skipLibCheck": true,
-		"paths": {
-			"@/*": ["src/*"]
-		}
-	},
-	"include": ["**/*.ts"]
+  "compilerOptions": {
+    "baseUrl": ".",
+    "lib": ["ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "target": "ESNext",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "resolveJsonModule": true
+  },
+  "include": ["**/*.ts"]
 }

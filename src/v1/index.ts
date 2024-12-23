@@ -1,6 +1,8 @@
 import { getCarsByFuelType } from "@/lib/getCarsByFuelType";
 import { FuelType } from "@/types";
 import { Hono } from "hono";
+import { bearerAuth } from "hono/dist/types/middleware/bearer-auth";
+import { Resource } from "sst";
 import cars from "./routes/cars";
 import coe from "./routes/coe";
 import make from "./routes/makes";
@@ -8,9 +10,11 @@ import months from "./routes/months";
 
 const v1 = new Hono();
 
+v1.use(bearerAuth({ token: Resource.SG_CARS_TRENDS_API_TOKEN.value }));
+
 v1.get("/", async (c) => {
-	const month = c.req.query("month");
-	return c.json(await getCarsByFuelType(FuelType.Petrol, month));
+  const month = c.req.query("month");
+  return c.json(await getCarsByFuelType(FuelType.Petrol, month));
 });
 
 v1.route("/cars", cars);

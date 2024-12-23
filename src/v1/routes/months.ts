@@ -1,6 +1,6 @@
 import { getLatestMonth } from "@/lib/getLatestMonth";
+import { cars, coe } from "@/schema";
 import { Hono } from "hono";
-import { cars, coe } from "../../../migrations/schema";
 
 const app = new Hono();
 

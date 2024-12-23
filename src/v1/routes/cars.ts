@@ -2,10 +2,10 @@ import db from "@/config/db";
 import redis from "@/config/redis";
 import { getUniqueMonths } from "@/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@/lib/groupMonthsByYear";
+import { cars } from "@/schema";
 import type { Make } from "@/types";
 import { and, asc, between, desc, ilike } from "drizzle-orm";
 import { Hono } from "hono";
-import { cars } from "../../../migrations/schema";
 
 const app = new Hono();
 

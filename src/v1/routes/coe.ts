@@ -4,10 +4,10 @@ import redis from "@/config/redis";
 import { getLatestMonth } from "@/lib/getLatestMonth";
 import { getUniqueMonths } from "@/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@/lib/groupMonthsByYear";
+import { coe } from "@/schema";
 import type { COEResult } from "@/types";
 import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
 import { Hono } from "hono";
-import { coe } from "../../../migrations/schema";
 
 const app = new Hono();
 
@@ -37,7 +37,7 @@ app.get("/", async (c) => {
     .select()
     .from(coe)
     .where(and(...filters))
-    .orderBy(desc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
+    .orderBy(desc(coe.month), asc(coe.bidding_no), asc(coe.vehicle_class));
 
   await setCachedData(CACHE_KEY, result);
 
@@ -68,7 +68,7 @@ app.get("/latest", async (c) => {
     .select()
     .from(coe)
     .where(eq(coe.month, latestMonth))
-    .orderBy(asc(coe.biddingNo), asc(coe.vehicleClass));
+    .orderBy(asc(coe.bidding_no), asc(coe.vehicle_class));
 
   await setCachedData(CACHE_KEY, result);
 

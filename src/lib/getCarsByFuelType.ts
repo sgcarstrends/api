@@ -1,8 +1,8 @@
 import db from "@/config/db";
+import { cars } from "@/schema";
 import { FuelType } from "@/types";
 import { format, subMonths } from "date-fns";
 import { and, asc, desc, gte, ilike, or } from "drizzle-orm";
-import { cars } from "../../migrations/schema";
 
 const HYBRID_TYPES = [
   "Diesel-Electric",

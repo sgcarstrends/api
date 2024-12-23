@@ -20,7 +20,7 @@
     "date-fns": "^2.30.0",
     "drizzle-orm": "^0.38.2",
     "hono": "^4.6.5",
-    "sst": "3.3.59"
+    "sst": "3.4.27"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

@@ -1,33 +1,33 @@
 {
-	"name": "@sgcarstrends/api",
-	"description": "API for SG Cars Trends",
-	"version": "1.2.0",
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"dev": "sst dev --stage dev",
-		"build": "sst build",
-		"test": "vitest",
-		"deploy": "sst deploy",
-		"remove": "sst remove",
-		"console": "sst console",
-		"typecheck": "tsc --noEmit"
-	},
-	"dependencies": {
-		"@neondatabase/serverless": "^0.10.4",
-		"@upstash/ratelimit": "^2.0.3",
-		"@upstash/redis": "^1.34.0",
-		"date-fns": "^2.30.0",
-		"drizzle-orm": "^0.38.2",
-		"hono": "^4.6.5",
-		"mongodb": "6.8.0",
-		"sst": "3.3.59"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "^1.9.4",
-		"@types/node": "^20.12.7",
-		"drizzle-kit": "^0.30.1",
-		"typescript": "^5.4.5",
-		"vitest": "^2.1.5"
-	}
+  "name": "@sgcarstrends/api",
+  "description": "API for SG Cars Trends",
+  "version": "1.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "sst dev --stage dev",
+    "build": "sst build",
+    "test": "vitest",
+    "deploy": "sst deploy",
+    "remove": "sst remove",
+    "console": "sst console",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "@upstash/ratelimit": "^2.0.3",
+    "@upstash/redis": "^1.34.0",
+    "date-fns": "^2.30.0",
+    "drizzle-orm": "^0.38.2",
+    "hono": "^4.6.5",
+    "mongodb": "6.8.0",
+    "sst": "3.3.59"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/node": "^20.12.7",
+    "drizzle-kit": "^0.30.1",
+    "typescript": "^5.4.5",
+    "vitest": "^2.1.5"
+  }
 }

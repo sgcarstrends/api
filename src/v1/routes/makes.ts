@@ -10,7 +10,7 @@ const app = new Hono();
 app.get("/", async (c) => {
 	const CACHE_KEY = "makes";
 
-	let makes = Array.from(await redis.smembers(CACHE_KEY)).toSorted();
+	let makes = await redis.smembers(CACHE_KEY);
 
 	if (makes.length === 0) {
 		makes = await db
@@ -21,6 +21,8 @@ app.get("/", async (c) => {
 		await redis.sadd(CACHE_KEY, ...makes);
 		await redis.expire(CACHE_KEY, DEFAULT_CACHE_TTL);
 	}
+
+	makes.sort((a, b) => a.localeCompare(b));
 
 	return c.json(makes);
 });

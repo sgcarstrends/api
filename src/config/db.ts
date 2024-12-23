@@ -1,21 +1,8 @@
-import * as mongodb from "mongodb";
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
 import { Resource } from "sst";
 
-const MongoClient = mongodb.MongoClient;
-
-let cachedDb: mongodb.Db | null = null;
-
-const connectToDatabase = async (): Promise<mongodb.Db> => {
-	if (cachedDb) {
-		return cachedDb;
-	}
-
-	const client = await MongoClient.connect(Resource.MONGODB_URI.value);
-	cachedDb = client.db("main");
-
-	return cachedDb;
-};
-
-const db = await connectToDatabase();
+const sql = neon(Resource.DATABASE_URL.value);
+const db = drizzle(sql);
 
 export default db;

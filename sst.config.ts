@@ -44,7 +44,10 @@ export default $config({
 		};
 	},
 	async run() {
-		const MONGODB_URI = new sst.Secret("MONGODB_URI", process.env.MONGODB_URI);
+		const DATABASE_URL = new sst.Secret(
+			"DATABASE_URL",
+			process.env.DATABASE_URL,
+		);
 		const SG_CARS_TRENDS_API_TOKEN = new sst.Secret(
 			"SG_CARS_TRENDS_API_TOKEN",
 			process.env.SG_CARS_TRENDS_API_TOKEN,
@@ -60,7 +63,7 @@ export default $config({
 
 		const { url } = new sst.aws.Function("Hono", {
 			link: [
-				MONGODB_URI,
+				DATABASE_URL,
 				SG_CARS_TRENDS_API_TOKEN,
 				UPSTASH_REDIS_REST_TOKEN,
 				UPSTASH_REDIS_REST_URL,

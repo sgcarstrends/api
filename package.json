@@ -14,9 +14,11 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
+		"@neondatabase/serverless": "^0.10.4",
 		"@upstash/ratelimit": "^2.0.3",
 		"@upstash/redis": "^1.34.0",
 		"date-fns": "^2.30.0",
+		"drizzle-orm": "^0.38.2",
 		"hono": "^4.6.5",
 		"mongodb": "6.8.0",
 		"sst": "3.3.59"

@@ -1,5 +1,5 @@
 import db from "@/config/db";
-import { type Car, FuelType } from "@/types";
+import { FuelType } from "@/types";
 import { format, subMonths } from "date-fns";
 import { and, asc, desc, gte, ilike, or } from "drizzle-orm";
 import { cars } from "../../migrations/schema";

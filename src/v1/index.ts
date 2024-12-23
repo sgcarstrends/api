@@ -1,7 +1,7 @@
 import { getCarsByFuelType } from "@/lib/getCarsByFuelType";
 import { FuelType } from "@/types";
 import { Hono } from "hono";
-import { bearerAuth } from "hono/dist/types/middleware/bearer-auth";
+import { bearerAuth } from "hono/bearer-auth";
 import { Resource } from "sst";
 import cars from "./routes/cars";
 import coe from "./routes/coe";

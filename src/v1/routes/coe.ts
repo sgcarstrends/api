@@ -33,7 +33,7 @@ app.get("/", async (c) => {
     to && lte(coe.month, to),
   ];
 
-  const result = await db
+  const results = await db
     .select()
     .from(coe)
     .where(and(...filters))
@@ -64,7 +64,7 @@ app.get("/latest", async (c) => {
   }
 
   const latestMonth = await getLatestMonth(coe);
-  const result = await db
+  const results = await db
     .select()
     .from(coe)
     .where(eq(coe.month, latestMonth))

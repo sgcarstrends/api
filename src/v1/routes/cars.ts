@@ -1,50 +1,63 @@
 import db from "@/config/db";
 import redis from "@/config/redis";
+import { getLatestMonth } from "@/lib/getLatestMonth";
 import { getUniqueMonths } from "@/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@/lib/groupMonthsByYear";
 import { cars } from "@/schema";
 import type { Make } from "@/types";
-import { and, asc, between, desc, ilike } from "drizzle-orm";
+import getTrailingTwelveMonths from "@/utils/getTrailingTwelveMonths";
+import { and, asc, between, desc, eq, ilike } from "drizzle-orm";
 import { Hono } from "hono";
 
 const app = new Hono();
 
 app.get("/", async (c) => {
   const query = c.req.query();
+  const { month, ...queries } = query;
 
-  const cacheKey = `cars:${JSON.stringify(query)}`;
+  // const CACHE_KEY = `cars:${JSON.stringify(query)}`;
+  //
+  // const cachedData = await redis.get(CACHE_KEY);
+  // if (cachedData) {
+  //   return c.json(cachedData);
+  // }
 
-  const cachedData = await redis.get(cacheKey);
-  if (cachedData) {
-    return c.json(cachedData);
+  try {
+    const latestMonth = !month && (await getLatestMonth(cars));
+
+    const filters = [
+      month
+        ? eq(cars.month, month)
+        : between(
+            cars.month,
+            getTrailingTwelveMonths(latestMonth),
+            latestMonth,
+          ),
+    ];
+
+    for (const [key, value] of Object.entries(queries)) {
+      filters.push(ilike(cars[key], value.split("-").join("%")));
+    }
+
+    const results = await db
+      .select()
+      .from(cars)
+      .where(and(...filters))
+      .orderBy(desc(cars.month));
+
+    // await redis.set(CACHE_KEY, JSON.stringify(results), { ex: 86400 });
+
+    return c.json(results);
+  } catch (e) {
+    console.error("Car query error:", e);
+    return c.json(
+      {
+        error: "An error occurred while fetching cars",
+        details: e.message,
+      },
+      500,
+    );
   }
-
-  const today = new Date();
-  const pastYear = new Date(today.getFullYear() - 1, today.getMonth() + 1, 1);
-  const pastYearFormatted = pastYear.toISOString().slice(0, 7); // YYYY-MM format
-  const currentMonthFormatted = today.toISOString().slice(0, 7); // YYYY-MM format
-
-  const conditions = [
-    ...(query.month
-      ? []
-      : [between(cars.month, pastYearFormatted, currentMonthFormatted)]),
-  ];
-
-  for (const [key, value] of Object.entries(query)) {
-    if (!value) continue;
-
-    conditions.push(ilike(cars[key], `%${value}%`));
-  }
-
-  const response = await db
-    .select()
-    .from(cars)
-    .where(and(...conditions))
-    .orderBy(desc(cars.month));
-
-  await redis.set(cacheKey, JSON.stringify(response), { ex: 86400 });
-
-  return c.json(response);
 });
 
 app.get("/months", async (c) => {

@@ -16,12 +16,12 @@ export const getUniqueMonths = async <T extends PgTable>(
     let months = await redis.smembers(CACHE_KEY);
 
     if (months.length === 0) {
-      const result = await db
+      const results = await db
         .selectDistinct({ month: table[key] })
         .from(table)
         .orderBy(desc(table[key]));
 
-      months = result.map(({ month }) => month);
+      months = results.map(({ month }) => month);
 
       await redis.sadd(CACHE_KEY, ...months);
       await redis.expire(CACHE_KEY, CACHE_TTL);

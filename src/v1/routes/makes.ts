@@ -45,7 +45,7 @@ app.get("/:make", async (c) => {
     vehicle_type && ilike(cars.vehicle_type, vehicle_type.split("-").join("%")),
   ].filter(Boolean);
 
-  const result = await db
+  const results = await db
     .select()
     .from(cars)
     .where(and(...filters))

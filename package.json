@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "sst dev --stage dev",
     "test": "vitest",
+    "test:coverage": "vitest --coverage",
     "deploy": "sst deploy",
     "remove": "sst remove",
     "console": "sst console",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/node": "^20.12.7",
+    "@vitest/coverage-v8": "2.1.5",
     "drizzle-kit": "^0.30.1",
     "typescript": "^5.4.5",
     "vitest": "^2.1.5"

@@ -1,8 +1,9 @@
 import db from "@/config/db";
+import { getLatestMonth } from "@/lib/getLatestMonth";
 import { cars } from "@/schema";
-import { FuelType } from "@/types";
-import { format, subMonths } from "date-fns";
-import { and, asc, desc, gte, ilike, or } from "drizzle-orm";
+import type { FuelType } from "@/types";
+import getTrailingTwelveMonths from "@/utils/getTrailingTwelveMonths";
+import { and, asc, between, desc, eq, ilike, or } from "drizzle-orm";
 
 const HYBRID_TYPES = [
   "Diesel-Electric",
@@ -11,49 +12,47 @@ const HYBRID_TYPES = [
   "Petrol-Electric (Plug-In)",
 ];
 
-const FUEL_TYPE_MAP = {
-  DIESEL: [FuelType.Diesel],
-  ELECTRIC: [FuelType.Electric],
-  OTHERS: [FuelType.Others],
-  PETROL: [FuelType.Petrol],
-};
-
-const trailingTwelveMonths = format(subMonths(new Date(), 12), "yyyy-MM");
-
-export const getCarsByFuelType = async (fuelType: string, month?: string) => {
-  const normalisedFuelType = fuelType.toUpperCase();
+export const getCarsByFuelType = async (fuelType: FuelType, month?: string) => {
+  const latestMonth = await getLatestMonth(cars);
 
   const filters = [
     fuelType &&
       or(
-        ilike(cars.fuelType, FUEL_TYPE_MAP[normalisedFuelType]),
-        ...HYBRID_TYPES.map((type) => ilike(cars.fuelType, type)),
+        ilike(cars.fuel_type, fuelType),
+        ...HYBRID_TYPES.map((type) => ilike(cars.fuel_type, type)),
       ),
-    month && gte(cars.month, trailingTwelveMonths),
+    month
+      ? eq(cars.month, month)
+      : between(cars.month, getTrailingTwelveMonths(latestMonth), latestMonth),
   ];
 
-  const result = await db
-    .select()
-    .from(cars)
-    .where(and(...filters))
-    .orderBy(desc(cars.month), asc(cars.make));
+  try {
+    const results = await db
+      .select()
+      .from(cars)
+      .where(and(...filters))
+      .orderBy(desc(cars.month), asc(cars.make));
 
-  return result.reduce((result, { month, make, number, ...car }) => {
-    const existingCar = result.find(
-      (car) => car.month === month && car.make === make,
-    );
+    return results.reduce((result, { month, make, number, ...car }) => {
+      const existingCar = result.find(
+        (car) => car.month === month && car.make === make,
+      );
 
-    if (existingCar) {
-      existingCar.number += Number(number);
-    } else {
-      result.push({
-        ...car,
-        month,
-        make,
-        number: Number(number),
-      });
-    }
+      if (existingCar) {
+        existingCar.number += Number(number);
+      } else {
+        result.push({
+          ...car,
+          month,
+          make,
+          number: Number(number),
+        });
+      }
 
-    return result;
-  }, []);
+      return result;
+    }, []);
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
 };

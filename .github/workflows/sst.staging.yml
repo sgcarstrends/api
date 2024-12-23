@@ -3,10 +3,10 @@ name: Deployment (Staging)
 on:
   push:
     branches:
-      - 'main'
-      - 'release/**'
+      - "main"
+      - "release/**"
     tags-ignore:
-      - '*'
+      - "*"
 
 permissions:
   id-token: write

@@ -3,9 +3,8 @@ name: Deployment (Dev)
 on:
   push:
     branches-ignore:
-      - 'main'
-      - 'release/**'
-
+      - "main"
+      - "release/**"
 
 permissions:
   id-token: write

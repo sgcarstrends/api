@@ -1,22 +1,26 @@
 import { getLatestMonth } from "@/lib/getLatestMonth";
-import { Collection } from "@/types";
 import { Hono } from "hono";
+import { cars, coe } from "../../../migrations/schema";
 
 const app = new Hono();
 
+const TABLES_MAP = {
+	cars,
+	coe,
+} as const;
+
+const TABLES = Object.keys(TABLES_MAP);
+
 app.get("/latest", async (c) => {
-	const collection = c.req.query("collection") as Collection;
-	const dbCollections: Collection[] = [Collection.Cars, Collection.COE];
+	const { type } = c.req.query();
 
-	const latestMonthObj: Record<string, string> = {};
+	const tablesToCheck = type && TABLES.includes(type) ? [type] : TABLES;
 
-	if (collection && dbCollections.includes(collection)) {
-		latestMonthObj[collection] = await getLatestMonth(collection);
-	} else {
-		for (const dbCollection of dbCollections) {
-			latestMonthObj[dbCollection] = await getLatestMonth(dbCollection);
-		}
-	}
+	const latestMonthObj = await Promise.all(
+		tablesToCheck.map(async (tableType) => ({
+			[tableType]: await getLatestMonth(TABLES_MAP[tableType]),
+		})),
+	).then((results) => Object.assign({}, ...results));
 
 	return c.json(latestMonthObj);
 });

@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@hono/zod-validator':
+        specifier: ^0.4.2
+        version: 0.4.2(hono@4.6.5)(zod@3.24.1)
       '@neondatabase/serverless':
         specifier: ^0.10.4
         version: 0.10.4
@@ -29,6 +32,9 @@ importers:
       sst:
         specifier: 3.4.27
         version: 3.4.27(hono@4.6.5)
+      zod:
+        specifier: ^3.24.1
+        version: 3.24.1
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.9.4
@@ -550,6 +556,12 @@ packages:
     engines: {node: '>=12'}
     cpu: [x64]
     os: [win32]
+
+  '@hono/zod-validator@0.4.2':
+    resolution: {integrity: sha512-1rrlBg+EpDPhzOV4hT9pxr5+xDVmKuz6YJl+la7VCwK6ass5ldyKm5fD+umJdV2zhHD6jROoCCv8NbTwyfhT0g==}
+    peerDependencies:
+      hono: '>=3.9.0'
+      zod: ^3.19.1
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -1326,6 +1338,9 @@ packages:
   yallist@4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
 
+  zod@3.24.1:
+    resolution: {integrity: sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==}
+
 snapshots:
 
   '@ampproject/remapping@2.3.0':
@@ -1602,6 +1617,11 @@ snapshots:
 
   '@esbuild/win32-x64@0.21.5':
     optional: true
+
+  '@hono/zod-validator@0.4.2(hono@4.6.5)(zod@3.24.1)':
+    dependencies:
+      hono: 4.6.5
+      zod: 3.24.1
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -2309,3 +2329,5 @@ snapshots:
       strip-ansi: 7.1.0
 
   yallist@4.0.0: {}
+
+  zod@3.24.1: {}

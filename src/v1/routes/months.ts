@@ -1,5 +1,7 @@
 import { getLatestMonth } from "@/lib/getLatestMonth";
 import { cars, coe } from "@/schema";
+import { LatestMonthQuerySchema } from "@/schemas";
+import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 
 const app = new Hono();
@@ -11,7 +13,7 @@ const TABLES_MAP = {
 
 const TABLES = Object.keys(TABLES_MAP);
 
-app.get("/latest", async (c) => {
+app.get("/latest", zValidator("query", LatestMonthQuerySchema), async (c) => {
   const { type } = c.req.query();
 
   const tablesToCheck = type && TABLES.includes(type) ? [type] : TABLES;

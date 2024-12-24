@@ -1,17 +1,20 @@
+import { CACHE_TTL } from "@/config";
 import db from "@/config/db";
 import redis from "@/config/redis";
 import { getLatestMonth } from "@/lib/getLatestMonth";
 import { getUniqueMonths } from "@/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@/lib/groupMonthsByYear";
 import { cars } from "@/schema";
+import { CarQuerySchema, MonthsQuerySchema } from "@/schemas";
 import type { Make } from "@/types";
 import getTrailingTwelveMonths from "@/utils/getTrailingTwelveMonths";
+import { zValidator } from "@hono/zod-validator";
 import { and, asc, between, desc, eq, ilike } from "drizzle-orm";
 import { Hono } from "hono";
 
 const app = new Hono();
 
-app.get("/", async (c) => {
+app.get("/", zValidator("query", CarQuerySchema), async (c) => {
   const query = c.req.query();
   const { month, ...queries } = query;
 
@@ -60,7 +63,7 @@ app.get("/", async (c) => {
   }
 });
 
-app.get("/months", async (c) => {
+app.get("/months", zValidator("query", MonthsQuerySchema), async (c) => {
   const { grouped } = c.req.query();
 
   const months = await getUniqueMonths(cars);
@@ -73,9 +76,8 @@ app.get("/months", async (c) => {
 
 app.get("/makes", async (c) => {
   const CACHE_KEY = "makes";
-  const CACHE_TTL = 60 * 60 * 24; // 1 day in seconds
 
-  let makes: Make[] = await redis.smembers(CACHE_KEY);
+  let makes = await redis.smembers<Make[]>(CACHE_KEY);
 
   if (makes.length === 0) {
     makes = await db

@@ -1,9 +1,12 @@
 {
-  "name": "@sgcarstrends/shared",
+  "name": "@sgcarstrends/schema",
   "version": "1.0.0-beta.1",
   "description": "",
   "private": true,
   "devDependencies": {
     "@biomejs/biome": "1.9.4"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.38.2"
   }
 }

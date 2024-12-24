@@ -1,5 +1,5 @@
 export const groupMonthsByYear = (
-  months: string[],
+  months: string[]
 ): { year: string; months: string[] }[] => {
   const groupedData: Record<string, string[]> = {};
 

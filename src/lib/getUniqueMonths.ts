@@ -1,13 +1,12 @@
+import { CACHE_TTL } from "@/config";
 import db from "@/config/db";
 import redis from "@/config/redis";
 import { desc, getTableName } from "drizzle-orm";
 import type { PgTable } from "drizzle-orm/pg-core";
 
-const CACHE_TTL = 60 * 60 * 24; // 1 day in seconds
-
 export const getUniqueMonths = async <T extends PgTable>(
   table: T,
-  key = "month",
+  key = "month"
 ) => {
   const tableName = getTableName(table);
   const CACHE_KEY = `${tableName}:months`;

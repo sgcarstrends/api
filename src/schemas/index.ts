@@ -55,26 +55,23 @@ export const LatestMonthQuerySchema = z
 // Response schemas
 export const MakeArraySchema = z.array(z.string());
 
-export const CarSchema = z
-  .object({
-    make: z.string(),
-    model: z.string(),
-    fuel_type: z.string(),
-    vehicle_type: z.string(),
-    month: z.string(),
-  })
-  .strict();
+export const CarSchema = z.object({
+  make: z.string(),
+  model: z.string(),
+  fuel_type: z.string(),
+  vehicle_type: z.string(),
+  month: z.string(),
+  number: z.number(),
+});
 
-export const COESchema = z
-  .object({
-    month: z.string(),
-    bidding_no: z.number(),
-    vehicle_class: z.string(),
-    quota: z.number(),
-    bids_received: z.number(),
-    premium: z.number(),
-  })
-  .strict();
+export const COESchema = z.object({
+  month: z.string(),
+  bidding_no: z.number(),
+  vehicle_class: z.string(),
+  quota: z.number(),
+  bids_received: z.number(),
+  premium: z.number(),
+});
 
 export const LatestMonthResponseSchema = z
   .object({

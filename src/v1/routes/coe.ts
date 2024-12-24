@@ -1,28 +1,24 @@
-import { DEFAULT_CACHE_TTL } from "@/config";
+import { CACHE_TTL } from "@/config";
 import db from "@/config/db";
 import redis from "@/config/redis";
 import { getLatestMonth } from "@/lib/getLatestMonth";
 import { getUniqueMonths } from "@/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@/lib/groupMonthsByYear";
 import { coe } from "@/schema";
-import type { COEResult } from "@/types";
+import { type COE, COEQuerySchema, MonthsQuerySchema } from "@/schemas";
+import { zValidator } from "@hono/zod-validator";
 import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
 import { Hono } from "hono";
 
 const app = new Hono();
 
-const getCachedData = <T>(cacheKey: string) => redis.get<T>(cacheKey);
-
-const setCachedData = <T>(cacheKey: string, data: T) =>
-  redis.set(cacheKey, data, { ex: DEFAULT_CACHE_TTL });
-
-app.get("/", async (c) => {
+app.get("/", zValidator("query", COEQuerySchema), async (c) => {
   const query = c.req.query();
   const { sort, orderBy, month, from, to } = query;
 
   const CACHE_KEY = `coe:${JSON.stringify(query)}`;
 
-  const cachedData = await getCachedData<COEResult[]>(CACHE_KEY);
+  const cachedData = await redis.get<COE[]>(CACHE_KEY);
   if (cachedData) {
     return c.json(cachedData);
   }
@@ -39,12 +35,12 @@ app.get("/", async (c) => {
     .where(and(...filters))
     .orderBy(desc(coe.month), asc(coe.bidding_no), asc(coe.vehicle_class));
 
-  await setCachedData(CACHE_KEY, result);
+  await redis.set(CACHE_KEY, results, { ex: CACHE_TTL });
 
-  return c.json(result);
+  return c.json(results);
 });
 
-app.get("/months", async (c) => {
+app.get("/months", zValidator("query", MonthsQuerySchema), async (c) => {
   const { grouped } = c.req.query();
 
   const months = await getUniqueMonths(coe);
@@ -58,7 +54,7 @@ app.get("/months", async (c) => {
 app.get("/latest", async (c) => {
   const CACHE_KEY = "coe:latest";
 
-  const cachedData = await getCachedData<COEResult[]>(CACHE_KEY);
+  const cachedData = await redis.get<COE[]>(CACHE_KEY);
   if (cachedData) {
     return c.json(cachedData);
   }
@@ -70,9 +66,9 @@ app.get("/latest", async (c) => {
     .where(eq(coe.month, latestMonth))
     .orderBy(asc(coe.bidding_no), asc(coe.vehicle_class));
 
-  await setCachedData(CACHE_KEY, result);
+  await redis.set(CACHE_KEY, results, { ex: CACHE_TTL });
 
-  return c.json(result);
+  return c.json(results);
 });
 
 export default app;

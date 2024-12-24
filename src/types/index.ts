@@ -30,7 +30,7 @@ export interface Car {
   selected?: boolean;
 }
 
-export interface COEResult {
+export interface COE {
   month: string;
   bidding_no: string;
   vehicle_class: string;

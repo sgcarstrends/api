@@ -4,7 +4,7 @@ import redis from "@/config/redis";
 import { getLatestMonth } from "@/lib/getLatestMonth";
 import { getUniqueMonths } from "@/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@/lib/groupMonthsByYear";
-import { coe } from "@/schema";
+import { coe } from "@sgcarstrends/schema";
 import { type COE, COEQuerySchema, MonthsQuerySchema } from "@/schemas";
 import { zValidator } from "@hono/zod-validator";
 import { and, asc, desc, eq, gte, lte } from "drizzle-orm";

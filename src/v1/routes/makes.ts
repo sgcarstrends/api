@@ -1,7 +1,7 @@
 import { CACHE_TTL } from "@/config";
 import db from "@/config/db";
 import redis from "@/config/redis";
-import { cars } from "@/schema";
+import { cars } from "@sgcarstrends/schema";
 import { MakeParamSchema, MakeQuerySchema } from "@/schemas";
 import { zValidator } from "@hono/zod-validator";
 import { and, asc, desc, eq, ilike } from "drizzle-orm";

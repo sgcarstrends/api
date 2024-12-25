@@ -4,7 +4,7 @@ import redis from "@/config/redis";
 import { getLatestMonth } from "@/lib/getLatestMonth";
 import { getUniqueMonths } from "@/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@/lib/groupMonthsByYear";
-import { cars } from "@/schema";
+import { cars } from "@sgcarstrends/schema";
 import { CarQuerySchema, MonthsQuerySchema } from "@/schemas";
 import type { Make } from "@/types";
 import getTrailingTwelveMonths from "@/utils/getTrailingTwelveMonths";

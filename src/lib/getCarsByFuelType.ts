@@ -1,6 +1,6 @@
 import db from "@/config/db";
 import { getLatestMonth } from "@/lib/getLatestMonth";
-import { cars } from "@/schema";
+import { cars } from "@sgcarstrends/schema";
 import type { FuelType } from "@/types";
 import getTrailingTwelveMonths from "@/utils/getTrailingTwelveMonths";
 import { and, asc, between, desc, eq, ilike, or } from "drizzle-orm";

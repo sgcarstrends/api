@@ -23,6 +23,11 @@ on:
       UPSTASH_REDIS_REST_URL:
         required: true
 
+permissions:
+  id-token: write
+  contents: read
+  packages: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -39,10 +44,6 @@ jobs:
     concurrency:
       group: merge-${{ github.ref }}
 
-    permissions:
-      id-token: write
-      contents: read
-
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -53,7 +54,9 @@ jobs:
           node-version: latest
           cache: "pnpm"
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_TOKEN }}" >> .npmrc  # Add auth token to .npmrc
+          pnpm install
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.ROLE_TO_ASSUME }}

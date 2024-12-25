@@ -1,5 +1,5 @@
 import { getLatestMonth } from "@/lib/getLatestMonth";
-import { cars, coe } from "@/schema";
+import { cars, coe } from "@sgcarstrends/schema";
 import { LatestMonthQuerySchema } from "@/schemas";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";

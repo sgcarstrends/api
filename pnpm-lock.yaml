@@ -14,6 +14,9 @@ importers:
       '@neondatabase/serverless':
         specifier: ^0.10.4
         version: 0.10.4
+      '@sgcarstrends/schema':
+        specifier: ^0.2.1
+        version: 0.2.1(@neondatabase/serverless@0.10.4)(@types/pg@8.11.6)
       '@upstash/ratelimit':
         specifier: ^2.0.3
         version: 2.0.3
@@ -685,6 +688,9 @@ packages:
     resolution: {integrity: sha512-vliZLrDmYKyaUoMzEbMTg2JkerfBjn03KmAw9CykO0Zzkzoyd7o3iZNam/TpyWNjNT+Cz2iO3P9Smv2wgrR+Eg==}
     cpu: [x64]
     os: [win32]
+
+  '@sgcarstrends/schema@0.2.1':
+    resolution: {integrity: sha512-EQaco4VBZGYXWB08oIkh0/wiWS70qi8xmNOp9NrwzFGhouP+hWWpxEsUjidjIRwsvjdCZ+uP2dP48yWuA2bghQ==, tarball: https://npm.pkg.github.com/download/@sgcarstrends/schema/0.2.1/f3e61e6a1bd39dfe64345c30e7db43ed8bc9f2e2}
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
@@ -1711,6 +1717,40 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.27.3':
     optional: true
+
+  '@sgcarstrends/schema@0.2.1(@neondatabase/serverless@0.10.4)(@types/pg@8.11.6)':
+    dependencies:
+      drizzle-orm: 0.38.2(@neondatabase/serverless@0.10.4)(@types/pg@8.11.6)
+    transitivePeerDependencies:
+      - '@aws-sdk/client-rds-data'
+      - '@cloudflare/workers-types'
+      - '@electric-sql/pglite'
+      - '@libsql/client'
+      - '@libsql/client-wasm'
+      - '@neondatabase/serverless'
+      - '@op-engineering/op-sqlite'
+      - '@opentelemetry/api'
+      - '@planetscale/database'
+      - '@prisma/client'
+      - '@tidbcloud/serverless'
+      - '@types/better-sqlite3'
+      - '@types/pg'
+      - '@types/react'
+      - '@types/sql.js'
+      - '@vercel/postgres'
+      - '@xata.io/client'
+      - better-sqlite3
+      - bun-types
+      - expo-sqlite
+      - knex
+      - kysely
+      - mysql2
+      - pg
+      - postgres
+      - prisma
+      - react
+      - sql.js
+      - sqlite3
 
   '@types/estree@1.0.6': {}
 

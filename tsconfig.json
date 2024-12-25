@@ -1,0 +1,16 @@
+{
+	"files": [],
+	"references": [
+		{ "path": "./packages/api" },
+		{ "path": "./packages/updater" },
+		{ "path": "./packages/schema" }
+	],
+	"compilerOptions": {
+		"composite": true,
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"strict": true,
+		"esModuleInterop": true
+	}
+}

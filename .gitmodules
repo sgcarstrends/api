@@ -1,3 +1,0 @@
-[submodule "packages/updater"]
-	path = packages/updater
-	url = https://github.com/sgcarstrends/updater

@@ -6,6 +6,12 @@ settings:
 
 importers:
 
+  .:
+    devDependencies:
+      '@biomejs/biome':
+        specifier: ^1.9.4
+        version: 1.9.4
+
   packages/api:
     dependencies:
       '@hono/zod-validator':
@@ -57,6 +63,9 @@ importers:
 
   packages/schema:
     dependencies:
+      dotenv:
+        specifier: ^16.4.7
+        version: 16.4.7
       drizzle-orm:
         specifier: ^0.38.2
         version: 0.38.2(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)
@@ -64,12 +73,12 @@ importers:
       '@biomejs/biome':
         specifier: 1.9.4
         version: 1.9.4
-
-  packages/shared:
-    devDependencies:
-      '@biomejs/biome':
-        specifier: 1.9.4
-        version: 1.9.4
+      '@types/node':
+        specifier: ^22.10.2
+        version: 22.10.2
+      drizzle-kit:
+        specifier: ^0.30.1
+        version: 0.30.1
 
   packages/updater:
     dependencies:
@@ -3277,7 +3286,7 @@ snapshots:
 
   '@types/pg@8.11.6':
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 22.10.2
       pg-protocol: 1.7.0
       pg-types: 4.0.2
 

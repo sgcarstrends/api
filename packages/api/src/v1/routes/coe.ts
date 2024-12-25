@@ -8,7 +8,7 @@ import { type COE, COEQuerySchema, MonthsQuerySchema } from "@/schemas";
 import { zValidator } from "@hono/zod-validator";
 import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
 import { Hono } from "hono";
-import { coe } from "../../../schema";
+import { coe } from "../../../../schema";
 
 const app = new Hono();
 

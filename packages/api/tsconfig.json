@@ -1,9 +1,8 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "lib": [
-      "ESNext"
-    ],
+    "lib": ["ESNext"],
     "module": "ESNext",
     "moduleResolution": "Node",
     "target": "ESNext",
@@ -11,15 +10,12 @@
     "allowSyntheticDefaultImports": true,
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
+    "noEmit": true,
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"],
+      "@sgcarstrends/schema/*": ["../../packages/schema/src/*"]
     },
     "resolveJsonModule": true
   },
-  "include": [
-    "**/*.ts",
-    "src/v1/index.test.js"
-  ]
+  "include": ["**/*.ts"]
 }

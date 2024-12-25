@@ -6,7 +6,7 @@ import type { PgTable } from "drizzle-orm/pg-core";
 
 export const getUniqueMonths = async <T extends PgTable>(
   table: T,
-  key = "month"
+  key = "month",
 ) => {
   const tableName = getTableName(table);
   const CACHE_KEY = `${tableName}:months`;

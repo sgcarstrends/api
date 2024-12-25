@@ -77,7 +77,7 @@ app.get("/months", zValidator("query", MonthsQuerySchema), async (c) => {
 app.get("/makes", async (c) => {
   const CACHE_KEY = "makes";
 
-  let makes = await redis.smembers<Make[]>(CACHE_KEY);
+  let makes: Make[] = await redis.smembers(CACHE_KEY);
 
   if (makes.length === 0) {
     makes = await db

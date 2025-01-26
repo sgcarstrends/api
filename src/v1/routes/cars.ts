@@ -1,15 +1,15 @@
-import { CACHE_TTL } from "@/config";
+import { CACHE_TTL, HYBRID_REGEX } from "@/config";
 import db from "@/config/db";
 import redis from "@/config/redis";
 import { getLatestMonth } from "@/lib/getLatestMonth";
 import { getUniqueMonths } from "@/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@/lib/groupMonthsByYear";
-import { cars } from "@sgcarstrends/schema";
 import { CarQuerySchema, MonthsQuerySchema } from "@/schemas";
 import type { Make } from "@/types";
 import getTrailingTwelveMonths from "@/utils/getTrailingTwelveMonths";
 import { zValidator } from "@hono/zod-validator";
-import { and, asc, between, desc, eq, ilike } from "drizzle-orm";
+import { cars } from "@sgcarstrends/schema";
+import { and, asc, between, desc, eq, ilike, sql } from "drizzle-orm";
 import { Hono } from "hono";
 
 const app = new Hono();
@@ -39,6 +39,11 @@ app.get("/", zValidator("query", CarQuerySchema), async (c) => {
     ];
 
     for (const [key, value] of Object.entries(queries)) {
+      if (key === "fuel_type" && value.toLowerCase() === "hybrid") {
+        filters.push(sql`${cars.fuel_type} ~ ${HYBRID_REGEX.source}::text`);
+        continue;
+      }
+
       filters.push(ilike(cars[key], value.split("-").join("%")));
     }
 

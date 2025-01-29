@@ -74,6 +74,13 @@ app.get("/latest", async (c) => {
 });
 
 app.get("/pqp", async (c) => {
+  const CACHE_KEY = "coe:pqp";
+
+  const cachedData = await redis.get(CACHE_KEY);
+  if (cachedData) {
+    return c.json(cachedData);
+  }
+
   const results = await db
     .select()
     .from(coe)
@@ -81,6 +88,8 @@ app.get("/pqp", async (c) => {
     .orderBy(desc(coe.month), desc(coe.bidding_no), asc(coe.vehicle_class));
 
   const pqpRates = getPqpRates(results);
+
+  await redis.set(CACHE_KEY, pqpRates, { ex: CACHE_TTL });
 
   return c.json(pqpRates);
 });

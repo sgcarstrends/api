@@ -17,6 +17,14 @@ export enum OrderBy {
   DESC = "desc",
 }
 
+export enum VehicleClass {
+  CategoryA = "Category A",
+  CategoryB = "Category B",
+  CategoryC = "Category C",
+  CategoryD = "Category D",
+  CategoryE = "Category E",
+}
+
 // Base types
 export type Stage = "dev" | "staging" | "prod";
 export type Make = Car["make"];
@@ -32,12 +40,12 @@ export interface Car {
 
 export interface COE {
   month: string;
-  bidding_no: string;
+  bidding_no: number;
   vehicle_class: string;
-  quota: string;
-  bids_success: string;
-  bids_received: string;
-  premium: string;
+  quota: number;
+  bids_success: number;
+  bids_received: number;
+  premium: number;
 }
 
 export interface UpdateParams {

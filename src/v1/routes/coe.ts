@@ -9,7 +9,7 @@ import { type COE, COEQuerySchema, MonthsQuerySchema } from "@/schemas";
 import { VehicleClass } from "@/types";
 import { zValidator } from "@hono/zod-validator";
 import { coe } from "@sgcarstrends/schema";
-import { and, asc, desc, eq, gt, gte, lte, ne, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gte, lte, ne } from "drizzle-orm";
 import { Hono } from "hono";
 
 const app = new Hono();

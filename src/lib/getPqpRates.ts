@@ -52,10 +52,14 @@ const getPqpRates = (data: COE[]): Record<string, Record<string, number>> => {
   );
 
   return pqpResults.reduce((acc, { month, vehicle_class, pqp }) => {
-    if (!acc[month]) {
-      acc[month] = {};
+    const nextMonth = new Date(month);
+    nextMonth.setMonth(nextMonth.getMonth() + 1);
+    const nextMonthKey = nextMonth.toISOString().slice(0, 7);
+
+    if (!acc[nextMonthKey]) {
+      acc[nextMonthKey] = {};
     }
-    acc[month][vehicle_class] = pqp;
+    acc[nextMonthKey][vehicle_class] = pqp;
     return acc;
   }, {});
 };

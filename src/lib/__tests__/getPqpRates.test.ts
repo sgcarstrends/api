@@ -296,13 +296,13 @@ describe("getPqpRates", () => {
 
   it("should correctly calculate PQP rates for all vehicle categories", () => {
     expect(getPqpRates(mockCoeData)).toEqual({
-      "2025-01": {
+      "2025-02": {
         "Category A": 94513,
         "Category B": 110537,
         "Category C": 68481,
         "Category D": 8457,
       },
-      "2024-12": {
+      "2025-01": {
         "Category A": 97747,
         "Category B": 109164,
         "Category C": 70912,
@@ -322,8 +322,8 @@ describe("getPqpRates", () => {
     );
     const result = getPqpRates(singleCategoryData);
     expect(result).toEqual({
-      "2025-01": { "Category A": 94513 },
-      "2024-12": { "Category A": 97747 },
+      "2025-02": { "Category A": 94513 },
+      "2025-01": { "Category A": 97747 },
     });
   });
 

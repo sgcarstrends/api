@@ -1,7 +1,6 @@
 import { CACHE_TTL } from "@/config";
 import db from "@/config/db";
 import redis from "@/config/redis";
-import { getLatestMonth } from "@/lib/getLatestMonth";
 import getPqpRates from "@/lib/getPqpRates";
 import { getUniqueMonths } from "@/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@/lib/groupMonthsByYear";
@@ -9,7 +8,7 @@ import { type COE, COEQuerySchema, MonthsQuerySchema } from "@/schemas";
 import { VehicleClass } from "@/types";
 import { zValidator } from "@hono/zod-validator";
 import { coe } from "@sgcarstrends/schema";
-import { and, asc, desc, eq, gte, lte, ne } from "drizzle-orm";
+import { and, asc, desc, eq, gte, inArray, lte, max, ne } from "drizzle-orm";
 import { Hono } from "hono";
 
 const app = new Hono();
@@ -61,12 +60,25 @@ app.get("/latest", async (c) => {
     return c.json(cachedData);
   }
 
-  const latestMonth = await getLatestMonth(coe);
+  const [{ latestMonth }] = await db
+    .select({ latestMonth: max(coe.month) })
+    .from(coe);
   const results = await db
     .select()
     .from(coe)
-    .where(eq(coe.month, latestMonth))
-    .orderBy(asc(coe.bidding_no), asc(coe.vehicle_class));
+    .where(
+      and(
+        eq(coe.month, latestMonth),
+        inArray(
+          coe.bidding_no,
+          db
+            .select({ bidding_no: max(coe.bidding_no) })
+            .from(coe)
+            .where(eq(coe.month, latestMonth)),
+        ),
+      ),
+    )
+    .orderBy(desc(coe.bidding_no), asc(coe.vehicle_class));
 
   await redis.set(CACHE_KEY, results, { ex: CACHE_TTL });
 

@@ -8,17 +8,14 @@ export const getLatestMonth = async <T extends PgTable>(
   const key = "month";
 
   try {
-    const results = await db
-      .select({ month: max(table[key]) })
-      .from(table)
-      .orderBy(desc(max(table[key])))
-      .limit(1);
+    const [{ month }] = await db.select({ month: max(table[key]) }).from(table);
 
-    if (!results) {
-      throw new Error(`No data found for table: ${table}`);
+    if (!month) {
+      console.warn(`No data found for table: ${table}`);
+      return null;
     }
 
-    return results[0].month;
+    return month;
   } catch (e) {
     console.error(e);
     throw e;

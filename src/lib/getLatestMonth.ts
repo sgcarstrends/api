@@ -1,5 +1,5 @@
 import db from "@/config/db";
-import { desc, max } from "drizzle-orm";
+import { max } from "drizzle-orm";
 import type { PgTable } from "drizzle-orm/pg-core";
 
 export const getLatestMonth = async <T extends PgTable>(

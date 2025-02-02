@@ -15,7 +15,7 @@ const app = new Hono();
 
 app.get("/", zValidator("query", COEQuerySchema), async (c) => {
   const query = c.req.query();
-  const { sort, orderBy, month, from, to } = query;
+  const { month, from, to } = query;
 
   const CACHE_KEY = `coe:${JSON.stringify(query)}`;
 

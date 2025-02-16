@@ -84,7 +84,7 @@ app.get("/latest", async (c) => {
 });
 
 app.get("/pqp", async (c) => {
-  const CACHE_KEY = "COE:PQP";
+  const CACHE_KEY = "coe:pqp";
 
   const cachedData = await redis.get(CACHE_KEY);
   if (cachedData) {

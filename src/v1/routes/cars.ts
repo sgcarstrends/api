@@ -4,11 +4,11 @@ import redis from "@/config/redis";
 import { getLatestMonth } from "@/lib/getLatestMonth";
 import { getUniqueMonths } from "@/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@/lib/groupMonthsByYear";
+import { cars } from "@/schema";
 import { CarQuerySchema, MonthsQuerySchema } from "@/schemas";
 import type { Make } from "@/types";
 import getTrailingTwelveMonths from "@/utils/getTrailingTwelveMonths";
 import { zValidator } from "@hono/zod-validator";
-import { cars } from "@sgcarstrends/schema";
 import { and, asc, between, desc, eq, ilike, sql } from "drizzle-orm";
 import { Hono } from "hono";
 

@@ -1,14 +1,13 @@
 import { CACHE_TTL } from "@/config";
 import db from "@/config/db";
 import redis from "@/config/redis";
-import getPqpRates from "@/lib/getPqpRates";
 import { getUniqueMonths } from "@/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@/lib/groupMonthsByYear";
+import { coePQP } from "@/schema";
 import { type COE, COEQuerySchema, MonthsQuerySchema } from "@/schemas";
-import { VehicleClass } from "@/types";
 import { zValidator } from "@hono/zod-validator";
 import { coe } from "@sgcarstrends/schema";
-import { and, asc, desc, eq, gte, inArray, lte, max, ne } from "drizzle-orm";
+import { and, asc, desc, eq, gte, inArray, lte, max } from "drizzle-orm";
 import { Hono } from "hono";
 
 const app = new Hono();
@@ -86,7 +85,7 @@ app.get("/latest", async (c) => {
 });
 
 app.get("/pqp", async (c) => {
-  const CACHE_KEY = "coe:pqp";
+  const CACHE_KEY = "COE:PQP";
 
   const cachedData = await redis.get(CACHE_KEY);
   if (cachedData) {
@@ -95,11 +94,16 @@ app.get("/pqp", async (c) => {
 
   const results = await db
     .select()
-    .from(coe)
-    .where(ne(coe.vehicle_class, VehicleClass.CategoryE)) // Category E COEs are not included in PQP calculation
-    .orderBy(desc(coe.month), desc(coe.bidding_no), asc(coe.vehicle_class));
+    .from(coePQP)
+    .orderBy(desc(coePQP.month), asc(coePQP.vehicle_class));
 
-  const pqpRates = getPqpRates(results);
+  const pqpRates = results.reduce((grouped, { month, vehicle_class, pqp }) => {
+    if (!grouped[month]) {
+      grouped[month] = {};
+    }
+    grouped[month][vehicle_class] = pqp;
+    return grouped;
+  }, {});
 
   await redis.set(CACHE_KEY, pqpRates, { ex: CACHE_TTL });
 

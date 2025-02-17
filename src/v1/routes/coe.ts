@@ -1,20 +1,19 @@
 import { CACHE_TTL } from "@/config";
 import db from "@/config/db";
 import redis from "@/config/redis";
-import { getLatestMonth } from "@/lib/getLatestMonth";
 import { getUniqueMonths } from "@/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@/lib/groupMonthsByYear";
-import { coe } from "@sgcarstrends/schema";
+import { coe, coePQP } from "@/schema";
 import { type COE, COEQuerySchema, MonthsQuerySchema } from "@/schemas";
 import { zValidator } from "@hono/zod-validator";
-import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
+import { and, asc, desc, eq, gte, inArray, lte, max } from "drizzle-orm";
 import { Hono } from "hono";
 
 const app = new Hono();
 
 app.get("/", zValidator("query", COEQuerySchema), async (c) => {
   const query = c.req.query();
-  const { sort, orderBy, month, from, to } = query;
+  const { month, from, to } = query;
 
   const CACHE_KEY = `coe:${JSON.stringify(query)}`;
 
@@ -59,16 +58,55 @@ app.get("/latest", async (c) => {
     return c.json(cachedData);
   }
 
-  const latestMonth = await getLatestMonth(coe);
+  const [{ latestMonth }] = await db
+    .select({ latestMonth: max(coe.month) })
+    .from(coe);
   const results = await db
     .select()
     .from(coe)
-    .where(eq(coe.month, latestMonth))
-    .orderBy(asc(coe.bidding_no), asc(coe.vehicle_class));
+    .where(
+      and(
+        eq(coe.month, latestMonth),
+        inArray(
+          coe.bidding_no,
+          db
+            .select({ bidding_no: max(coe.bidding_no) })
+            .from(coe)
+            .where(eq(coe.month, latestMonth)),
+        ),
+      ),
+    )
+    .orderBy(desc(coe.bidding_no), asc(coe.vehicle_class));
 
   await redis.set(CACHE_KEY, results, { ex: CACHE_TTL });
 
   return c.json(results);
+});
+
+app.get("/pqp", async (c) => {
+  const CACHE_KEY = "coe:pqp";
+
+  const cachedData = await redis.get(CACHE_KEY);
+  if (cachedData) {
+    return c.json(cachedData);
+  }
+
+  const results = await db
+    .select()
+    .from(coePQP)
+    .orderBy(desc(coePQP.month), asc(coePQP.vehicle_class));
+
+  const pqpRates = results.reduce((grouped, { month, vehicle_class, pqp }) => {
+    if (!grouped[month]) {
+      grouped[month] = {};
+    }
+    grouped[month][vehicle_class] = pqp;
+    return grouped;
+  }, {});
+
+  await redis.set(CACHE_KEY, pqpRates, { ex: CACHE_TTL });
+
+  return c.json(pqpRates);
 });
 
 export default app;

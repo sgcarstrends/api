@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "resolveJsonModule": true
+  },
+  "include": ["**/*.ts"]
+}

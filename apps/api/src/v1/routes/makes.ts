@@ -2,6 +2,7 @@ import { CACHE_TTL } from "@/config";
 import db from "@/config/db";
 import redis from "@/config/redis";
 import { MakeParamSchema, MakeQuerySchema } from "@/schemas";
+import type { Make } from "@/types";
 import { zValidator } from "@hono/zod-validator";
 import { cars } from "@sgcarstrends/schema";
 import { and, asc, desc, eq, ilike } from "drizzle-orm";
@@ -12,7 +13,7 @@ const app = new Hono();
 app.get("/", async (c) => {
   const CACHE_KEY = "makes";
 
-  let makes = await redis.smembers(CACHE_KEY);
+  let makes = await redis.smembers<Make[]>(CACHE_KEY);
 
   if (makes.length === 0) {
     makes = await db
@@ -20,7 +21,7 @@ app.get("/", async (c) => {
       .from(cars)
       .then((res) => res.map(({ make }) => make));
 
-    await redis.sadd(CACHE_KEY, ...makes);
+    await redis.sadd(CACHE_KEY, makes);
     await redis.expire(CACHE_KEY, CACHE_TTL);
   }
 

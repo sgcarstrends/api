@@ -91,7 +91,7 @@ app.get("/makes", async (c) => {
       .orderBy(asc(cars.make))
       .then((res) => res.map(({ make }) => make));
 
-    await redis.sadd(CACHE_KEY, ...makes);
+    await redis.sadd(CACHE_KEY, makes);
     await redis.expire(CACHE_KEY, CACHE_TTL);
   }
 

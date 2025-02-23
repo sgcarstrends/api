@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@database/*": ["src/*"]
+    },
+    "skipLibCheck": true
+  },
+  "include": ["**/*.ts"]
+}

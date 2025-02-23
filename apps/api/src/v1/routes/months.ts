@@ -1,7 +1,7 @@
 import { getLatestMonth } from "@/lib/getLatestMonth";
-import { cars, coe } from "@/schema";
 import { LatestMonthQuerySchema } from "@/schemas";
 import { zValidator } from "@hono/zod-validator";
+import { cars, coe } from "@sgcarstrends/schema";
 import { Hono } from "hono";
 
 const app = new Hono();

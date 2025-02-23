@@ -1,8 +1,8 @@
 import db from "@/config/db";
 import { getLatestMonth } from "@/lib/getLatestMonth";
-import { cars } from "@/schema";
 import type { FuelType } from "@/types";
 import getTrailingTwelveMonths from "@/utils/getTrailingTwelveMonths";
+import { cars } from "@sgcarstrends/schema";
 import { and, asc, between, desc, eq, ilike, or } from "drizzle-orm";
 
 const HYBRID_TYPES = [

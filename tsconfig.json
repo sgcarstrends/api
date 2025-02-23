@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "lib": ["ESNext"],
     "module": "ESNext",
     "target": "ESNext",
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "paths": {
+      "@api/*": ["apps/api/src/*"],
+      "@updater/*": ["apps/updater/src/*"],
+      "@database/*": ["packages/database/src/*"]
+    }
   }
 }

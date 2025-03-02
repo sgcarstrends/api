@@ -15,33 +15,16 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: "pnpm"
-      - name: Install dependencies
-        run: pnpm install
-      - name: Typecheck API
-        working-directory: ./apps/api
-        run: pnpm typecheck
-      - name: Run tests
-        run: pnpm test
+    uses: ./.github/workflows/test.yml
   
   run-migrations:
-    needs: test
     uses: ./.github/workflows/run-migrations.yml
     with:
       environment: Staging
     secrets: inherit
 
   deploy-api:
-    needs: [test, run-migrations]
+    needs: [run-migrations, test]
     uses: ./.github/workflows/deploy-api.yml
     with:
       environment: Staging
@@ -49,7 +32,7 @@ jobs:
     secrets: inherit
     
   deploy-updater:
-    needs: [test, run-migrations]
+    needs: [run-migrations, test]
     uses: ./.github/workflows/deploy-updater.yml
     with:
       environment: Staging

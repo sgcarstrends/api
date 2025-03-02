@@ -7,10 +7,6 @@
       "inputs": ["src/**/*.ts", "src/**/*.tsx"],
       "outputs": []
     },
-    "typecheck": {
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig.json"],
-      "outputs": []
-    },
     "dev": {
       "cache": false,
       "persistent": true

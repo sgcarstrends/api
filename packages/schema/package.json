@@ -4,8 +4,7 @@
   "private": true,
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"No tests\" && exit 0",
-    "lint": "biome check ."
+    "migrate": "drizzle-kit migrate"
   },
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",

@@ -6,7 +6,6 @@
     "dev": "sst dev --stage dev",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
-    "migrate": "drizzle-kit migrate",
     "trigger:dev": "trigger dev",
     "trigger:deploy": "trigger deploy",
     "lint": "biome check ."

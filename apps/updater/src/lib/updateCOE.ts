@@ -1,6 +1,6 @@
-import { LTA_DATAMALL_BASE_URL } from "@/config";
-import type { COE } from "@/types";
 import { coe } from "@sgcarstrends/schema";
+import { LTA_DATAMALL_BASE_URL } from "@updater/config";
+import type { COE } from "@updater/types";
 import { updater } from "./updater";
 
 export const updateCOE = () => {

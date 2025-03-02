@@ -1,4 +1,4 @@
-import { AWS_LAMBDA_TEMP_DIR } from "@/config";
+import { AWS_LAMBDA_TEMP_DIR } from "@updater/config";
 import AdmZip from "adm-zip";
 
 export const downloadFile = async (url: string, csvFile?: string) => {

@@ -1,4 +1,4 @@
-import { updateCOEPQP } from "@/lib/updateCOEPQP";
+import { updateCOEPQP } from "@updater/lib/updateCOEPQP";
 import { Hono } from "hono";
 import { handle } from "hono/aws-lambda";
 import { bearerAuth } from "hono/bearer-auth";

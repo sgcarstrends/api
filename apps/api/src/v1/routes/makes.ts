@@ -1,8 +1,8 @@
-import { CACHE_TTL } from "@/config";
-import db from "@/config/db";
-import redis from "@/config/redis";
-import { MakeParamSchema, MakeQuerySchema } from "@/schemas";
-import type { Make } from "@/types";
+import { CACHE_TTL } from "@api/config";
+import db from "@api/config/db";
+import redis from "@api/config/redis";
+import { MakeParamSchema, MakeQuerySchema } from "@api/schemas";
+import type { Make } from "@api/types";
 import { zValidator } from "@hono/zod-validator";
 import { cars } from "@sgcarstrends/schema";
 import { and, asc, desc, eq, ilike } from "drizzle-orm";

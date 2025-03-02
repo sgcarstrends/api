@@ -1,11 +1,14 @@
 import path from "node:path";
-import { AWS_LAMBDA_TEMP_DIR } from "@/config";
-import { db } from "@/db";
-import { calculateChecksum } from "@/utils/calculateChecksum";
-import { createUniqueKey } from "@/utils/createUniqueKey";
-import { downloadFile } from "@/utils/downloadFile";
-import { type CSVTransformOptions, processCSV } from "@/utils/processCSV";
-import { cacheChecksum, getCachedChecksum } from "@/utils/redisCache";
+import { AWS_LAMBDA_TEMP_DIR } from "@updater/config";
+import { db } from "@updater/db";
+import { calculateChecksum } from "@updater/utils/calculateChecksum";
+import { createUniqueKey } from "@updater/utils/createUniqueKey";
+import { downloadFile } from "@updater/utils/downloadFile";
+import {
+  type CSVTransformOptions,
+  processCSV,
+} from "@updater/utils/processCSV";
+import { cacheChecksum, getCachedChecksum } from "@updater/utils/redisCache";
 import { type Table, getTableName } from "drizzle-orm";
 
 export interface UpdaterConfig<T> {

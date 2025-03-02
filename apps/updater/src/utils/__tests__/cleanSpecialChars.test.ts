@@ -1,4 +1,4 @@
-import { cleanSpecialChars } from "@/utils/cleanSpecialChars";
+import { cleanSpecialChars } from "@updater/utils/cleanSpecialChars";
 import { describe, expect, it } from "vitest";
 
 describe("cleanSpecialChars", () => {

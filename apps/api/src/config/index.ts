@@ -1,4 +1,4 @@
-import { FuelType } from "@/types";
+import { FuelType } from "@api/types";
 
 export const CACHE_TTL = 24 * 60 * 60;
 

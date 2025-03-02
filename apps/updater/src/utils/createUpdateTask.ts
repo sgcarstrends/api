@@ -1,7 +1,10 @@
-import redis from "@/config/redis";
-import type { ScheduleOptions, SchedulerName } from "@/config/schedulers";
-import type { UpdaterResult } from "@/lib/updater";
 import { AbortTaskRunError, logger, schedules } from "@trigger.dev/sdk/v3";
+import redis from "@updater/config/redis";
+import type {
+  ScheduleOptions,
+  SchedulerName,
+} from "@updater/config/schedulers";
+import type { UpdaterResult } from "@updater/lib/updater";
 
 type UpdaterFunction = () => Promise<UpdaterResult>;
 

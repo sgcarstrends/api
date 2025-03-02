@@ -12,16 +12,10 @@
     "declaration": true,
     "resolveJsonModule": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@updater/*": ["src/*"]
     },
     "types": ["node"]
   },
-  "include": [
-    "src/**/*",
-    "drizzle.config.ts",
-    "sst.config.ts",
-    "sst-env.d.ts",
-    "trigger.config.ts"
-  ],
+  "include": ["*.ts"],
   "exclude": ["node_modules", "dist"]
 }

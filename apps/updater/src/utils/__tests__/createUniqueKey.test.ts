@@ -1,4 +1,4 @@
-import { createUniqueKey } from "@/utils/createUniqueKey";
+import { createUniqueKey } from "@updater/utils/createUniqueKey";
 import { describe, expect, it } from "vitest";
 
 describe("createUniqueKey", () => {

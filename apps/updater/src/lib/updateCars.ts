@@ -1,7 +1,7 @@
-import { LTA_DATAMALL_BASE_URL } from "@/config";
-import type { Car } from "@/types";
-import { cleanSpecialChars } from "@/utils/cleanSpecialChars";
 import { cars } from "@sgcarstrends/schema";
+import { LTA_DATAMALL_BASE_URL } from "@updater/config";
+import type { Car } from "@updater/types";
+import { cleanSpecialChars } from "@updater/utils/cleanSpecialChars";
 import { updater } from "./updater";
 
 export const updateCars = () => {

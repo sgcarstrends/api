@@ -1,6 +1,6 @@
-import { LTA_DATAMALL_BASE_URL } from "@/config";
-import type { PQP } from "@/types";
 import { coePQP } from "@sgcarstrends/schema";
+import { LTA_DATAMALL_BASE_URL } from "@updater/config";
+import type { PQP } from "@updater/types";
 import { updater } from "./updater";
 
 export const updateCOEPQP = () => {

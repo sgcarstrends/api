@@ -1,4 +1,4 @@
-import db from "@/config/db";
+import db from "@api/config/db";
 import { max } from "drizzle-orm";
 import type { PgTable } from "drizzle-orm/pg-core";
 

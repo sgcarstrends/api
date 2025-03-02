@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "ES2022",
     "moduleResolution": "Node",
     "outDir": "./dist",
@@ -10,5 +11,6 @@
       "@updater/*": ["src/*"]
     },
     "types": ["node"]
-  }
+  },
+  "include": ["**/*.ts"]
 }

@@ -6,12 +6,12 @@
   "type": "module",
   "scripts": {
     "dev": "sst dev --stage dev",
-    "test": "vitest",
-    "test:coverage": "vitest --coverage",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "deploy": "sst deploy",
     "remove": "sst remove",
     "console": "sst console",
-    "typecheck": "tsc --noEmit",
     "lint": "biome check ."
   },
   "dependencies": {

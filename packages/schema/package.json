@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "migrate": "drizzle-kit migrate",
-    "migrate:check": "drizzle-kit check"
+    "migrate:check": "drizzle-kit check",
+    "lint": "biome check ."
   },
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
@@ -14,6 +15,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "drizzle-kit": "^0.30.1"
+    "drizzle-kit": "^0.30.1",
+    "typescript": "^5.4.5",
+    "vitest": "^3.0.5"
   }
 }

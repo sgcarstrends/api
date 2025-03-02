@@ -1,16 +1,21 @@
 {
   "name": "@sgcarstrends/backend",
   "description": "",
-  "scripts": {
-    "dev": "pnpm -r dev",
-    "test": "pnpm -r test",
-    "test:coverage": "pnpm -r test:coverage"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/sgcarstrends/backend.git"
   },
+  "scripts": {
+    "dev": "turbo dev",
+    "test": "turbo test",
+    "test:coverage": "turbo test:coverage",
+    "lint": "turbo lint",
+    "migrate": "turbo migrate",
+    "migrate:check": "turbo migrate:check"
+  },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4"
-  }
+    "@biomejs/biome": "^1.9.4",
+    "turbo": "^2.4.4"
+  },
+  "packageManager": "pnpm@10.4.1"
 }

@@ -4,7 +4,8 @@
   "description": "Scheduler for downloading and updating cars and COE data.",
   "scripts": {
     "dev": "sst dev --stage dev",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "trigger:dev": "trigger dev",
     "trigger:deploy": "trigger deploy",

@@ -5,7 +5,7 @@
     "moduleResolution": "bundler",
     "target": "ESNext",
     "paths": {
-      "@database/*": ["src/*"]
+      "@schema/*": ["src/*"]
     },
     "skipLibCheck": true
   },

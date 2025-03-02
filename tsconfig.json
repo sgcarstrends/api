@@ -11,7 +11,7 @@
     "paths": {
       "@api/*": ["apps/api/src/*"],
       "@updater/*": ["apps/updater/src/*"],
-      "@database/*": ["packages/database/src/*"]
+      "@schema/*": ["packages/schema/src/*"]
     }
   }
 }

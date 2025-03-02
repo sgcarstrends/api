@@ -44,12 +44,6 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           
-      - name: Run Drizzle Migrations
-        working-directory: ./apps/updater
-        run: pnpm migrate
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          
       - name: Deploy Updater
         working-directory: ./apps/updater
         run: pnpm sst deploy --stage ${{ inputs.sst-stage }}

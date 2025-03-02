@@ -33,8 +33,15 @@ jobs:
       - name: Run tests
         run: pnpm test
   
-  deploy-api:
+  run-migrations:
     needs: test
+    uses: ./.github/workflows/run-migrations.yml
+    with:
+      environment: Staging
+    secrets: inherit
+
+  deploy-api:
+    needs: [test, run-migrations]
     uses: ./.github/workflows/deploy-api.yml
     with:
       environment: Staging
@@ -42,7 +49,7 @@ jobs:
     secrets: inherit
     
   deploy-updater:
-    needs: test
+    needs: [test, run-migrations]
     uses: ./.github/workflows/deploy-updater.yml
     with:
       environment: Staging

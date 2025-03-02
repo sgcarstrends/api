@@ -12,7 +12,14 @@ permissions:
   packages: read
 
 jobs:
+  run-migrations:
+    uses: ./.github/workflows/run-migrations.yml
+    with:
+      environment: Production
+    secrets: inherit
+
   deploy-api:
+    needs: run-migrations
     uses: ./.github/workflows/deploy-api.yml
     with:
       environment: Production
@@ -20,6 +27,7 @@ jobs:
     secrets: inherit
     
   deploy-updater:
+    needs: run-migrations
     uses: ./.github/workflows/deploy-updater.yml
     with:
       environment: Production
@@ -27,5 +35,8 @@ jobs:
     secrets: inherit
       
   deploy-trigger:
+    needs: run-migrations
     uses: ./.github/workflows/deploy-trigger.yml
     secrets: inherit
+    with:
+      environment: 'Production'

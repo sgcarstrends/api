@@ -9,9 +9,6 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "deploy": "sst deploy",
-    "remove": "sst remove",
-    "console": "sst console",
     "lint": "biome check ."
   },
   "dependencies": {

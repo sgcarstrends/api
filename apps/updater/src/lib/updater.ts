@@ -1,8 +1,8 @@
 import path from "node:path";
+import { createUniqueKey } from "@sgcarstrends/utils";
 import { AWS_LAMBDA_TEMP_DIR } from "@updater/config";
 import { db } from "@updater/db";
 import { calculateChecksum } from "@updater/utils/calculateChecksum";
-import { createUniqueKey } from "@sgcarstrends/utils";
 import { downloadFile } from "@updater/utils/downloadFile";
 import {
   type CSVTransformOptions,

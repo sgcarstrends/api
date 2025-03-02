@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": [".sst", "coverage", "migrations", "package.json"]
+    "ignore": [".sst", "coverage", "migrations", "package.json", "*.d.ts"]
   },
   "formatter": {
     "enabled": true,

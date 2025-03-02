@@ -23,7 +23,7 @@ export declare enum VehicleClass {
     CategoryE = "Category E"
 }
 export type Stage = "dev" | "staging" | "prod";
-export interface RawCar {
+export interface Car {
     month: string;
     make: string;
     importer_type: string;
@@ -31,7 +31,7 @@ export interface RawCar {
     vehicle_type: string;
     number: number;
 }
-export interface RawCOE {
+export interface COE {
     month: string;
     bidding_no: number;
     vehicle_class: string;
@@ -40,7 +40,7 @@ export interface RawCOE {
     bids_received: number;
     premium: number;
 }
-export interface RawPQP {
+export interface PQP {
     month: string;
     vehicle_class: string;
     pqp: number;

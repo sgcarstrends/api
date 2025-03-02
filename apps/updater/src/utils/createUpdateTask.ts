@@ -16,7 +16,7 @@ export const createUpdateTask = (
   return schedules.task({
     id,
     cron,
-    run: async (payload: any, { ctx }) => {
+    run: async (payload: unknown, { ctx }) => {
       logger.log("Starting updater task", { payload, ctx });
 
       try {

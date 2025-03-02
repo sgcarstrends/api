@@ -8,7 +8,7 @@ export interface CSVTransformOptions<T> {
 export const processCSV = async <T>(
   filePath: string,
   options: CSVTransformOptions<T> = {},
-): Promise<any[]> => {
+): Promise<unknown[]> => {
   const fileContent = fs.readFileSync(filePath, "utf-8");
 
   const { fields = {} } = options;

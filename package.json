@@ -1,6 +1,6 @@
 {
   "name": "@sgcarstrends/backend",
-  "description": "",
+  "description": "Monorepo backend infrastructure for SG Cars Trends",
   "repository": {
     "type": "git",
     "url": "https://github.com/sgcarstrends/backend.git"

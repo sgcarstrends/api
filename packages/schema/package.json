@@ -1,6 +1,6 @@
 {
   "name": "@sgcarstrends/schema",
-  "description": "",
+  "description": "Database schema for SG Cars Trends",
   "private": true,
   "main": "src/index.ts",
   "scripts": {

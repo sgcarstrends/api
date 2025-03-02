@@ -1,6 +1,7 @@
 {
   "name": "@sgcarstrends/utils",
   "version": "0.0.1",
+  "description": "Utility functions for SG Cars Trends",
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

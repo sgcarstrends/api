@@ -1,0 +1,27 @@
+name: Deploy (Dev)
+
+on:
+  push:
+    branches-ignore:
+      - "main"
+      - "release/**"
+
+permissions:
+  id-token: write
+  contents: read
+  packages: read
+
+jobs:
+  deploy-api:
+    uses: ./.github/workflows/deploy-api.yml
+    with:
+      environment: Development
+      sst-stage: dev
+    secrets: inherit
+    
+  deploy-updater:
+    uses: ./.github/workflows/deploy-updater.yml
+    with:
+      environment: Development
+      sst-stage: dev
+    secrets: inherit

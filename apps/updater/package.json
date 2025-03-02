@@ -8,7 +8,8 @@
     "test:coverage": "vitest run --coverage",
     "migrate": "drizzle-kit migrate",
     "trigger:dev": "trigger dev",
-    "trigger:deploy": "trigger deploy"
+    "trigger:deploy": "trigger deploy",
+    "lint": "biome check ."
   },
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",

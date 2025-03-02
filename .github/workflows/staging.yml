@@ -1,0 +1,50 @@
+name: Deploy (Staging)
+
+on:
+  push:
+    branches:
+      - "main"
+      - "release/**"
+    tags-ignore:
+      - "*"
+
+permissions:
+  id-token: write
+  contents: read
+  packages: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
+      - name: Typecheck API
+        working-directory: ./apps/api
+        run: pnpm typecheck
+      - name: Run tests
+        run: pnpm test
+  
+  deploy-api:
+    needs: test
+    uses: ./.github/workflows/deploy-api.yml
+    with:
+      environment: Staging
+      sst-stage: staging
+    secrets: inherit
+    
+  deploy-updater:
+    needs: test
+    uses: ./.github/workflows/deploy-updater.yml
+    with:
+      environment: Staging
+      sst-stage: staging
+    secrets: inherit

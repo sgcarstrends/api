@@ -11,7 +11,8 @@
     "deploy": "sst deploy",
     "remove": "sst remove",
     "console": "sst console",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check ."
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.2",

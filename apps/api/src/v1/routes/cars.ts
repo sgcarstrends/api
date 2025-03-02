@@ -6,9 +6,9 @@ import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
 import { CarQuerySchema, MonthsQuerySchema } from "@api/schemas";
 import type { Make } from "@api/types";
-import getTrailingTwelveMonths from "@api/utils/getTrailingTwelveMonths";
 import { zValidator } from "@hono/zod-validator";
 import { cars } from "@sgcarstrends/schema";
+import { getTrailingTwelveMonths } from "@sgcarstrends/utils";
 import { and, asc, between, desc, eq, ilike, sql } from "drizzle-orm";
 import { Hono } from "hono";
 

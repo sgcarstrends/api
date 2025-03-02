@@ -1,20 +1,20 @@
 import { cars } from "@sgcarstrends/schema";
 import { LTA_DATAMALL_BASE_URL } from "@updater/config";
-import type { Car } from "@updater/types";
-import { cleanSpecialChars } from "@updater/utils/cleanSpecialChars";
+import { RawCar } from "@sgcarstrends/types";
+import { cleanSpecialChars } from "@sgcarstrends/utils";
 import { updater } from "./updater";
 
 export const updateCars = () => {
   const filename = "Monthly New Registration of Cars by Make.zip";
   const url = `${LTA_DATAMALL_BASE_URL}/${filename}`;
-  const keyFields: Array<keyof Car> = [
+  const keyFields: Array<keyof RawCar> = [
     "month",
     "make",
     "fuel_type",
     "vehicle_type",
   ];
 
-  return updater<Car>({
+  return updater<RawCar>({
     table: cars,
     url,
     keyFields,

@@ -1,4 +1,4 @@
-import redis from "@updater/config/redis";
+import redis from "../config/redis";
 
 /**
  * Caches a checksum value for a given file name

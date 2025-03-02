@@ -3,6 +3,10 @@
   "globalDependencies": ["**/.env.*local"],
   "globalEnv": ["NODE_ENV"],
   "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
     "lint": {
       "inputs": ["src/**/*.ts", "src/**/*.tsx"],
       "outputs": []

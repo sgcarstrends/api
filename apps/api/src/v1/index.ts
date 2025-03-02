@@ -1,5 +1,5 @@
 import { getCarsByFuelType } from "@api/lib/getCarsByFuelType";
-import { FuelType } from "@api/types";
+import { FuelType } from "@sgcarstrends/types";
 import { Hono } from "hono";
 import { bearerAuth } from "hono/bearer-auth";
 import { Resource } from "sst";

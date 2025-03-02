@@ -15,6 +15,8 @@
     "@hono/zod-validator": "^0.4.2",
     "@neondatabase/serverless": "^0.10.4",
     "@sgcarstrends/schema": "workspace:*",
+    "@sgcarstrends/types": "workspace:*", 
+    "@sgcarstrends/utils": "workspace:*",
     "@upstash/ratelimit": "^2.0.3",
     "@upstash/redis": "^1.34.0",
     "date-fns": "^2.30.0",

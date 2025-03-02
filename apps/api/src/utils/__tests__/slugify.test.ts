@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { deslugify, slugify } from "../slugify";
+import { deslugify, slugify } from "@sgcarstrends/utils";
 
 describe("slugify", () => {
   it("should convert basic string to slug", () => {

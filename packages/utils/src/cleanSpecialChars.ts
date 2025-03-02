@@ -1,7 +1,4 @@
-export interface CleanSpecialCharsOptions {
-  separator?: string;
-  joinSeparator?: string;
-}
+import type { CleanSpecialCharsOptions } from "@sgcarstrends/types";
 
 export const cleanSpecialChars = (
   value: string,

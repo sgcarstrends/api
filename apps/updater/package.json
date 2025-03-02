@@ -16,6 +16,8 @@
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
     "@sgcarstrends/schema": "workspace:*",
+    "@sgcarstrends/types": "workspace:*",
+    "@sgcarstrends/utils": "workspace:*",
     "@trigger.dev/sdk": "3.3.16",
     "@upstash/redis": "^1.34.3",
     "adm-zip": "^0.5.16",

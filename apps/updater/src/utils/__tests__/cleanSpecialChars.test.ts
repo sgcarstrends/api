@@ -1,4 +1,4 @@
-import { cleanSpecialChars } from "@updater/utils/cleanSpecialChars";
+import { cleanSpecialChars } from "@sgcarstrends/utils";
 import { describe, expect, it } from "vitest";
 
 describe("cleanSpecialChars", () => {

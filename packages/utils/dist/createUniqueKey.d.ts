@@ -10,5 +10,4 @@
  * const uniqueKey = createUniqueKey(user, ['id', 'name'])
  * // Returns: "1-John"
  */
-export const createUniqueKey = <T>(record: Record<any, any>, keyFields: T[]) =>
-  keyFields.map((field) => record[field]).join("-");
+export declare const createUniqueKey: <T>(record: Record<any, any>, keyFields: T[]) => string;

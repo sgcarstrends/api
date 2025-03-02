@@ -1,4 +1,4 @@
-import getTrailingTwelveMonths from "@api/utils/getTrailingTwelveMonths";
+import { getTrailingTwelveMonths } from "@sgcarstrends/utils";
 import { describe, expect, it } from "vitest";
 
 describe("getTrailingTwelveMonths", () => {

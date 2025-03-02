@@ -3,7 +3,10 @@ name: Database Migrations
 on:
   push:
     branches:
-      - main
+      - '*'
+    paths:
+      - 'packages/schema/**'
+  pull_request:
     paths:
       - 'packages/schema/**'
   workflow_dispatch:
@@ -14,6 +17,29 @@ permissions:
   packages: read
 
 jobs:
+  check-migrations:
+    name: Check migrations
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Lint or check migrations
+        working-directory: ./packages/schema
+        run: pnpm migrate:check
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
   apply-migrations:
     name: Apply migrations
     runs-on: ubuntu-latest
@@ -27,16 +53,16 @@ jobs:
         with:
           node-version: '20'
           cache: "pnpm"
-          
+
       - name: Install dependencies
         run: pnpm install
-        
+
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-region: ${{ vars.AWS_REGION }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      
+
       - name: Run migrations
         working-directory: ./packages/schema
         run: pnpm migrate

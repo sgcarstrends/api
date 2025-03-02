@@ -5,6 +5,6 @@ CREATE TABLE IF NOT EXISTS "coe_pqp" (
 	"pqp" integer
 );
 --> statement-breakpoint
-CREATE INDEX "pqp_month_vehicle_class_idx" ON "coe_pqp" USING btree ("month","vehicle_class");--> statement-breakpoint
-CREATE INDEX "pqp_vehicle_class_idx" ON "coe_pqp" USING btree ("vehicle_class");--> statement-breakpoint
-CREATE INDEX "pqp_idx" ON "coe_pqp" USING btree ("pqp");
+CREATE INDEX IF NOT EXISTS "pqp_month_vehicle_class_idx" ON "coe_pqp" USING btree ("month","vehicle_class");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "pqp_vehicle_class_idx" ON "coe_pqp" USING btree ("vehicle_class");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "pqp_idx" ON "coe_pqp" USING btree ("pqp");

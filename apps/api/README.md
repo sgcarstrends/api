@@ -37,10 +37,6 @@ SGCarsTrends API provides data and insights about car trends in Singapore.
    pnpm biome lint
    ```
 
-- Typecheck
-  ```bash
-   pnpm typecheck
-   ```
 
 
 - Deploy

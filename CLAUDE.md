@@ -1,7 +1,6 @@
 # SG Cars Trends API - Reference Guide
 
 ## Commands
-- Build: `pnpm build`
 - Lint: `pnpm lint` (uses Biome)
 - Test all: `pnpm test`
 - Test watch: `pnpm test:watch`

@@ -3,10 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "description": "Shared type definitions for SG Cars Trends",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.js",
   "scripts": {
-    "build": "tsc",
     "dev": "tsc --watch"
   },
   "dependencies": {

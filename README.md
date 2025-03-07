@@ -1,10 +1,10 @@
-# SGCarsTrends Backend
+# SG Cars Trends Backend
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## Overview
 
-This monorepo contains the backend services for SGCarsTrends, tracking Singapore's car statistics including:
+This monorepo contains the backend services for SG Cars Trends, tracking Singapore's car statistics including:
 
 ## Project Structure
 

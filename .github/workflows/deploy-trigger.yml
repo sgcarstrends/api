@@ -14,6 +14,7 @@ permissions:
 
 jobs:
   deploy-trigger:
+    name: Deploy Trigger.dev Service
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
     environment: ${{ inputs.environment }}

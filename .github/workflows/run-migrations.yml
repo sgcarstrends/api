@@ -15,6 +15,7 @@ permissions:
 
 jobs:
   run-migrations:
+    name: Run Database Migrations
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     # Concurrency group name ensures concurrent workflow runs wait for any in-progress job to finish

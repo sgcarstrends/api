@@ -1,0 +1,22 @@
+{
+  "name": "@sgcarstrends/schema",
+  "description": "Database schema for SG Cars Trends",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "migrate": "drizzle-kit migrate",
+    "migrate:check": "drizzle-kit check",
+    "lint": "biome check ."
+  },
+  "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
+  "license": "MIT",
+  "dependencies": {
+    "drizzle-orm": "^0.38.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "drizzle-kit": "^0.30.1",
+    "typescript": "^5.4.5",
+    "vitest": "^3.0.5"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "globalEnv": ["NODE_ENV"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "lint": {
+      "inputs": ["src/**/*.ts", "src/**/*.tsx"],
+      "outputs": []
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "test": {
+      "inputs": ["src/**/*.ts", "test/**/*.ts"],
+      "outputs": []
+    },
+    "test:watch": {
+      "inputs": ["src/**/*.ts", "test/**/*.ts"],
+      "cache": false,
+      "persistent": true
+    },
+    "test:coverage": {
+      "inputs": ["src/**/*.ts", "test/**/*.ts"],
+      "outputs": ["coverage/**"]
+    },
+    "migrate": {
+      "inputs": ["migrations/**/*.sql"],
+      "outputs": ["migrations/**"]
+    },
+    "migrate:check": {
+      "inputs": ["migrations/**/*.sql"],
+      "outputs": []
+    }
+  }
+}

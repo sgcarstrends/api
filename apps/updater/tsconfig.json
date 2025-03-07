@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ES2022",
+    "moduleResolution": "Node",
+    "outDir": "./dist",
+    "declaration": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@updater/*": ["src/*"]
+    },
+    "types": ["node"]
+  },
+  "include": ["**/*.ts"]
+}

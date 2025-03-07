@@ -1,0 +1,6 @@
+# Node modules and build artifacts
+node_modules/
+dist/
+
+# TypeScript build info files (if using incremental builds)
+*.tsbuildinfo

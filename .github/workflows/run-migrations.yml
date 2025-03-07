@@ -1,0 +1,46 @@
+name: Run Database Migrations
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: "GitHub environment name"
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+  packages: read
+
+jobs:
+  run-migrations:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    # Concurrency group name ensures concurrent workflow runs wait for any in-progress job to finish
+    concurrency:
+      group: migrations-${{ inputs.environment }}-${{ github.ref }}
+    
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: '10.4.1'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: "pnpm"
+          
+      - name: Install dependencies
+        run: pnpm install
+        
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.AWS_REGION }}
+          
+      - name: Run migrations
+        working-directory: ./packages/schema
+        run: pnpm migrate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}

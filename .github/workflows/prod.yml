@@ -1,0 +1,42 @@
+name: Deploy (Production)
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+"
+
+permissions:
+  id-token: write
+  contents: read
+  packages: read
+
+jobs:
+  run-migrations:
+    uses: ./.github/workflows/run-migrations.yml
+    with:
+      environment: Production
+    secrets: inherit
+
+  deploy-api:
+    needs: run-migrations
+    uses: ./.github/workflows/deploy-api.yml
+    with:
+      environment: Production
+      sst-stage: prod
+    secrets: inherit
+    
+  deploy-updater:
+    needs: run-migrations
+    uses: ./.github/workflows/deploy-updater.yml
+    with:
+      environment: Production
+      sst-stage: prod
+    secrets: inherit
+      
+  deploy-trigger:
+    needs: run-migrations
+    uses: ./.github/workflows/deploy-trigger.yml
+    secrets: inherit
+    with:
+      environment: 'Production'

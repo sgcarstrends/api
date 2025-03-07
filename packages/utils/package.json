@@ -1,0 +1,17 @@
+{
+  "name": "@sgcarstrends/utils",
+  "version": "0.0.1",
+  "description": "Utility functions for SG Cars Trends",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@sgcarstrends/types": "workspace:*",
+    "date-fns": "^2.30.0"
+  }
+}

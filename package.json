@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "turbo dev",
     "test": "turbo test",
+    "test:watch": "turbo test:watch",
     "test:coverage": "turbo test:coverage",
     "lint": "turbo lint",
     "migrate": "turbo migrate",

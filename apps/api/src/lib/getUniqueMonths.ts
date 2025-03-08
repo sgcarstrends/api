@@ -12,8 +12,7 @@ export const getUniqueMonths = async <T extends PgTable>(
   const CACHE_KEY = `${tableName}:months`;
 
   try {
-    let months = await redis.smembers(CACHE_KEY);
-
+    let months = await redis.zrange<string[]>(CACHE_KEY, 0, -1, { rev: true });
     if (months.length === 0) {
       const results = await db
         .selectDistinct({ month: table[key] })
@@ -22,11 +21,15 @@ export const getUniqueMonths = async <T extends PgTable>(
 
       months = results.map(({ month }) => month);
 
-      await redis.sadd(CACHE_KEY, months);
+      let score = months.length;
+      for (const month of months) {
+        await redis.zadd(CACHE_KEY, { score, member: month });
+        score--;
+      }
       await redis.expire(CACHE_KEY, CACHE_TTL);
     }
 
-    return months.sort((a, b) => b.localeCompare(a));
+    return months;
   } catch (e) {
     console.error(e);
     throw e;

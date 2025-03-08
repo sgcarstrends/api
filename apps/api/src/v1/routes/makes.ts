@@ -13,19 +13,19 @@ const app = new Hono();
 app.get("/", async (c) => {
   const CACHE_KEY = "makes";
 
-  let makes = await redis.smembers<Make[]>(CACHE_KEY);
-
+  let makes = await redis.zrange<Make[]>(CACHE_KEY, 0, -1);
   if (makes.length === 0) {
     makes = await db
       .selectDistinct({ make: cars.make })
       .from(cars)
+      .orderBy(asc(cars.make))
       .then((res) => res.map(({ make }) => make));
 
-    await redis.sadd(CACHE_KEY, makes);
+    for (const make of makes) {
+      await redis.zadd<Make>(CACHE_KEY, { score: 0, member: make });
+    }
     await redis.expire(CACHE_KEY, CACHE_TTL);
   }
-
-  makes.sort((a, b) => a.localeCompare(b));
 
   return c.json(makes);
 });

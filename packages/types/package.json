@@ -10,7 +10,5 @@
   "dependencies": {
     "@sgcarstrends/schema": "workspace:*"
   },
-  "devDependencies": {
-    "typescript": "^5.0.0"
-  }
+  "devDependencies": {}
 }
